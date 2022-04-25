@@ -8,8 +8,8 @@ namespace API.Mapper
     {
         public UserProfile()
         {
-            CreateMap<UserDTO, UserReadDTO>();
-            CreateMap<UserCreateDTO, UserDTO>();
+            CreateMap<UserViewModel, UserDTO>();
+            CreateMap<UserCreateDTO, UserViewModel>();
         }
     }
 }

@@ -21,11 +21,13 @@ namespace API.Commands
         public async Task<MethodResult<CreateUserCommandResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<CreateUserCommandResponse>();
-            var entity = new UserDTO
+            var entity = new UserViewModel
             {
                 UserName = request.UserName,
-                HoDem = request.HoDem,
-                Ten = request.Ten,
+                Name = request.Name,
+                Address = request.Address,
+                Phone= request.Phone,
+                Status=request.Status,
             };
             await _db.Users.AddAsync(entity, cancellationToken);
             //await _unitOfWork.SaveChangesAsync(cancellationToken);

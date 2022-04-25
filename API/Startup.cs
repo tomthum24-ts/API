@@ -1,5 +1,6 @@
 using API.Data;
 using API.Domain;
+using API.InterFace.User;
 using API.Queries;
 using API.Repositories;
 using MediatR;
@@ -33,12 +34,13 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
-            services.AddScoped<IUserRepositories, UserRepositories>();
+            services.AddScoped<IUserService, UserQueries>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMediatR(typeof(Startup).Assembly);
-            services.AddMediatR(typeof(IUserQueries).Assembly);
+            services.AddMediatR(typeof(IUserService).Assembly);
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<DapperContext>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });

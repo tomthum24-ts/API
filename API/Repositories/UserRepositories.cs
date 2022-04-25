@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace API.Repositories
 {
-    public class UserRepositories : IUserRepositories
+    public class UserRepositories 
     {
         private readonly AppDbContext _context;
         public UserRepositories(AppDbContext context)
         {
             _context = context;
         }
-        public void CreateUser(UserDTO user)
+        public void CreateUser(UserViewModel user)
         {
             if (user == null)
             {
@@ -23,15 +23,15 @@ namespace API.Repositories
             _context.Users.Add(user);
         }
 
-        public  IEnumerable<UserDTO> GetAllUser()
+        public  IEnumerable<UserViewModel> GetAllUser()
         {
             var data=  _context.Users;
             return data;
         }
 
-        public UserDTO GetById(int id)
+        public UserViewModel GetById(int id)
         {
-            return _context.Users.FirstOrDefault(x => x.Id == id);
+            return _context.Users.FirstOrDefault(x => x.ID == id);
         }
 
         public bool SaveChange()

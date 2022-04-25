@@ -9,6 +9,6 @@ namespace API.Data
         {
 
         }
-        public DbSet<UserDTO> Users { get; set; }
+        public DbSet<UserViewModel> Users { get; set; }
     }
 }

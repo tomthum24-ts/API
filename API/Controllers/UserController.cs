@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using API.Common;
 using System.Net;
 using System.Threading.Tasks;
+using API.Models;
+using API.InterFace.User;
 
 namespace API.Controllers
 {
@@ -19,35 +21,35 @@ namespace API.Controllers
         private const string GetById = nameof(GetById);
         private const string Create = nameof(Create);
 
-        private readonly IUserRepositories _iUserRepository;
+        private readonly IUserService _iUser;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public UserController(IUserRepositories repository, IMapper mapper, IMediator mediator)
+        public UserController(IUserService repository, IMapper mapper, IMediator mediator)
         {
-            _iUserRepository = repository;
+            _iUser = repository;
             _mapper = mapper;
             _mediator = mediator;
         }
         [HttpGet]
         [Route(GetListUser)]
-        public async Task<ActionResult> GetUser( )
+        public async Task<ActionResult> GetUser(int id)
         {
-            var query = new IUserQueries();
-            var result = await _mediator.Send(query);
-            return Ok(result);
+            var query = await _iUser.GetInfoUserByID(id).ConfigureAwait(false);
+            //methodResult.Result = _mapper.Map<UserViewModel>(query);
+            return Ok(query);
         }
-        [HttpGet]
-        [Route(GetById)]
-        public ActionResult<UserReadDTO> GetUserByID( int id)
-        {
-            var getUser= _iUserRepository.GetById(id);
-            if(getUser!=null)
-            {
-                return Ok(_mapper.Map<UserReadDTO>(getUser));
-            }
-            return NotFound();
-        }
+        //[HttpGet]
+        //[Route(GetById)]
+        //public ActionResult<UserDTO> GetUserByID( int id)
+        //{
+        //    var getUser= _iUserRepository.GetById(id);
+        //    if(getUser!=null)
+        //    {
+        //        return Ok(_mapper.Map<UserDTO>(getUser));
+        //    }
+        //    return NotFound();
+        //}
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateUserCommand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]

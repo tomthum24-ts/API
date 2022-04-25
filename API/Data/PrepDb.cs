@@ -19,23 +19,23 @@ namespace API.Data
         {
             if (!context.Users.Any())
             {
-                Console.WriteLine("-->  Seeding ....");
-                context.Users.AddRange(
-                    new UserDTO()
-                    {
-                        Id=1,
-                        UserName="Son1",
-                        HoDem="Tran1",
-                        Ten="Son1"
-                    },
-                    new UserDTO()
-                    {
-                        Id = 2,
-                        UserName = "Son2",
-                        HoDem = "Tran2",
-                        Ten = "Son2"
-                    }
-                    );
+                //Console.WriteLine("-->  Seeding ....");
+                //context.Users.AddRange(
+                //    new UserDTO()
+                //    {
+                //        Id=1,
+                //        UserName="Son1",
+                //        HoDem="Tran1",
+                //        Ten="Son1"
+                //    },
+                //    new UserDTO()
+                //    {
+                //        Id = 2,
+                //        UserName = "Son2",
+                //        HoDem = "Tran2",
+                //        Ten = "Son2"
+                //    }
+                //    );
                 context.SaveChanges();
             }
             else
