@@ -12,8 +12,6 @@ using API.InterFace.User;
 
 namespace API.Queries
 {
-
-  
     public class UserQueries : IUserService
     {
         public readonly DapperContext _context;
@@ -22,7 +20,6 @@ namespace API.Queries
         {
             _context = context;
         }
-
         public async Task<UserDTO> GetInfoUserByID(int id)
             {
             var conn = _context.CreateConnection();

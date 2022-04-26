@@ -29,8 +29,8 @@ namespace API.Commands
                 Phone= request.Phone,
                 Status=request.Status,
             };
-            await _db.Users.AddAsync(entity, cancellationToken);
-            //await _unitOfWork.SaveChangesAsync(cancellationToken);
+            //await _db.Users.AddAsync(entity, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
             return methodResult;
         }
 
