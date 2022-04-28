@@ -1,50 +1,34 @@
 ﻿using API.Data;
+using API.Repositories;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace API.Domain
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly AppDbContext _context;
+        private readonly ILogger _logger;
 
+        public IUserRepository Users { get; private set; }
 
-        public UnitOfWork(AppDbContext context)
+        public UnitOfWork(AppDbContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
+            _logger = loggerFactory.CreateLogger("logs");
+
+            Users = new UserRepository(context, _logger);
         }
-        public int Complete()
+
+        public async Task CompleteAsync()
         {
-            return _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
+
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        public int SaveChanges()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> SaveChangesAndDispatchDomainEventsAsync(CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _context.Dispose();
-            }
+            _context.Dispose();
         }
     }
 }

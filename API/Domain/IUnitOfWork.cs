@@ -1,19 +1,13 @@
-﻿using System;
-using System.Threading;
+﻿using API.Repositories;
 using System.Threading.Tasks;
 
 namespace API.Domain
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
-        #region Save
+        IUserRepository Users { get; }
 
-        int SaveChanges();
+        Task CompleteAsync();
 
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-
-        Task<int> SaveChangesAndDispatchDomainEventsAsync(CancellationToken cancellationToken = default);
-
-        #endregion Save
     }
 }

@@ -1,6 +1,7 @@
 ﻿using API.Common;
 using API.Data;
 using API.Domain;
+using API.DomainObjects;
 using API.Models;
 using MediatR;
 using System.Threading;
@@ -12,11 +13,22 @@ namespace API.Commands
     {    
         private readonly AppDbContext _db;
         private readonly IUnitOfWork _unitOfWork;
-        public CreateUserCommandHandler(AppDbContext db, IUnitOfWork unitOfWork)
+        private readonly User _user;
+
+        public CreateUserCommandHandler(AppDbContext db, IUnitOfWork unitOfWork, User user)
         {
             _db = db;
             _unitOfWork = unitOfWork;
+            _user = user;
         }
+
+        //private readonly IUnitOfWork _unitOfWork;
+        //private readonly User _user
+        //public CreateUserCommandHandler(AppDbContext db, IUnitOfWork unitOfWork)
+        //{
+        //    _db = db;
+        //    _unitOfWork = unitOfWork;
+        //}
 
         public async Task<MethodResult<CreateUserCommandResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
@@ -30,7 +42,8 @@ namespace API.Commands
                 Status=request.Status,
             };
             //await _db.Users.AddAsync(entity, cancellationToken);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            
+            //await _unitOfWork.Users.Add(entity);
             return methodResult;
         }
 
