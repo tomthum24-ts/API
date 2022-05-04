@@ -10,6 +10,7 @@ namespace API.Domain
     {
         private readonly AppDbContext _context;
         private readonly ILogger _logger;
+        protected readonly IServiceProvider ServiceProvider;
 
         public IUserRepository Users { get; private set; }
 

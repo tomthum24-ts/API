@@ -32,24 +32,13 @@ namespace API.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        [Route(GetListUser)]
-        public async Task<ActionResult> GetUser(int id)
+        [Route(GetById)]
+        public async Task<ActionResult> GetUserById(int id)
         {
             var query = await _iUser.GetInfoUserByID(id).ConfigureAwait(false);
             //methodResult.Result = _mapper.Map<UserViewModel>(query);
             return Ok(query);
         }
-        //[HttpGet]
-        //[Route(GetById)]
-        //public ActionResult<UserDTO> GetUserByID( int id)
-        //{
-        //    var getUser= _iUserRepository.GetById(id);
-        //    if(getUser!=null)
-        //    {
-        //        return Ok(_mapper.Map<UserDTO>(getUser));
-        //    }
-        //    return NotFound();
-        //}
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateUserCommand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]

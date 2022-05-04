@@ -13,23 +13,14 @@ namespace API.Commands
     {    
         private readonly AppDbContext _db;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly User _user;
+        
 
-        public CreateUserCommandHandler(AppDbContext db, IUnitOfWork unitOfWork, User user)
+        public CreateUserCommandHandler(AppDbContext db, IUnitOfWork unitOfWork)
         {
             _db = db;
             _unitOfWork = unitOfWork;
-            _user = user;
+            
         }
-
-        //private readonly IUnitOfWork _unitOfWork;
-        //private readonly User _user
-        //public CreateUserCommandHandler(AppDbContext db, IUnitOfWork unitOfWork)
-        //{
-        //    _db = db;
-        //    _unitOfWork = unitOfWork;
-        //}
-
         public async Task<MethodResult<CreateUserCommandResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<CreateUserCommandResponse>();
@@ -41,9 +32,8 @@ namespace API.Commands
                 Phone= request.Phone,
                 Status=request.Status,
             };
-            //await _db.Users.AddAsync(entity, cancellationToken);
-            
-            //await _unitOfWork.Users.Add(entity);
+            await _db.User.AddAsync(entity, cancellationToken);
+            await _db.SaveChangesAsync(cancellationToken);
             return methodResult;
         }
 
