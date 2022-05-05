@@ -1,8 +1,8 @@
 using API.Data;
 using API.Domain;
-using API.InterFace.User;
-using API.Queries;
+using API.Helpers;
 using API.Repositories;
+using API.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,13 +35,27 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
-            services.AddScoped<IUserService, UserQueries>();
+            
+            //services.AddScoped<IUserService, UserQueries>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddMediatR(typeof(IUserService).Assembly);
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserService, UserService>();
             services.AddSingleton<DapperContext>();
+            services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                options.OperationFilter<SecurityRequirementsOperationFilter>();
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -68,6 +83,7 @@ namespace API
                 endpoints.MapControllers();
             });
             //PrepDb.PrepPopulation(app);
+            app.UseMiddleware<JwtMiddleware>();
         }
     }
 }

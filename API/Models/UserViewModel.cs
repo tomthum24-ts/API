@@ -1,12 +1,14 @@
 ﻿
 using System;
+using System.Text.Json.Serialization;
 
 namespace API.Models
 {
     public class UserViewModel
     {
-        public long ID { get; set; }
+        public int ID { get; set; }
         public string UserName { get; set; }
+        [JsonIgnore]
         public string Password { get; set; }
         public string GroupID { get; set; }
         public string Name { get; set; }

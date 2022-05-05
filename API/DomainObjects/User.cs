@@ -4,6 +4,7 @@
     {
         #region Fields
         private string _userName;
+        private string _password;
         private string _name;
         private string _address;
         private string _phone;
@@ -32,6 +33,7 @@
 
         #region Properties
         public string UserName { get => _userName; }
+        public string PassWord { get => _password; }
         public string Name { get => _name; }
         public string Address { get => _address; }
 
@@ -42,6 +44,7 @@
 
         #region Behaviours
         public void SetUserName(string userName) { _userName = userName; }
+        public void SetPassWord(string passWord) { _password = passWord; }
         public void SetNamet(string name) => _name = name;
         public void SetAddress(string address) => _address = address;
         public void SetStatus(string phone) => _phone = phone;

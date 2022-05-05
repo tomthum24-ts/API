@@ -1,7 +1,6 @@
 ﻿using API.Common;
 using API.Data;
 using API.Models;
-using API.Queries;
 using MediatR;
 using System.Collections.Generic;
 using System.Linq;
