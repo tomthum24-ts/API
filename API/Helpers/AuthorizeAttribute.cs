@@ -1,4 +1,4 @@
-﻿using API.Models;
+﻿using API.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -11,7 +11,7 @@ namespace API.Helpers
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var user = (UserViewModel)context.HttpContext.Items["UserName"];
+            var user = (UserDTO)context.HttpContext.Items["UserName"];
             if (user == null)
             {
                 // not logged in

@@ -35,7 +35,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
-            
+            services.AddCors();
             //services.AddScoped<IUserService, UserQueries>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -68,10 +68,10 @@ namespace API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
+                
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
-
+            app.UseSwagger();
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -84,6 +84,10 @@ namespace API
             });
             //PrepDb.PrepPopulation(app);
             app.UseMiddleware<JwtMiddleware>();
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace API.Models
+﻿using API.DTOs;
+
+namespace API.Models
 {
     public class AuthenticateResponse
     {
@@ -8,7 +10,7 @@
         public string Token { get; set; }
 
 
-        public AuthenticateResponse(UserViewModel user, string token)
+        public AuthenticateResponse(UserDTO user, string token)
         {
             Id = user.ID;
             FirstName = user.Name;
