@@ -22,8 +22,8 @@ namespace API.Commands
         {
             var methodResult = new MethodResult<DeleteUserCommandResponse>();
             var user = await _userService.GetAll().ConfigureAwait(false);
-            
-            
+            //var a = await _db.User.Remove();
+
             return methodResult;
         }
     }
