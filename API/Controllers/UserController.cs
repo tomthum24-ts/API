@@ -1,4 +1,4 @@
-using API.Commands;
+﻿using API.Commands;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +21,7 @@ namespace API.Controllers
     {
         private const string GetListUser = nameof(GetListUser);
         private const string GetById = nameof(GetById);
-        private const string Create = nameof(Create);
-
+ 
         private readonly IUserService _iUser;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
@@ -35,20 +34,29 @@ namespace API.Controllers
             _mediator = mediator;
             _jWTManager = jWTManager;
         }
+        /// <summary>
+        /// Get token - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         [Route("authenticate")]
         public IActionResult Authenticate(Users usersdata)
         {
             var token = _jWTManager.Authenticate(usersdata);
-
             if (token == null)
             {
                 return Unauthorized();
             }
+
             return Ok(token);
         }
-
+        /// <summary>
+        /// Get info user - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route(GetById)]
         
@@ -62,13 +70,39 @@ namespace API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateUserCommand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        [Route(Create)]
         
-        public async Task<IActionResult> CreateUser(CreateUserCommand command)
+        public async Task<IActionResult> CreateUserAsync(CreateUserCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);
         }
-      
+        /// <summary>
+        /// Delete user - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [ProducesResponseType(typeof(MethodResult<DeleteUserCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> DeleteUserAsync(DeleteUserCommand command)
+        {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+        }
+        /// <summary>
+        /// Update User- (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [ProducesResponseType(typeof(MethodResult<UpdateUserCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        public async Task<IActionResult> UpdateUserAsync(UpdateUserCommand command)
+        {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+        }
+
     }
 }
