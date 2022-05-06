@@ -9,7 +9,7 @@ namespace API.Mapper
         public UserProfile()
         {
             CreateMap<UserViewModel, UserDTO>();
-            CreateMap<UserCreateDTO, UserViewModel>();
+            //CreateMap<UserCreateDTO, UserViewModel>();
         }
     }
 }

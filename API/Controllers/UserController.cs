@@ -7,10 +7,14 @@ using System.Net;
 using System.Threading.Tasks;
 using API.Models;
 using API.Services;
-using API.Helpers;
+using Microsoft.AspNetCore.Authorization;
+using API.Models.ACL;
+using API.Param.ACL;
+using API.InterFace;
 
 namespace API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
@@ -22,36 +26,39 @@ namespace API.Controllers
         private readonly IUserService _iUser;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
+        private readonly IJWTManagerRepository _jWTManager;
 
-        public UserController(IUserService repository, IMapper mapper, IMediator mediator)
+        public UserController(IUserService repository, IMapper mapper, IMediator mediator, IJWTManagerRepository jWTManager)
         {
             _iUser = repository;
             _mapper = mapper;
             _mediator = mediator;
+            _jWTManager = jWTManager;
         }
-        [HttpPost("authenticate")]
-        [ProducesResponseType(typeof(MethodResult<AuthenticateRequest>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        public IActionResult Authenticate(AuthenticateRequest model)
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("authenticate")]
+        public IActionResult Authenticate(Users usersdata)
         {
-            var response = _iUser.Authenticate(model);
+            var token = _jWTManager.Authenticate(usersdata);
 
-            if (response == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
-
-            return Ok(response);
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(token);
         }
-        [Authorize]
-        [HttpGet]
+
+        [HttpPost]
         [Route(GetById)]
         
-        public async Task<ActionResult> GetUserById(int id)
+        public async Task<ActionResult> GetUserById(GetUserByIdParam param)
         {
-            var query = await _iUser.GetInfoUserByID(id).ConfigureAwait(false);
+            var query = await _iUser.GetInfoUserByID(param.id).ConfigureAwait(false);
             //methodResult.Result = _mapper.Map<UserViewModel>(query);
             return Ok(query);
         }
-        [Authorize]
+      
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateUserCommand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
