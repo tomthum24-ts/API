@@ -8,6 +8,7 @@ namespace API.Domain
         IUserRepository Users { get; }
 
         Task CompleteAsync();
+        IEntityRepository<T, TKey> GetEntityRepository<T, TKey>() where T : Entity<TKey> where TKey : struct;
 
     }
 }
