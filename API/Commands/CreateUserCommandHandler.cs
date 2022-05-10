@@ -26,17 +26,19 @@ namespace API.Commands
         public async Task<MethodResult<CreateUserCommandResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<CreateUserCommandResponse>();
-            var entity = new UserViewModel
-            {
-                UserName = request.UserName,
-                Name = request.Name,
-                Address = request.Address,
-                Phone= request.Phone,
-                Status=request.Status,
-            };
-            await _db.User.AddAsync(entity, cancellationToken);
+
+            var createUser = new User(
+                   
+                 request.UserName,
+                 request.Name,
+                 request.Address,
+                 request.Phone,
+                 request.Status
+                );
+
+            await _db.User.AddAsync(createUser, cancellationToken);
             await _db.SaveChangesAsync(cancellationToken);
-            methodResult.Result = _mapper.Map<CreateUserCommandResponse>(entity);
+            methodResult.Result = _mapper.Map<CreateUserCommandResponse>(createUser);
             return methodResult;
         }
 

@@ -20,7 +20,7 @@ namespace API.Commands
             get; set;
         }
     }
-    public class CreateUserCommandResponse : UserViewModel
+    public class CreateUserCommandResponse : CreateUserCommand
     {
 
     }

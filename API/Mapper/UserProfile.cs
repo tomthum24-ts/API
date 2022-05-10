@@ -1,4 +1,5 @@
 ﻿using API.Commands;
+using API.DomainObjects;
 using API.DTOs;
 using API.Models;
 using AutoMapper;
@@ -10,7 +11,8 @@ namespace API.Mapper
         public UserProfile()
         {
             CreateMap<UserViewModel, UserDTO>();
-            CreateMap< UserViewModel, CreateUserCommandResponse> ();
+            CreateMap<CreateUserCommand, CreateUserCommandResponse> ();
+            CreateMap<User, CreateUserCommandResponse>();
         }
     }
 }
