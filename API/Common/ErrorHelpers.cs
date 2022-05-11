@@ -45,9 +45,9 @@ namespace API.Common
 
             Dictionary<string, string> messages = null;
 
-            var currentLanguage = CultureInfo.DefaultThreadCurrentCulture.TwoLetterISOLanguageName;
+            var currentLanguage = "vn";
 
-            var dictionaryKey = $"{resourceAssembly.GetName().Name}@@{currentLanguage}";
+            var dictionaryKey = $"{resourceAssembly.GetName().Name}";
 
             #region get list of errors
 
@@ -65,7 +65,7 @@ namespace API.Common
                 try
                 {
                     string jsonErrorFilePath = $"{Settings.ResourceFolderName}.{Settings.ErrorsFileName}-{currentLanguage}.json";
-
+                    //string jsonErrorFilePath = $"{Settings.ResourceFolderName}.{Settings.ErrorsFileName}.json";
                     var fileData = GetFromResources(jsonErrorFilePath, resourceAssembly);
 
                     messages = JsonSerializer.Deserialize<Dictionary<string, string>>(fileData);

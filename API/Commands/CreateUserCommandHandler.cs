@@ -13,14 +13,12 @@ namespace API.Commands
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, MethodResult<CreateUserCommandResponse>>
     {    
         private readonly AppDbContext _db;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
 
-        public CreateUserCommandHandler(AppDbContext db, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateUserCommandHandler(AppDbContext db, IMapper mapper)
         {
             _db = db;
-            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
         public async Task<MethodResult<CreateUserCommandResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)

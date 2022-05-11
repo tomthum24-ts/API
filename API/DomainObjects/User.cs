@@ -53,10 +53,10 @@ namespace API.DomainObjects
         public void SetId(int id) { _id = id; }
         public void SetUserName(string userName) { _userName = userName; }
         public void SetPassWord(string passWord) { _password = passWord; }
-        public void SetNamet(string name) => _name = name;
+        public void SetName(string name) => _name = name;
         public void SetAddress(string address) => _address = address;
-        public void SetStatus(string phone) => _phone = phone;
-        public void SetNam(bool? status) => _status = status;
+        public void SetPhone(string phone) => _phone = phone;
+        public void SetStatus(bool? status) => _status = status;
 
         #endregion Behaviours
     }

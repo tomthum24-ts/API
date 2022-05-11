@@ -13,6 +13,7 @@ namespace API.Mapper
             CreateMap<UserViewModel, UserDTO>();
             CreateMap<CreateUserCommand, CreateUserCommandResponse> ();
             CreateMap<User, CreateUserCommandResponse>();
+            CreateMap<UpdateUserCommand, UpdateUserCommandResponse>();
         }
     }
 }

@@ -1,19 +1,17 @@
 using API.Data;
-using API.Domain;
 using API.InterFace;
+using API.Repositories;
+using API.Repositories.ACL;
 using API.Services;
 using API.Services.ACL;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -38,12 +36,14 @@ namespace API
             services.AddDbContext<AppDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
             services.AddCors();
             //services.AddScoped<IUserService, UserQueries>();
+            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddMediatR(typeof(IUserService).Assembly);
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            //services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
             
             services.AddSingleton<DapperContext>();
@@ -93,6 +93,7 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
+
 
         }
 
