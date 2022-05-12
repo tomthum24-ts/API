@@ -1,4 +1,6 @@
-﻿namespace API.InterFace
+﻿
+
+namespace API.InterFace
 {
     public interface IRepositoryWrapper
     {
