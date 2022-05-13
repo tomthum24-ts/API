@@ -21,6 +21,7 @@ namespace API.Controllers
     {
         private const string GetListUser = nameof(GetListUser);
         private const string GetById = nameof(GetById);
+        private const string ChangePassword = nameof(ChangePassword);
  
         private readonly IUserService _iUser;
         private readonly IMapper _mapper;
@@ -99,6 +100,21 @@ namespace API.Controllers
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> UpdateUserAsync(UpdateUserCommand command)
+        {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+        }
+        /// <summary>
+        /// Change password User- (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [ProducesResponseType(typeof(MethodResult<ChangePasswordCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [Route(ChangePassword)]
+        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);

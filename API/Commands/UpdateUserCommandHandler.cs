@@ -1,37 +1,22 @@
 ﻿using API.Common;
 using API.Data;
-using API.Domain;
-using API.DomainObjects;
-using API.Extension;
 using API.InterFace;
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http;
-using static API.Enums.ErrorCodesEnum;
+
 
 namespace API.Commands
 {
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, MethodResult<UpdateUserCommandResponse>>
     {
         private readonly AppDbContext _db;
-        private IRepositoryWrapper _user;
-        private readonly IMapper _mapper;
-        //public HttpRequestMessage Request { get; set; }
 
-        public UpdateUserCommandHandler(AppDbContext db, IRepositoryWrapper user, IMapper mapper)
+
+        public UpdateUserCommandHandler(AppDbContext db)
         {
             _db = db;
-            _user = user;
-            _mapper = mapper;
         }
         public async Task<MethodResult<UpdateUserCommandResponse>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {

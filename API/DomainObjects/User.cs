@@ -1,5 +1,6 @@
 ﻿
 
+using API.Common;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.DomainObjects
@@ -30,6 +31,7 @@ namespace API.DomainObjects
            
             _userName = userName;
             _name = name;
+            _password = CommonBase.ToMD5(userName);
             _address = address;
             _phone = phone;
             _status = status;
@@ -43,7 +45,6 @@ namespace API.DomainObjects
         public string PassWord { get => _password; }
         public string Name { get => _name; }
         public string Address { get => _address; }
-
         public string Phone { get => _phone; }
         public bool? status { get => _status; }
 

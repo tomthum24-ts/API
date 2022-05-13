@@ -124,6 +124,7 @@ namespace API
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
+            app.UseDeveloperExceptionPage();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using API.Common;
 using API.Data;
-using API.Domain;
+
 using API.DomainObjects;
 using API.Models;
 using AutoMapper;
@@ -28,14 +28,14 @@ namespace API.Commands
             var createUser = new User(
                    
                  request.UserName,
-                 request.Name,
+                 request.Name,              
                  request.Address,
                  request.Phone,
                  request.Status
                 );
 
             await _db.User.AddAsync(createUser, cancellationToken);
-            await _db.SaveChangesAsync(cancellationToken);
+            await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             methodResult.Result = _mapper.Map<CreateUserCommandResponse>(createUser);
             return methodResult;
         }

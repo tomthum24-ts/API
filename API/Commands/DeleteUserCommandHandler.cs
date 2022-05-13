@@ -20,7 +20,6 @@ namespace API.Commands
             _db = db;
 
         }
-
         public async Task<MethodResult<DeleteUserCommandResponse>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<DeleteUserCommandResponse>();

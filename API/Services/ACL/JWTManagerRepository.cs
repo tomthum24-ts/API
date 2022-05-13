@@ -1,4 +1,5 @@
-﻿using API.Data;
+﻿using API.Common;
+using API.Data;
 using API.DTOs;
 using API.InterFace;
 using API.Models.ACL;
@@ -30,7 +31,7 @@ namespace API.Services.ACL
         public Tokens Authenticate(Users users)	
 		{
 			var user = GetAll().Result;
-			if (!user.Any(x => x.UserName == users.Name && x.UserName == users.Password))
+			if (!user.Any(x => x.UserName == users.Name && x.PassWord == CommonBase.ToMD5( users.Password)))
 			{
 				return null;
 			}
@@ -44,8 +45,9 @@ namespace API.Services.ACL
 			  {
 			 new Claim(ClaimTypes.Name, users.Name)
 			  }),
-				Expires = DateTime.UtcNow.AddMinutes(10),
-				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
+				Expires = DateTime.UtcNow.AddMinutes(double.Parse(iconfiguration["JWT:Time"])),
+				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature),
+				
 			};
 			var token = tokenHandler.CreateToken(tokenDescriptor);
 			return new Tokens { Token = tokenHandler.WriteToken(token) };
