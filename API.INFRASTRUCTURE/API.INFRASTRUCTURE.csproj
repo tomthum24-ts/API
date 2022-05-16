@@ -1,44 +1,33 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Queries\**" />
-    <Content Remove="Queries\**" />
-    <EmbeddedResource Remove="Queries\**" />
-    <None Remove="Queries\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Dapper" Version="2.0.123" />
-    <PackageReference Include="MediatR" Version="10.0.1" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0" />
-  
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\Base\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\API.APPLICATION\API.APPLICATION.csproj" />
-    <ProjectReference Include="..\API.INFRASTRUCTURE\API.INFRASTRUCTURE.csproj" />
+    <ProjectReference Include="..\API.HRM.DOMAIN\API.HRM.DOMAIN.csproj" />
     <ProjectReference Include="..\BaseCommon\BaseCommon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EFConfigs\" />
+    <Folder Include="DbSet\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
