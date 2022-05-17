@@ -1,16 +1,14 @@
-﻿using API.Commands;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using API.Common;
 using System.Net;
 using System.Threading.Tasks;
-using API.Models;
-using API.Services;
 using Microsoft.AspNetCore.Authorization;
-using API.Models.ACL;
-using API.Param.ACL;
-using API.InterFace;
+using API.APPLICATION.Commands.User;
+using BaseCommon.Common.MethodResult;
+using API.INFRASTRUCTURE.Services.User;
+using API.HRM.DOMAIN.DTOs.User;
+using API.APPLICATION.Parameters.User;
 
 namespace API.Controllers
 {
@@ -21,7 +19,8 @@ namespace API.Controllers
     {
         private const string GetListUser = nameof(GetListUser);
         private const string GetById = nameof(GetById);
-        private const string ChangePassword = nameof(ChangePassword);
+        private const string ChangePassword = nameof(ChangePassword); 
+        private const string Authenticatetion = nameof(Authenticatetion);
  
         private readonly IUserService _iUser;
         private readonly IMapper _mapper;
@@ -42,7 +41,7 @@ namespace API.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        [Route("authenticate")]
+        [Route(Authenticatetion)]
         public IActionResult Authenticate(Users usersdata)
         {
             var token = _jWTManager.Authenticate(usersdata);
@@ -116,7 +115,7 @@ namespace API.Controllers
         [Route(ChangePassword)]
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordCommand command)
         {
-            var result = await _mediator.Send(command).ConfigureAwait(false);
+               var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);
         }
 

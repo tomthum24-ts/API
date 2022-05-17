@@ -24,10 +24,8 @@
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Enums\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="DomainObjects\" />
     <Folder Include="Resources\" />
-    <Folder Include="Services\" />
+    <Folder Include="Services\User\" />
   </ItemGroup>
 
 </Project>

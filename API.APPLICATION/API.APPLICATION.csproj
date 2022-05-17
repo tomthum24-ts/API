@@ -6,6 +6,9 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
@@ -18,17 +21,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\API.HRM.DOMAIN\API.HRM.DOMAIN.csproj" />
+    <ProjectReference Include="..\API.INFRASTRUCTURE\API.INFRASTRUCTURE.csproj" />
     <ProjectReference Include="..\BaseCommon\BaseCommon.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mappings\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="Commands\" />
-    <Folder Include="Parameters\" />
-    <Folder Include="Queries\" />
-    <Folder Include="Services\" />
-    <Folder Include="ViewModels\" />
+    <Folder Include="DTOs\User\" />
+    <Folder Include="Queries\User\" />
+    <Folder Include="Services\User\" />
+    <Folder Include="ViewModels\User\" />
   </ItemGroup>
 
 </Project>

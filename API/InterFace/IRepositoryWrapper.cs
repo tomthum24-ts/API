@@ -1,5 +1,7 @@
 ﻿
 
+using API.INFRASTRUCTURE;
+
 namespace API.InterFace
 {
     public interface IRepositoryWrapper

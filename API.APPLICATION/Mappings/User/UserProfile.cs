@@ -1,17 +1,17 @@
 ﻿using API.APPLICATION.Commands.User;
 using API.HRM.DOMAIN;
 using API.HRM.DOMAIN.DTOs.User;
-using API.Models;
 using AutoMapper;
 
-namespace API.Mapper
+
+namespace API.APPLICATION
 {
     public class UserProfile : Profile
     {
         public UserProfile()
         {
             //CreateMap<UserViewModel, UserDTO>();
-            CreateMap<CreateUserCommand, CreateUserCommandResponse> ();
+            CreateMap<CreateUserCommand, CreateUserCommandResponse>();
             CreateMap<User, CreateUserCommandResponse>();
             CreateMap<UpdateUserCommand, UpdateUserCommandResponse>();
         }

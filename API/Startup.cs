@@ -1,9 +1,10 @@
-using API.Data;
+using API.APPLICATION.Commands.User;
+using API.INFRASTRUCTURE;
+using API.INFRASTRUCTURE.DataConnect;
+using API.INFRASTRUCTURE.Repositories.User;
+using API.INFRASTRUCTURE.Services.User;
 using API.InterFace;
 using API.Repositories;
-using API.Repositories.ACL;
-using API.Services;
-using API.Services.ACL;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,12 +42,13 @@ namespace API
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
+            services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddMediatR(typeof(IUserService).Assembly);
+            services.AddMediatR(typeof(CreateUserCommand).GetTypeInfo().Assembly);
             //services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
-            
+            services.AddHttpClient();
             services.AddSingleton<DapperContext>();
             services.AddAuthentication(x =>
             {
@@ -108,18 +111,14 @@ namespace API
             }
             app.UseSwagger();
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthentication(); 	
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
             //PrepDb.PrepPopulation(app);
-            
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()

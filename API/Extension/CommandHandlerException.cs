@@ -1,4 +1,4 @@
-﻿using API.Common;
+﻿using BaseCommon.Common.MethodResult;
 using System.Collections.Generic;
 using NetHttpStatusCode = System.Net.HttpStatusCode;
 namespace API.Extension

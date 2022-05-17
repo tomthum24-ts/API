@@ -1,4 +1,4 @@
-﻿using API.Common;
+﻿using BaseCommon.Common.MethodResult;
 using System;
 using System.Linq;
 
