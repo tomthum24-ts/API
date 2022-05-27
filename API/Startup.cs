@@ -3,12 +3,12 @@ using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
 using API.INFRASTRUCTURE.Repositories.User;
 using API.INFRASTRUCTURE.Services.User;
-using API.InterFace;
-using API.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,9 +17,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace API
 {
@@ -38,7 +40,7 @@ namespace API
             services.AddDbContext<AppDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
             services.AddCors();
             //services.AddScoped<IUserService, UserQueries>();
-            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            //services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -108,6 +110,32 @@ namespace API
                 app.UseDeveloperExceptionPage();
                 
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
+                //app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler(exceptionHandlerApp =>
+                {
+                    exceptionHandlerApp.Run(async context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+                        // using static System.Net.Mime.MediaTypeNames;
+                        context.Response.ContentType = Text.Plain;
+
+                        await context.Response.WriteAsync("An exception was thrown.");
+
+                        var exceptionHandlerPathFeature =
+                            context.Features.Get<IExceptionHandlerPathFeature>();
+
+                        if (exceptionHandlerPathFeature?.Error is FileNotFoundException)
+                        {
+                            await context.Response.WriteAsync(" The file was not found.");
+                        }
+
+                        if (exceptionHandlerPathFeature?.Path == "/")
+                        {
+                            await context.Response.WriteAsync(" Page: Home.");
+                        }
+                    });
+                });
             }
             app.UseSwagger();
             app.UseHttpsRedirection();
@@ -124,6 +152,7 @@ namespace API
                 .AllowAnyMethod()
                 .AllowAnyHeader());
             app.UseDeveloperExceptionPage();
+            app.UseStatusCodePages();
         }
     }
 }

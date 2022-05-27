@@ -20,7 +20,7 @@ namespace API.Controllers
         private const string GetListUser = nameof(GetListUser);
         private const string GetById = nameof(GetById);
         private const string ChangePassword = nameof(ChangePassword); 
-        private const string Authenticatetion = nameof(Authenticatetion);
+        private const string Login = nameof(Login);
  
         private readonly IUserService _iUser;
         private readonly IMapper _mapper;
@@ -41,15 +41,14 @@ namespace API.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        [Route(Authenticatetion)]
+        [Route(Login)]
         public IActionResult Authenticate(Users usersdata)
         {
-            var token = _jWTManager.Authenticate(usersdata);
+            var token = _jWTManager.GenerateJWTTokens(usersdata);
             if (token == null)
             {
                 return Unauthorized();
             }
-
             return Ok(token);
         }
         /// <summary>

@@ -9,6 +9,6 @@ namespace API.INFRASTRUCTURE.Services.User
 {
     public interface IJWTManagerRepository
     {
-        Tokens Authenticate(Users users);
+        Tokens GenerateJWTTokens(Users users);
     }
 }

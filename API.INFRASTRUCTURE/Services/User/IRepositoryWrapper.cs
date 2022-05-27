@@ -1,8 +1,5 @@
 ﻿
-
-using API.INFRASTRUCTURE;
-
-namespace API.InterFace
+namespace API.INFRASTRUCTURE.Services.User
 {
     public interface IRepositoryWrapper
     {

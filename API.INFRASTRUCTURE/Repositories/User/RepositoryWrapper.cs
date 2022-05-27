@@ -1,8 +1,12 @@
-﻿using API.INFRASTRUCTURE;
-using API.INFRASTRUCTURE.DataConnect;
-using API.InterFace;
+﻿using API.INFRASTRUCTURE.DataConnect;
+using API.INFRASTRUCTURE.Services.User;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace API.Repositories
+namespace API.INFRASTRUCTURE.Repositories.User
 {
     public class RepositoryWrapper : IRepositoryWrapper
     {

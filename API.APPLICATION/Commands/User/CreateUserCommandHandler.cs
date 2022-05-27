@@ -28,7 +28,7 @@ namespace API.APPLICATION
         {
             var methodResult = new MethodResult<CreateUserCommandResponse>();
             var existingUser = await _db.User.Where(x => request.UserName.Contains(x.UserName)).ToListAsync(cancellationToken);
-            if (existingUser != null)
+            if (existingUser.Count>0)
             {
                 return null;
             }
