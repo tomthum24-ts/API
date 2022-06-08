@@ -6,8 +6,11 @@
 
   <ItemGroup>
     <Compile Remove="DbSet\**" />
+    <Compile Remove="Services\**" />
     <EmbeddedResource Remove="DbSet\**" />
+    <EmbeddedResource Remove="Services\**" />
     <None Remove="DbSet\**" />
+    <None Remove="Services\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,10 +30,6 @@
   <ItemGroup>
     <ProjectReference Include="..\API.HRM.DOMAIN\API.HRM.DOMAIN.csproj" />
     <ProjectReference Include="..\BaseCommon\BaseCommon.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\User\" />
   </ItemGroup>
 
 </Project>

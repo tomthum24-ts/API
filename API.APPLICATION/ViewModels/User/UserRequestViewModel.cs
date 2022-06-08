@@ -4,10 +4,10 @@ namespace API.APPLICATION.ViewModels.User
 {
     public class UserRequestViewModel : QueryPaging
     {
-        public int? Id { get; set; }
+        public int? IDUser { get; set; }
         public string Keyword { get; set; }
-        public string SortName { get; set; }
-        public bool SortASC { get; set; }
+        public string SortCol { get; set; }
+        public bool IsAsc { get; set; }
 
     }
 }
