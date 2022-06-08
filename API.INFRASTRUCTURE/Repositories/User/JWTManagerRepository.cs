@@ -1,6 +1,5 @@
 ﻿using API.HRM.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE.DataConnect;
-using API.INFRASTRUCTURE.Services.User;
 using BaseCommon.Common.EnCrypt;
 using Dapper;
 using Microsoft.Extensions.Configuration;

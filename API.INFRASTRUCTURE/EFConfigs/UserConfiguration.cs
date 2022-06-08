@@ -8,7 +8,7 @@ namespace API.INFRASTRUCTURE.EFConfigs
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("user");
+            builder.ToTable(TableConstants.User_TABLENAME);
             builder.Property(x => x.id).HasField("_id").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.UserName).HasField("_userName").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.PassWord).HasField("_password").HasMaxLength(32).UsePropertyAccessMode(PropertyAccessMode.Field);

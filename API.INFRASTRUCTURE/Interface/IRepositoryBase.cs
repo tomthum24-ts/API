@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace API.INFRASTRUCTURE.Services.User
+namespace API.INFRASTRUCTURE
 {
     public interface IRepositoryBase<T>
     {

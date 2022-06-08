@@ -1,5 +1,4 @@
 ﻿using API.INFRASTRUCTURE.DataConnect;
-using API.INFRASTRUCTURE.Services.User;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

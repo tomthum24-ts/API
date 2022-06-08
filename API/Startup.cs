@@ -2,7 +2,6 @@ using API.APPLICATION.Commands.User;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
 using API.INFRASTRUCTURE.Repositories.User;
-using API.INFRASTRUCTURE.Services.User;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

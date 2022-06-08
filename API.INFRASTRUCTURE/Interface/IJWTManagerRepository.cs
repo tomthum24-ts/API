@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace API.INFRASTRUCTURE.Services.User
+namespace API.INFRASTRUCTURE
 {
     public interface IJWTManagerRepository
     {

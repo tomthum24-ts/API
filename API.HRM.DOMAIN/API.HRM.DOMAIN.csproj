@@ -5,6 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Enums\**" />
+    <Compile Remove="Extensions\**" />
+    <Compile Remove="Resources\**" />
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Enums\**" />
+    <EmbeddedResource Remove="Extensions\**" />
+    <EmbeddedResource Remove="Resources\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Enums\**" />
+    <None Remove="Extensions\**" />
+    <None Remove="Resources\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.8" />
@@ -19,13 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BaseCommon\BaseCommon.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-    <Folder Include="Enums\" />
-    <Folder Include="Resources\" />
-    <Folder Include="Services\User\" />
   </ItemGroup>
 
 </Project>

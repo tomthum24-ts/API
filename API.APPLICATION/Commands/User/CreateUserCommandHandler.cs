@@ -1,7 +1,7 @@
 ﻿using API.APPLICATION.Commands.User;
 using API.HRM.DOMAIN;
+using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
-using API.INFRASTRUCTURE.Services.User;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
 using MediatR;

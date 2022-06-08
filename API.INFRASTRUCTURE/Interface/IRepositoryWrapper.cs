@@ -1,5 +1,5 @@
 ﻿
-namespace API.INFRASTRUCTURE.Services.User
+namespace API.INFRASTRUCTURE
 {
     public interface IRepositoryWrapper
     {

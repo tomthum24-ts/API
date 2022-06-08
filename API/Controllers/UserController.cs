@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using API.APPLICATION.Commands.User;
 using BaseCommon.Common.MethodResult;
-using API.INFRASTRUCTURE.Services.User;
 using API.HRM.DOMAIN.DTOs.User;
 using API.APPLICATION.Parameters.User;
+using API.INFRASTRUCTURE;
+using API.APPLICATION.ViewModels.User;
+using BaseCommon.Common.Response;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -21,15 +24,16 @@ namespace API.Controllers
         private const string GetById = nameof(GetById);
         private const string ChangePassword = nameof(ChangePassword); 
         private const string Login = nameof(Login);
- 
-        private readonly IUserService _iUser;
+     
+
+        private readonly IUserService _iUserQueries;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
         private readonly IJWTManagerRepository _jWTManager;
 
         public UserController(IUserService repository, IMapper mapper, IMediator mediator, IJWTManagerRepository jWTManager)
         {
-            _iUser = repository;
+            _iUserQueries = repository;
             _mapper = mapper;
             _mediator = mediator;
             _jWTManager = jWTManager;
@@ -59,13 +63,33 @@ namespace API.Controllers
         [HttpPost]
         [Route(GetById)]
         
-        public async Task<ActionResult> GetUserById(GetUserByIdParam param)
+        public async Task<ActionResult> GetUserByIdAsync(GetUserByIdParam param)
         {
-            var query = await _iUser.GetInfoUserByID(param.id).ConfigureAwait(false);
+            var query = await _iUserQueries.GetInfoUserByID(param.id).ConfigureAwait(false);
             //methodResult.Result = _mapper.Map<UserViewModel>(query);
             return Ok(query);
         }
-      
+        /// <summary>
+        /// Get info user - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(GetListUser)]
+
+        public async Task<ActionResult> GetDanhSachUserAsync(UserRequestViewModel request)
+        {
+            var methodResult = new MethodResult<PagingItems<UserResponseViewModel>>(); 
+            var userFilterParam = _mapper.Map<UserFilterParam>(request);
+            var queryResult = await _iUserQueries.GetAllUserPaging(userFilterParam).ConfigureAwait(false);
+            methodResult.Result = new PagingItems<UserResponseViewModel>
+            {
+                PagingInfo = queryResult.PagingInfo,
+                Items = _mapper.Map<IEnumerable<UserResponseViewModel>>(queryResult.Items)
+            };
+            return Ok(methodResult);
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateUserCommand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
