@@ -1,4 +1,5 @@
 ﻿using API.HRM.DOMAIN;
+using API.HRM.DOMAIN.DomainObjects.Media;
 using API.HRM.DOMAIN.DomainObjects.User;
 using API.INFRASTRUCTURE.EFConfigs;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,7 @@ namespace API.INFRASTRUCTURE.DataConnect
         }
         public DbSet<User> User { get; set; }
         public virtual DbSet<UserRefreshTokens> UserRefreshToken { get; set; }
+        public virtual DbSet<AttachmentFile> AttachmentFile { get; set; }
         //public virtual DbSet<UserRefreshTokens> UserRefreshToken { get; set; }
 
     }

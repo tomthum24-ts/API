@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.HRM.DOMAIN
 {
-    public class User
+    public class User : BaseEntity
     {
         #region Fields
         [Key]

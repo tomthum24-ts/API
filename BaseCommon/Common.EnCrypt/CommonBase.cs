@@ -11,6 +11,15 @@ namespace BaseCommon.Common.EnCrypt
 {
     public class CommonBase
     {
+        #region Property
+
+        private static string _passEncrypt = "[aG]An%@-hG+ee2ky34@!";
+        private static string _saltKey = "ij7[xsobI_rXulYjFv-c";
+        private static string _VectorIV = "0By@GrXF_t6V[h!k";//"0By@GrXF_t6V[h!kWTg";
+
+        private static CMSEncryption encrytion = new CMSEncryption(_passEncrypt, _saltKey, _VectorIV);
+
+        #endregion Property
         #region MD5
         public static string ToMD5(string value)
         {
@@ -162,5 +171,25 @@ namespace BaseCommon.Common.EnCrypt
         }
 
         #endregion
+
+        public static string EncryptStr(string plainText)
+        {
+            try
+            {
+                plainText = EncodeURL(encrytion.Encrypt(plainText));
+                return plainText;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        private static string EncodeURL(string strPlain)
+        {
+            strPlain = strPlain.Replace('+', '-').Replace('/', '_').Replace("=", "");
+            return strPlain;
+        }
+
+
     }
 }

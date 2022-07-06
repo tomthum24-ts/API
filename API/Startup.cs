@@ -1,4 +1,5 @@
 using API.APPLICATION.Commands.User;
+using API.APPLICATION.Queries.Media;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
 using API.INFRASTRUCTURE.Repositories.User;
@@ -38,8 +39,6 @@ namespace API
         {
             services.AddDbContext<AppDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
             services.AddCors();
-            //services.AddScoped<IUserService, UserQueries>();
-            //services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -47,8 +46,8 @@ namespace API
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddMediatR(typeof(IUserService).Assembly);
             services.AddMediatR(typeof(CreateUserCommand).GetTypeInfo().Assembly);
-            //services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IMediaService, MediaService>();
             services.AddHttpClient();
             services.AddSingleton<DapperContext>();
             services.AddAuthentication(x =>
