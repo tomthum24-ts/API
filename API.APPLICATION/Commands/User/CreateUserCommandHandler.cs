@@ -4,6 +4,7 @@ using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
+using BaseCommon.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -30,7 +31,11 @@ namespace API.APPLICATION
             var existingUser = await _db.User.Where(x => request.UserName.Contains(x.UserName)).ToListAsync(cancellationToken);
             if (existingUser.Count>0)
             {
-                return null;
+                methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB01), new[]
+                    {
+                        ErrorHelpers.GenerateErrorResult(nameof(User), null)
+                    });
+                return methodResult;
             }
             var createUser = new User(
                  request.UserName,

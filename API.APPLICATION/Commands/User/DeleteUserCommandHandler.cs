@@ -25,7 +25,7 @@ namespace API.APPLICATION
         public async Task<MethodResult<DeleteUserCommandResponse>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<DeleteUserCommandResponse>();
-            var editEntity = await _db.User.Where(x => request.Ids.Contains(x.id)).ToListAsync(cancellationToken);
+            var editEntity = await _db.User.Where(x => request.Ids.Contains(x.Id)).ToListAsync(cancellationToken);
             if (editEntity == null)
             {
                 return null;

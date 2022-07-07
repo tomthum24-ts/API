@@ -29,12 +29,13 @@ namespace API.INFRASTRUCTURE.DataConnect
         {
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasKey(e => e.id);
+                entity.HasKey(e => e.Id);
                 entity.ToTable("user");
             });
             modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
         public DbSet<User> User { get; set; }
+
         //public virtual DbSet<UserRefreshTokens> UserRefreshToken { get; set; }
 
     }
