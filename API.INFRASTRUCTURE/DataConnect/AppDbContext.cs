@@ -36,7 +36,6 @@ namespace API.INFRASTRUCTURE.DataConnect
         }
         public DbSet<User> User { get; set; }
         //public virtual DbSet<UserRefreshTokens> UserRefreshToken { get; set; }
-        //public virtual DbSet<UserRefreshTokens> UserRefreshToken { get; set; }
 
     }
 }

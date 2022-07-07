@@ -1,4 +1,5 @@
-﻿using API.INFRASTRUCTURE.DataConnect;
+﻿using API.HRM.DOMAIN;
+using API.INFRASTRUCTURE.DataConnect;
 using BaseCommon.Common.EnCrypt;
 using BaseCommon.Common.MethodResult;
 using MediatR;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static BaseCommon.Enums.ErrorCodesEnum;
 
 namespace API.APPLICATION.Commands.User
 {
@@ -27,12 +29,12 @@ namespace API.APPLICATION.Commands.User
             string errorMessage = "";
             if (editEntity == null || editEntity.id < 0)
             {
-                //methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB01), new[]
-                //    {
-                //        ErrorHelpers.GenerateErrorResult(nameof(User), null)
-                //    });
+                methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB02), new[]
+                    {
+                        ErrorHelpers.GenerateErrorResult(nameof(User), null)
+                    });
                 //throw new CommandHandlerException(methodResult.ErrorMessages);
-                return null;
+                return methodResult;
 
             }
             editEntity.SetPassWord(CommonBase.ToMD5(request.Password));
