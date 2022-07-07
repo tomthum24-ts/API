@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.HRM.DOMAIN
 {
-    public class User
+    public class User : APIEntity
     {
         #region Fields
-        [Key]
-        private int _id;
+       
+     
         private string _userName;
         private string _password;
         private string _name;
@@ -37,7 +37,7 @@ namespace API.HRM.DOMAIN
         #endregion Constructors
 
         #region Properties
-        public int id { get => _id; }
+     
         public string UserName { get => _userName; }
         public string PassWord { get => _password; }
         public string Name { get => _name; }
@@ -48,7 +48,7 @@ namespace API.HRM.DOMAIN
         #endregion Properties
 
         #region Behaviours
-        public void SetId(int id) { _id = id; }
+    
         public void SetUserName(string userName) { _userName = userName; }
         public void SetPassWord(string passWord) { _password = passWord; }
         public void SetName(string name) => _name = name;

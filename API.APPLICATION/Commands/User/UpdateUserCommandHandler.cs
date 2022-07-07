@@ -24,7 +24,7 @@ namespace API.APPLICATION.Commands.User
         {
             var methodResult = new MethodResult<UpdateUserCommandResponse>();
             var editEntity = await _db.User.FindAsync(request.id);
-            if (editEntity == null || editEntity.id < 0)
+            if (editEntity == null || editEntity.Id < 0)
             {
                 //_client.
                 ////HttpRequestMessage mess = new HttpRequestMessage();

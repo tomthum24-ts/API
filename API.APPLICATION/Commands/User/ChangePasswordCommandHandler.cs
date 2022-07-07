@@ -25,7 +25,7 @@ namespace API.APPLICATION.Commands.User
             var methodResult = new MethodResult<ChangePasswordCommandResponse>();
             var editEntity = await _db.User.FindAsync(request.id);
             string errorMessage = "";
-            if (editEntity == null || editEntity.id < 0)
+            if (editEntity == null || editEntity.Id < 0)
             {
                 //methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB01), new[]
                 //    {
