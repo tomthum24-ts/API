@@ -44,7 +44,6 @@ namespace API.APPLICATION
                  request.Phone,
                  request.Status
                 );
-
             await _db.User.AddAsync(createUser, cancellationToken);
             await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             methodResult.Result = _mapper.Map<CreateUserCommandResponse>(createUser);
