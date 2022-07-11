@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -37,6 +37,10 @@
     <ProjectReference Include="..\API.APPLICATION\API.APPLICATION.csproj" />
     <ProjectReference Include="..\API.INFRASTRUCTURE\API.INFRASTRUCTURE.csproj" />
     <ProjectReference Include="..\BaseCommon\BaseCommon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>

@@ -33,7 +33,7 @@ namespace API.APPLICATION
             {
                 methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB01), new[]
                     {
-                        ErrorHelpers.GenerateErrorResult(nameof(User), null)
+                        ErrorHelpers.GenerateErrorResult(nameof(request.UserName), request.UserName)
                     });
                 return methodResult;
             }
