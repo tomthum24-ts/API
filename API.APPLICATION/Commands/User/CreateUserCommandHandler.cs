@@ -18,12 +18,13 @@ namespace API.APPLICATION
         private readonly AppDbContext _db;
         private readonly IMapper _mapper;
         private readonly IUserService _user;
-
-        public CreateUserCommandHandler(AppDbContext db, IMapper mapper, IUserService user)
+        private readonly UserRepository _userRepository;
+        public CreateUserCommandHandler(AppDbContext db, IMapper mapper, IUserService user, UserRepository userRepository)
         {
             _db = db;
             _mapper = mapper;
             _user = user;
+            _userRepository = userRepository;
         }
         public async Task<MethodResult<CreateUserCommandResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
@@ -44,8 +45,9 @@ namespace API.APPLICATION
                  request.Phone,
                  request.Status
                 );
-            await _db.User.AddAsync(createUser, cancellationToken);
-            await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            _userRepository.Add(createUser);
+            //await _db.User.AddAsync(createUser, cancellationToken);
+            //await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             methodResult.Result = _mapper.Map<CreateUserCommandResponse>(createUser);
             return methodResult;
         }

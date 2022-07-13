@@ -5,5 +5,6 @@ namespace API.INFRASTRUCTURE
 {
     public interface IUserRepository : IRepositoryBase<User>
     {
+
     }
 }

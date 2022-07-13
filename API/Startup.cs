@@ -2,6 +2,7 @@ using API.APPLICATION.Commands.User;
 using API.APPLICATION.Queries.Media;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
+using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.User;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,6 +40,7 @@ namespace API
         {
             services.AddDbContext<AppDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
             services.AddCors();
+            services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

@@ -1,6 +1,6 @@
 ﻿using API.HRM.DOMAIN;
 using API.INFRASTRUCTURE.DataConnect;
-using API.INFRASTRUCTURE.Repositories.User;
+using API.INFRASTRUCTURE.Repositories;
 
 namespace API.INFRASTRUCTURE
 {
