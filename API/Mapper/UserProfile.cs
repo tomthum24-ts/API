@@ -12,11 +12,18 @@ namespace API.Mapper
     {
         public UserProfile()
         {
-            //CreateMap<UserViewModel, UserDTO>();
-            CreateMap<CreateUserCommand, CreateUserCommandResponse> ();
+            //CreateMap<CreateUserCommand, CreateUserCommandResponse> ();
+            #region User
             CreateMap<User, CreateUserCommandResponse>();
-            CreateMap<UpdateUserCommand, UpdateUserCommandResponse>();
+            CreateMap<User, ChangePasswordCommandResponse>();
+            CreateMap<User, DeleteUserCommandResponse>();
+            CreateMap<User, UpdateUserCommandResponse>();
             CreateMap<UserRequestViewModel, UserFilterParam>();
+            #endregion
+            //CreateMap<UpdateUserCommand, UpdateUserCommandResponse>();
+           
+            
+
         }
     }
 }

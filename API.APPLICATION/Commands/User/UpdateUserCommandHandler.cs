@@ -8,40 +8,57 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNetCore.Http.Extensions;
+using API.HRM.DOMAIN;
+using static BaseCommon.Enums.ErrorCodesEnum;
+using API.INFRASTRUCTURE;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using API.INFRASTRUCTURE.Interface.UnitOfWork;
 
 namespace API.APPLICATION.Commands.User
 {
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, MethodResult<UpdateUserCommandResponse>>
     {
-        private readonly AppDbContext _db;
-        private readonly HttpClient _client;
+   
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateUserCommandHandler(AppDbContext db)
+        public UpdateUserCommandHandler(IUserRepository userRepository, IMapper mapper, IUnitOfWork unitOfWork)
         {
-            _db = db;
+            _userRepository = userRepository;
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
         public async Task<MethodResult<UpdateUserCommandResponse>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<UpdateUserCommandResponse>();
-            var editEntity = await _db.User.FindAsync(request.id);
+            var editEntity = await _userRepository.Get(x => x.Id == request.id).FirstOrDefaultAsync(cancellationToken);
             if (editEntity == null || editEntity.Id < 0)
             {
-                //_client.
-                ////HttpRequestMessage mess = new HttpRequestMessage();
-                ////var message = String.Format("your id: {0} was not found", request.id);
-                ////var errorResponse = mess.CreateErrorResponse(HttpStatusCode.NotFound, message);
-                //HttpResponseMessage errorResponse = new HttpResponseMessage(HttpStatusCode.NotFound);
-                //throw new HttpResponseException(errorResponse, );
-
-                return null;
+                methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB02), new[]
+                    {
+                        ErrorHelpers.GenerateErrorResult(nameof(User), request.id)
+                    });
+                return methodResult;
+            }
+            bool existingUser = await _userRepository.Get(x => x.UserName == request.UserName).AnyAsync(cancellationToken);
+            if (existingUser)
+            {
+                methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB01), new[]
+                    {
+                        ErrorHelpers.GenerateErrorResult(nameof(request.UserName), request.UserName)
+                    });
+                return methodResult;
             }
             editEntity.SetName(request.Name);
             editEntity.SetUserName(request.UserName);
             editEntity.SetAddress(request.Address);
             editEntity.SetPhone(request.Phone);
             editEntity.SetStatus(request.Status);
-            _db.User.Update(editEntity);
-            await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false); ;
+            _userRepository.Update(editEntity);
+            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            methodResult.Result = _mapper.Map<UpdateUserCommandResponse>(editEntity);
             return methodResult;
         }
     }

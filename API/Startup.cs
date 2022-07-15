@@ -2,7 +2,9 @@ using API.APPLICATION.Commands.User;
 using API.APPLICATION.Queries.Media;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
+using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories;
+using API.INFRASTRUCTURE.Repositories.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories.User;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -28,6 +30,7 @@ namespace API
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -39,8 +42,8 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
-            services.AddCors();
-            services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+            //services.AddCors();
+            //services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -52,6 +55,8 @@ namespace API
             services.AddScoped<IMediaService, MediaService>();
             services.AddHttpClient();
             services.AddSingleton<DapperContext>();
+            services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -81,8 +86,6 @@ namespace API
                     }
                 };
             });
-
-            services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
             services.AddSwaggerGen(options =>
             {
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -98,8 +101,14 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
-
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                      policy.WithOrigins("http://localhost:4200/");
+                                  });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -137,9 +146,9 @@ namespace API
                 //    });
                 //});
             }
-            app.UseSwagger();
-            app.UseHttpsRedirection();
+            app.UseSwagger();      
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthentication(); 	
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
@@ -147,12 +156,14 @@ namespace API
                 endpoints.MapControllers();
             });
             //PrepDb.PrepPopulation(app);
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            //app.UseCors(x => x
+            //    .AllowAnyOrigin()
+            //    .AllowAnyMethod()
+            //    .AllowAnyHeader());
+            app.UseHttpsRedirection();
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
+            
         }
     }
 }

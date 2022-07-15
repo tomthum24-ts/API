@@ -2,6 +2,7 @@
 using API.HRM.DOMAIN;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
+using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
@@ -15,22 +16,22 @@ namespace API.APPLICATION
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, MethodResult<CreateUserCommandResponse>>
     {
-        private readonly AppDbContext _db;
         private readonly IMapper _mapper;
         private readonly IUserService _user;
-        private readonly UserRepository _userRepository;
-        public CreateUserCommandHandler(AppDbContext db, IMapper mapper, IUserService user, UserRepository userRepository)
+        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        public CreateUserCommandHandler( IMapper mapper, IUserService user, IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
-            _db = db;
             _mapper = mapper;
             _user = user;
             _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
         public async Task<MethodResult<CreateUserCommandResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<CreateUserCommandResponse>();
-            var existingUser = await _db.User.Where(x => request.UserName.Contains(x.UserName)).ToListAsync(cancellationToken);
-            if (existingUser.Count>0)
+            bool existingUser =await _userRepository.Get(x=>x.UserName==request.UserName).AnyAsync(cancellationToken);
+            if (existingUser)
             {
                 methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB01), new[]
                     {
@@ -46,8 +47,7 @@ namespace API.APPLICATION
                  request.Status
                 );
             _userRepository.Add(createUser);
-            //await _db.User.AddAsync(createUser, cancellationToken);
-            //await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             methodResult.Result = _mapper.Map<CreateUserCommandResponse>(createUser);
             return methodResult;
         }

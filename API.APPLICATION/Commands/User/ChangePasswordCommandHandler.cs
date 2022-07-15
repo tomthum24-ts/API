@@ -1,8 +1,12 @@
 ﻿using API.HRM.DOMAIN;
+using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
+using API.INFRASTRUCTURE.Interface.UnitOfWork;
+using AutoMapper;
 using BaseCommon.Common.EnCrypt;
 using BaseCommon.Common.MethodResult;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,34 +19,49 @@ namespace API.APPLICATION.Commands.User
 {
     public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, MethodResult<ChangePasswordCommandResponse>>
     {
-        private readonly AppDbContext _db;
+        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public ChangePasswordCommandHandler(AppDbContext db)
+        public ChangePasswordCommandHandler( IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _db = db;
+            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<MethodResult<ChangePasswordCommandResponse>> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<ChangePasswordCommandResponse>();
-            var editEntity = await _db.User.FindAsync(request.id);
+            var editEntity = await _userRepository.Get(x=>x.Id==request.id).FirstOrDefaultAsync(cancellationToken);
+            bool item = await _userRepository.Get(x => x.Id == request.id).AnyAsync(cancellationToken);
             string errorMessage = "";
-            if (editEntity == null || editEntity.Id < 0)
+            
+            if (!item)
             {
                 methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB02), new[]
                     {
-                        ErrorHelpers.GenerateErrorResult(nameof(User), null)
+                        ErrorHelpers.GenerateErrorResult(nameof(User), request.id),
+                        errorMessage
                     });
-                //throw new CommandHandlerException(methodResult.ErrorMessages);
+                return methodResult;
+
+            }
+            bool strongPass = CommonBase.IsStrongPassword(request.Password, out errorMessage);
+            if (!strongPass)
+            {
+                methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB03), new[]
+                    {
+                        ErrorHelpers.GenerateErrorResult(nameof(User), request.id),
+                        errorMessage
+                    });
                 return methodResult;
 
             }
             editEntity.SetPassWord(CommonBase.ToMD5(request.Password));
-
-            var a = CommonBase.IsStrongPassword(request.Password, out errorMessage);
-
-            _db.User.Update(editEntity);
-            await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false); ;
+            _userRepository.Update(editEntity);
+            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false); ;
+            //methodResult.Result = _mapper.Map<ChangePasswordCommandResponse>(editEntity);
             return methodResult;
         }
     }

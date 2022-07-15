@@ -11,11 +11,14 @@ namespace BaseCommon.Enums
     {
         public enum EBaseErrorCode
         {
-            
+            [Description("Dữ liệu đã tồn tại trong hệ thống")]
             EB01,
 
             [Description("Không tìm thấy dữ liệu cập nhật")]
-            EB02
+            EB02,
+            [Description("Mật khẩu yếu")]
+            EB03
+
         }
     }
 }

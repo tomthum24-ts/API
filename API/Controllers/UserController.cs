@@ -12,6 +12,7 @@ using API.INFRASTRUCTURE;
 using API.APPLICATION.ViewModels.User;
 using BaseCommon.Common.Response;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace API.Controllers
 {
@@ -63,9 +64,9 @@ namespace API.Controllers
         [HttpPost]
         [Route(GetById)]
         
-        public async Task<ActionResult> GetUserByIdAsync(GetUserByIdParam param)
+        public async Task<ActionResult> GetUserByIdAsync(GetUserByIdParam param, CancellationToken cancellationToken)
         {
-            var query = await _iUserQueries.GetInfoUserByID(param.id).ConfigureAwait(false);
+            var query = await _iUserQueries.GetInfoUserByID(param.id,cancellationToken).ConfigureAwait(false);
             //methodResult.Result = _mapper.Map<UserViewModel>(query);
             return Ok(query);
         }
@@ -138,7 +139,7 @@ namespace API.Controllers
         [Route(ChangePassword)]
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordCommand command)
         {
-               var result = await _mediator.Send(command).ConfigureAwait(false);
+            var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);
         }
 

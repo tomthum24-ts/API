@@ -5,6 +5,7 @@ using BaseCommon.Common.Response;
 using Dapper;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace API.INFRASTRUCTURE
@@ -13,7 +14,7 @@ namespace API.INFRASTRUCTURE
     {
 
         Task<IEnumerable<UserDTO>> GetAllUser();
-        Task<UserDTO> GetInfoUserByID(int id);
+        Task<UserDTO> GetInfoUserByID(int id, CancellationToken cancellationToken);
         Task<PagingItems<UserDTO>> GetAllUserPaging(UserFilterParam param);
     }
 
@@ -52,7 +53,7 @@ namespace API.INFRASTRUCTURE
             result.PagingInfo.TotalItems = await rs.ReadSingleAsync<int>().ConfigureAwait(false);
             return result;
         }
-        public async Task<UserDTO> GetInfoUserByID(int id)
+        public async Task<UserDTO> GetInfoUserByID(int id, CancellationToken cancellationToken)
         {
             var conn = _context.CreateConnection();
             using var rs = await conn.QueryMultipleAsync("GetUserByID", new { IDUser = id }, commandType: CommandType.StoredProcedure);
