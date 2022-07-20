@@ -1,19 +1,15 @@
 ﻿using API.HRM.DOMAIN;
 using API.INFRASTRUCTURE;
-using API.INFRASTRUCTURE.DataConnect;
 using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using AutoMapper;
 using BaseCommon.Common.EnCrypt;
 using BaseCommon.Common.MethodResult;
+using BaseCommon.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static BaseCommon.Enums.ErrorCodesEnum;
+
 
 namespace API.APPLICATION.Commands.User
 {
@@ -39,7 +35,7 @@ namespace API.APPLICATION.Commands.User
             
             if (!item)
             {
-                methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB02), new[]
+                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB02), new[]
                     {
                         ErrorHelpers.GenerateErrorResult(nameof(User), request.id),
                         errorMessage
@@ -50,7 +46,7 @@ namespace API.APPLICATION.Commands.User
             bool strongPass = CommonBase.IsStrongPassword(request.Password, out errorMessage);
             if (!strongPass)
             {
-                methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB03), new[]
+                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB03), new[]
                     {
                         ErrorHelpers.GenerateErrorResult(nameof(User), request.id),
                         errorMessage

@@ -1,19 +1,13 @@
-﻿using API.INFRASTRUCTURE.DataConnect;
-using BaseCommon.Common.MethodResult;
+﻿using BaseCommon.Common.MethodResult;
 using MediatR;
-using System;
-using System.Net;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using API.HRM.DOMAIN;
-using static BaseCommon.Enums.ErrorCodesEnum;
 using API.INFRASTRUCTURE;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using API.INFRASTRUCTURE.Interface.UnitOfWork;
+using BaseCommon.Enums;
 
 namespace API.APPLICATION.Commands.User
 {
@@ -36,7 +30,7 @@ namespace API.APPLICATION.Commands.User
             var editEntity = await _userRepository.Get(x => x.Id == request.id).FirstOrDefaultAsync(cancellationToken);
             if (editEntity == null || editEntity.Id < 0)
             {
-                methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB02), new[]
+                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB02), new[]
                     {
                         ErrorHelpers.GenerateErrorResult(nameof(User), request.id)
                     });
@@ -45,7 +39,7 @@ namespace API.APPLICATION.Commands.User
             bool existingUser = await _userRepository.Get(x => x.UserName == request.UserName).AnyAsync(cancellationToken);
             if (existingUser)
             {
-                methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB01), new[]
+                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB01), new[]
                     {
                         ErrorHelpers.GenerateErrorResult(nameof(request.UserName), request.UserName)
                     });

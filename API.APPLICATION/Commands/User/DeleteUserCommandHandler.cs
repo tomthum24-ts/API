@@ -5,6 +5,7 @@ using API.INFRASTRUCTURE.DataConnect;
 using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
+using BaseCommon.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,7 +14,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static BaseCommon.Enums.ErrorCodesEnum;
 
 namespace API.APPLICATION
 {
@@ -36,7 +36,7 @@ namespace API.APPLICATION
             var existingUser = await _userRepository.Get(x => request.Ids.Contains(x.Id)).ToListAsync(cancellationToken).ConfigureAwait(false);
             if (existingUser == null)
             {
-                methodResult.AddAPIErrorMessage(nameof(EBaseErrorCode.EB01), new[]
+                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB01), new[]
                     {
                         ErrorHelpers.GenerateErrorResult(nameof(User), request.Ids)
                     });

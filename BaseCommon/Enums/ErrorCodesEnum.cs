@@ -7,18 +7,17 @@ using System.Threading.Tasks;
 
 namespace BaseCommon.Enums
 {
-    public class ErrorCodesEnum
+
+    public enum EErrorCode
     {
-        public enum EBaseErrorCode
-        {
-            [Description("Dữ liệu đã tồn tại trong hệ thống")]
-            EB01,
+        [Description("Dữ liệu đã tồn tại trong hệ thống")]
+        EB01,
 
-            [Description("Không tìm thấy dữ liệu cập nhật")]
-            EB02,
-            [Description("Mật khẩu yếu")]
-            EB03
+        [Description("Không tìm thấy dữ liệu cập nhật")]
+        EB02,
+        [Description("Mật khẩu yếu")]
+        EB03
 
-        }
     }
+
 }

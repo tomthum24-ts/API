@@ -1,6 +1,8 @@
 ﻿using API.HRM.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE.DataConnect;
 using BaseCommon.Common.EnCrypt;
+using BaseCommon.Common.Enum;
+using BaseCommon.Model;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -19,43 +21,43 @@ namespace API.INFRASTRUCTURE.Repositories.User
 	public class JWTManagerRepository : IJWTManagerRepository
 	{
 
-		private readonly IConfiguration iconfiguration;
+		private readonly IConfiguration _iconfiguration;
 
-		public readonly DapperContext _context;
-		public JWTManagerRepository(IConfiguration iconfiguration, DapperContext context)
+		private readonly DapperContext _context;
+        public JWTManagerRepository(IConfiguration iconfiguration, DapperContext context)
+        {
+            _iconfiguration = iconfiguration;
+            _context = context;
+        }
+        public Tokens GenerateJWTTokens(Users users)
 		{
-			this.iconfiguration = iconfiguration;
-			_context = context;
-		}
-		public Tokens GenerateJWTTokens(Users users)
-		{
-			var user = GetAll().Result;
-			if (!user.Any(x => x.UserName == users.Name && x.PassWord == CommonBase.ToMD5(users.Password)))
+			var user = GetAll(users).Result.FirstOrDefault(x => x.UserName == users.UserName && x.PassWord == CommonBase.ToMD5(users.Password));
+			if (user == null)
 			{
 				return null;
 			}
-
 			// Else we generate JSON Web Token
 			var tokenHandler = new JwtSecurityTokenHandler();
-			var tokenKey = Encoding.UTF8.GetBytes(iconfiguration["JWT:Key"]);
+			var tokenKey = Encoding.UTF8.GetBytes(_iconfiguration["JWT:Key"]);
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{
 				Subject = new ClaimsIdentity(new Claim[]
 			  {
-			 new Claim(ClaimTypes.Name, users.Name)
+				 new Claim(AuthorSetting.UserName, user.UserName),
+				 new Claim(AuthorSetting.ID, user.ID.ToString()),
 			  }),
-				Expires = DateTime.UtcNow.AddMinutes(double.Parse(iconfiguration["JWT:Time"])),
+				Expires = DateTime.UtcNow.AddMinutes(double.Parse(_iconfiguration["JWT:Time"])),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature),
-
+				
 			};
 			var token = tokenHandler.CreateToken(tokenDescriptor);
 			return new Tokens { Token = tokenHandler.WriteToken(token) };
 
 		}
-		public async Task<IEnumerable<UserDTO>> GetAll()
+		public async Task<IEnumerable<UserDTO>> GetAll(Users users)
 		{
 			var conn = _context.CreateConnection();
-			using var rs = await conn.QueryMultipleAsync("GetAllUser", new { }, commandType: CommandType.StoredProcedure);
+			using var rs = await conn.QueryMultipleAsync("GetAllUser", new { users .UserName}, commandType: CommandType.StoredProcedure);
 			var result = await rs.ReadAsync<UserDTO>().ConfigureAwait(false);
 			return result;
 		}
@@ -79,7 +81,7 @@ namespace API.INFRASTRUCTURE.Repositories.User
 		}
 		public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
 		{
-			var Key = Encoding.UTF8.GetBytes(iconfiguration["JWT:Key"]);
+			var Key = Encoding.UTF8.GetBytes(_iconfiguration["JWT:Key"]);
 
 			var tokenValidationParameters = new TokenValidationParameters
 			{

@@ -7,6 +7,7 @@ using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories.User;
+using BaseCommon.Common.ClaimUser;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -55,6 +56,11 @@ namespace API
             //services.AddCors();
             //services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
+            services.AddSingleton<IGenDTORepoQueries, GenDTORepoQueries>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IMediaService, MediaService>();
+            //services.AddSingleton<IUserSessionInfo, UserSessionInfo>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMediatR(Assembly.GetExecutingAssembly());
@@ -62,12 +68,10 @@ namespace API
             services.AddMediatR(typeof(IUserService).Assembly);
             services.AddMediatR(typeof(CreateUserCommand).GetTypeInfo().Assembly);
 
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IMediaService, MediaService>();
+            
             services.AddHttpClient();
             services.AddSingleton<DapperContext>();
-            services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
-            services.AddSingleton<IGenDTORepoQueries, GenDTORepoQueries>();
+            
             services.AddTransient<IUnitOfWork, UnitOfWork>();
           
             services.AddAuthentication(x =>
