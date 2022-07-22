@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -60,7 +61,8 @@ namespace API
             services.AddSingleton<IGenDTORepoQueries, GenDTORepoQueries>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMediaService, MediaService>();
-            //services.AddSingleton<IUserSessionInfo, UserSessionInfo>();
+            services.AddScoped<IUserSessionInfo, UserSessionInfo>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMediatR(Assembly.GetExecutingAssembly());

@@ -1,4 +1,4 @@
-﻿
+﻿using BaseCommon.Common.Enum;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
@@ -10,11 +10,12 @@ namespace BaseCommon.Common.ClaimUser
         private readonly Claim _userIdClaim;
         private readonly Claim _name;
         private readonly Claim _userName;
+
         public UserSessionInfo(IHttpContextAccessor httpContextAccessor)
         {
-            //_userIdClaim = httpContextAccessor.HttpContext?.User.FindFirst("ID");
-            //_name = httpContextAccessor.HttpContext?.User.FindFirst(AuthorSetting.Name);
-            //_userName = httpContextAccessor.HttpContext?.User.FindFirst(AuthorSetting.UserName);
+            _userIdClaim = httpContextAccessor.HttpContext?.User.FindFirst(AuthorSetting.ID);
+            _name = httpContextAccessor.HttpContext?.User.FindFirst(AuthorSetting.Name);
+            _userName = httpContextAccessor.HttpContext?.User.FindFirst(AuthorSetting.UserName);
         }
 
         public int? ID => !string.IsNullOrWhiteSpace(_userIdClaim?.Value) ? int.Parse(_userIdClaim?.Value) : null;
