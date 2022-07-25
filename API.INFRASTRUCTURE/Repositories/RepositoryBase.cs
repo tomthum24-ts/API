@@ -32,17 +32,65 @@ namespace API.INFRASTRUCTURE.Repositories
             }
         }
 
-        public IQueryable<T> FindAll() => _db.Set<T>().AsNoTracking();
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression) =>
-            _db.Set<T>().Where(expression).AsNoTracking();
+       
+        #region AddItem
         public void Add(T entity) => _db.Set<T>().Add(entity);
+        public void AddRange(IEnumerable<T> entities)
+        {
+            _db.Set<T>().AddRange(entities);
+        }
+        #endregion
+
+        #region UpdateItem
         public void Update(T entity) => _db.Set<T>().Update(entity);
-        public void Delete(T entity) => _db.Set<T>().Remove(entity);
         public void UpdateRange(IEnumerable<T> entities) => _db.Set<T>().UpdateRange(entities);
-        public virtual IQueryable<T> Get(Expression<Func<T, bool>> predicate = null,
-            bool isIncludeDeleted = false,
-            bool isTracking = false,
-            params Expression<Func<T, object>>[] includeProperties)
+        #endregion
+
+        #region DeleteItem
+        public void Delete(T entity, bool isPhysicalDelete = false)
+        {
+            Delete(entity, isPhysicalDelete);
+        }
+        public void DeleteRange(IEnumerable<T> entities, bool isPhysicalDelete = false)
+        {
+            foreach (var entity in entities)
+            {
+                Remove(entity, isPhysicalDelete);
+            }
+        }
+        public virtual void Remove(T entity, bool isPhysicalDelete = false)
+        {
+            try
+            {
+                TryAttach(entity);
+
+                if (!isPhysicalDelete)
+                {
+                    entity.IsDelete = true;
+
+                    _db.Entry(entity).Property(x => x.DeletionDate).IsModified = true;
+
+                    _db.Entry(entity).Property(x => x.IsDelete).IsModified = true;
+                }
+                else
+                {
+                    DbSet.Remove(entity);
+                }
+            }
+            catch (Exception)
+            {
+                RefreshEntity(entity);
+
+                throw;
+            }
+        }
+        #endregion
+
+        #region ReadItem
+        public IQueryable<T> FindAll() => _db.Set<T>().AsNoTracking();
+        public IQueryable<T> FindById(Expression<Func<T, bool>> expression) =>
+            _db.Set<T>().Where(expression).AsNoTracking();
+        public virtual IQueryable<T> Get(Expression<Func<T, bool>> predicate = null,bool isIncludeDeleted = false,bool isTracking = false,params Expression<Func<T, object>>[] includeProperties)
         {
             var query = DbSet.AsQueryable();
 
@@ -69,14 +117,21 @@ namespace API.INFRASTRUCTURE.Repositories
 
             return query;
         }
-        public void AddRange(IEnumerable<T> entities)
+
+        #endregion
+
+        protected void TryAttach(T entity)
         {
-            _db.Set<T>().AddRange(entities);
+            if (_db.Entry(entity).State == EntityState.Detached)
+            {
+                DbSet.Attach(entity);
+            }
         }
-        public void RemoveRange(IEnumerable<T> entities)
+        public  void RefreshEntity(T entity)
         {
-            _db.Set<T>().RemoveRange(entities);
+            _db.Entry(entity).Reload();
         }
+
 
     }
 }

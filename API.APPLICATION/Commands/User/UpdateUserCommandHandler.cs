@@ -36,7 +36,7 @@ namespace API.APPLICATION.Commands.User
                     });
                 return methodResult;
             }
-            bool existingUser = await _userRepository.Get(x => x.UserName == request.UserName).AnyAsync(cancellationToken);
+            bool existingUser = await _userRepository.Get(x => x.UserName == request.UserName && x.Id != request.id).AnyAsync(cancellationToken);
             if (existingUser)
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB01), new[]

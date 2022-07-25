@@ -8,10 +8,6 @@ using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,17 +30,17 @@ namespace API.APPLICATION
         {
             var methodResult = new MethodResult<DeleteUserCommandResponse>();
             var existingUser = await _userRepository.Get(x => request.Ids.Contains(x.Id)).ToListAsync(cancellationToken).ConfigureAwait(false);
-            if (existingUser == null)
+            if (existingUser == null || existingUser.Count == 0)
             {
-                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB01), new[]
+                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB02), new[]
                     {
                         ErrorHelpers.GenerateErrorResult(nameof(User), request.Ids)
                     });
                 return methodResult;
             }
-            _userRepository.RemoveRange(existingUser);
+            _userRepository.DeleteRange(existingUser);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            methodResult.Result = _mapper.Map<DeleteUserCommandResponse>(existingUser);
+            //methodResult.Result = _mapper.Map<DeleteUserCommandResponse>(existingUser);
             return methodResult;
         }
     }

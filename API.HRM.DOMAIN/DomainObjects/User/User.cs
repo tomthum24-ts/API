@@ -6,8 +6,6 @@ namespace API.HRM.DOMAIN
     public class User : APIEntity
     {
         #region Fields
-       
-     
         private string _userName;
         private string _password;
         private string _name;

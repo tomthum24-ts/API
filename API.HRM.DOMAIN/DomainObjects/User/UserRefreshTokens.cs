@@ -20,7 +20,6 @@ namespace API.HRM.DOMAIN.DomainObjects.User
         private DateTime? _modifiedDate;
         private string _modifiedBy;
 
-
         #endregion Fields
 
         #region Constructors
