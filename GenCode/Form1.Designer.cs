@@ -44,6 +44,8 @@
             this.RdQueries = new System.Windows.Forms.RadioButton();
             this.RdViewModels = new System.Windows.Forms.RadioButton();
             this.RdController = new System.Windows.Forms.RadioButton();
+            this.TxtConnectString = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -113,7 +115,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(583, 239);
+            this.button1.Location = new System.Drawing.Point(583, 297);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(171, 36);
             this.button1.TabIndex = 8;
@@ -123,7 +125,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(403, 239);
+            this.button2.Location = new System.Drawing.Point(403, 297);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(163, 36);
             this.button2.TabIndex = 9;
@@ -133,16 +135,16 @@
             // 
             // TxtOutput
             // 
-            this.TxtOutput.Location = new System.Drawing.Point(42, 308);
+            this.TxtOutput.Location = new System.Drawing.Point(42, 352);
             this.TxtOutput.Multiline = true;
             this.TxtOutput.Name = "TxtOutput";
-            this.TxtOutput.Size = new System.Drawing.Size(712, 292);
+            this.TxtOutput.Size = new System.Drawing.Size(712, 248);
             this.TxtOutput.TabIndex = 10;
             // 
             // RdEFConfigs
             // 
             this.RdEFConfigs.AutoSize = true;
-            this.RdEFConfigs.Location = new System.Drawing.Point(52, 209);
+            this.RdEFConfigs.Location = new System.Drawing.Point(52, 267);
             this.RdEFConfigs.Name = "RdEFConfigs";
             this.RdEFConfigs.Size = new System.Drawing.Size(95, 24);
             this.RdEFConfigs.TabIndex = 12;
@@ -153,7 +155,7 @@
             // RdMapper
             // 
             this.RdMapper.AutoSize = true;
-            this.RdMapper.Location = new System.Drawing.Point(168, 209);
+            this.RdMapper.Location = new System.Drawing.Point(168, 267);
             this.RdMapper.Name = "RdMapper";
             this.RdMapper.Size = new System.Drawing.Size(82, 24);
             this.RdMapper.TabIndex = 13;
@@ -164,7 +166,7 @@
             // RdQueries
             // 
             this.RdQueries.AutoSize = true;
-            this.RdQueries.Location = new System.Drawing.Point(281, 209);
+            this.RdQueries.Location = new System.Drawing.Point(281, 267);
             this.RdQueries.Name = "RdQueries";
             this.RdQueries.Size = new System.Drawing.Size(80, 24);
             this.RdQueries.TabIndex = 14;
@@ -175,7 +177,7 @@
             // RdViewModels
             // 
             this.RdViewModels.AutoSize = true;
-            this.RdViewModels.Location = new System.Drawing.Point(403, 209);
+            this.RdViewModels.Location = new System.Drawing.Point(403, 267);
             this.RdViewModels.Name = "RdViewModels";
             this.RdViewModels.Size = new System.Drawing.Size(111, 24);
             this.RdViewModels.TabIndex = 15;
@@ -186,7 +188,7 @@
             // RdController
             // 
             this.RdController.AutoSize = true;
-            this.RdController.Location = new System.Drawing.Point(553, 209);
+            this.RdController.Location = new System.Drawing.Point(553, 267);
             this.RdController.Name = "RdController";
             this.RdController.Size = new System.Drawing.Size(96, 24);
             this.RdController.TabIndex = 17;
@@ -194,11 +196,31 @@
             this.RdController.Text = "Controller";
             this.RdController.UseVisualStyleBackColor = true;
             // 
+            // TxtConnectString
+            // 
+            this.TxtConnectString.Location = new System.Drawing.Point(145, 203);
+            this.TxtConnectString.Name = "TxtConnectString";
+            this.TxtConnectString.Size = new System.Drawing.Size(602, 27);
+            this.TxtConnectString.TabIndex = 18;
+            this.TxtConnectString.Text = "server=210.245.90.227;database=OnlineShop;uid=sonson;password=@Son@123456;Multipl" +
+    "eActiveResultSets=True;TrustServerCertificate=True";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(37, 203);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(102, 20);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "ConnectString";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(798, 623);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.TxtConnectString);
             this.Controls.Add(this.RdController);
             this.Controls.Add(this.RdViewModels);
             this.Controls.Add(this.RdQueries);
@@ -240,5 +262,7 @@
         private System.Windows.Forms.RadioButton RdQueries;
         private System.Windows.Forms.RadioButton RdViewModels;
         private System.Windows.Forms.RadioButton RdController;
+        private System.Windows.Forms.TextBox TxtConnectString;
+        private System.Windows.Forms.Label label5;
     }
 }

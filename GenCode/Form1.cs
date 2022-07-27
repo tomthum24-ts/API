@@ -39,7 +39,7 @@ namespace GenCode
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string value = "server=210.245.90.227;database=OnlineShop;uid=sonson;password=@Son@123456;MultipleActiveResultSets=True;TrustServerCertificate=True";
+            string value = TxtConnectString.Text;
 
             DataAccess context = new DataAccess(value);
 

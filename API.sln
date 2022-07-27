@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.APPLICATION", "API.APPL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseCommon", "BaseCommon\BaseCommon.csproj", "{3140A799-C1CD-497C-8C27-EE695AD11DA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenCode", "GenCode\GenCode.csproj", "{1B0A6376-9167-4AB2-B815-127F4963FDFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenCode", "GenCode\GenCode.csproj", "{3F532E53-C931-4A14-90FC-157149584061}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{3140A799-C1CD-497C-8C27-EE695AD11DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3140A799-C1CD-497C-8C27-EE695AD11DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3140A799-C1CD-497C-8C27-EE695AD11DA4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1B0A6376-9167-4AB2-B815-127F4963FDFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B0A6376-9167-4AB2-B815-127F4963FDFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B0A6376-9167-4AB2-B815-127F4963FDFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1B0A6376-9167-4AB2-B815-127F4963FDFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F532E53-C931-4A14-90FC-157149584061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F532E53-C931-4A14-90FC-157149584061}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F532E53-C931-4A14-90FC-157149584061}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F532E53-C931-4A14-90FC-157149584061}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
