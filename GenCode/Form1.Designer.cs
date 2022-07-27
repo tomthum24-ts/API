@@ -202,8 +202,6 @@
             this.TxtConnectString.Name = "TxtConnectString";
             this.TxtConnectString.Size = new System.Drawing.Size(602, 27);
             this.TxtConnectString.TabIndex = 18;
-            this.TxtConnectString.Text = "server=210.245.90.227;database=OnlineShop;uid=sonson;password=@Son@123456;Multipl" +
-    "eActiveResultSets=True;TrustServerCertificate=True";
             // 
             // label5
             // 
