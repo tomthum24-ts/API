@@ -10,5 +10,7 @@ namespace API.HRM.DOMAIN.DTOs.User
     {
         public string Token { get; set; }
         public string RefreshToken { get; set; }
+        public DateTime? ExpiresIn { get; set; }
+
     }
 }

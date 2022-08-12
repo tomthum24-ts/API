@@ -39,28 +39,6 @@ namespace API.Controllers
             _mediator = mediator;
             _jWTManager = jWTManager;
         }
-        /// <summary>
-        /// Get token - (Author: son)
-        /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpPost]
-        [Route(Login)]
-        public IActionResult Authenticate(Users usersdata)
-        {
-            var token = _jWTManager.GenerateJWTTokens(usersdata);
-            if (token == null)
-            {
-                return Unauthorized();
-            }
-            return Ok(token);
-        }
-        /// <summary>
-        /// Get info user - (Author: son)
-        /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
         [HttpPost]
         [Route(GetById)]
         

@@ -1,14 +1,12 @@
 ﻿using API.HRM.DOMAIN.DTOs.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using BaseCommon.Common.MethodResult;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace API.INFRASTRUCTURE
 {
     public interface IJWTManagerRepository
     {
-        Tokens GenerateJWTTokens(Users users);
+        Task<Tokens> GenerateJWTTokens(Users users, CancellationToken cancellationToken);
     }
 }

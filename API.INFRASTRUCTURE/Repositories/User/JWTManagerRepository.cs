@@ -4,6 +4,7 @@ using BaseCommon.Common.EnCrypt;
 using BaseCommon.Common.Enum;
 using BaseCommon.Model;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -14,6 +15,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace API.INFRASTRUCTURE.Repositories.User
@@ -22,20 +24,17 @@ namespace API.INFRASTRUCTURE.Repositories.User
 	{
 
 		private readonly IConfiguration _iconfiguration;
-
+		private readonly IUserRepository _userRepository;
 		private readonly DapperContext _context;
-        public JWTManagerRepository(IConfiguration iconfiguration, DapperContext context)
+        public JWTManagerRepository(IConfiguration iconfiguration, DapperContext context, IUserRepository userRepository)
         {
             _iconfiguration = iconfiguration;
             _context = context;
+            _userRepository = userRepository;
         }
-        public Tokens GenerateJWTTokens(Users users)
+        public async Task<Tokens> GenerateJWTTokens(Users users, CancellationToken cancellationToken)
 		{
-			var user = GetAll(users).Result.FirstOrDefault(x => x.UserName == users.UserName && x.PassWord == CommonBase.ToMD5(users.Password));
-			if (user == null)
-			{
-				return null;
-			}
+			var user= await _userRepository.Get(x => x.UserName == users.UserName && x.PassWord == CommonBase.ToMD5(users.Password)).FirstOrDefaultAsync(cancellationToken);
 			// Else we generate JSON Web Token
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var tokenKey = Encoding.UTF8.GetBytes(_iconfiguration["JWT:Key"]);
@@ -43,15 +42,15 @@ namespace API.INFRASTRUCTURE.Repositories.User
 			{
 				Subject = new ClaimsIdentity(new Claim[]
 			  {
-				 new Claim(AuthorSetting.UserName, user.UserName),
-				 new Claim(AuthorSetting.ID, user.ID.ToString()),
+				 new Claim(AuthorSetting.UserName, users.UserName),
+				 new Claim(AuthorSetting.ID, user.Id.ToString()),
 			  }),
-				Expires = DateTime.UtcNow.AddMinutes(double.Parse(_iconfiguration["JWT:Time"])),
+				Expires = DateTime.UtcNow.AddMinutes(int.Parse(_iconfiguration["JWT:Time"])),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature),
 				
 			};
 			var token = tokenHandler.CreateToken(tokenDescriptor);
-			return new Tokens { Token = tokenHandler.WriteToken(token) };
+			return new Tokens { Token = tokenHandler.WriteToken(token), ExpiresIn= tokenDescriptor.Expires };
 
 		}
 		public async Task<IEnumerable<UserDTO>> GetAll(Users users)
@@ -61,14 +60,14 @@ namespace API.INFRASTRUCTURE.Repositories.User
 			var result = await rs.ReadAsync<UserDTO>().ConfigureAwait(false);
 			return result;
 		}
-		public Tokens GenerateToken(Users userName)
+		public async Task<Tokens> GenerateToken(Users userName, CancellationToken cancellationToken)
 		{
-			return GenerateJWTTokens(userName);
+			return await  GenerateJWTTokens(userName, cancellationToken);
 		}
 
-		public Tokens GenerateRefreshToken(Users username)
+		public async Task<Tokens> GenerateRefreshToken(Users username, CancellationToken cancellationToken)
 		{
-			return GenerateJWTTokens(username);
+			return await GenerateJWTTokens(username, cancellationToken);
 		}
 		public string GenerateRefreshToken()
 		{

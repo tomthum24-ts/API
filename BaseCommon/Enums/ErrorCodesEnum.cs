@@ -13,7 +13,7 @@ namespace BaseCommon.Enums
         [Description("Dữ liệu đã tồn tại trong hệ thống")]
         EB01,
 
-        [Description("Không tìm thấy dữ liệu cập nhật")]
+        [Description("Không tìm thấy dữ liệu trong hệ thống")]
         EB02,
         [Description("Mật khẩu yếu")]
         EB03
