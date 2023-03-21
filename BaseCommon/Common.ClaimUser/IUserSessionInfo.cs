@@ -13,10 +13,12 @@ namespace BaseCommon.Common.ClaimUser
         /// It can be null if no user logged in.
         /// </summary>
         int? ID { get; }
-
-
         string Name { get; }
         string UserName { get; }
+        string LastName { get; }
+        string Email { get; }
+        int? Project { get; }
+
 
     }
 }

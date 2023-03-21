@@ -39,15 +39,6 @@ namespace API.Controllers
             _mediator = mediator;
             _jWTManager = jWTManager;
         }
-        [HttpPost]
-        [Route(GetById)]
-        
-        public async Task<ActionResult> GetUserByIdAsync(GetUserByIdParam param, CancellationToken cancellationToken)
-        {
-            var query = await _iUserQueries.GetInfoUserByID(param.id,cancellationToken).ConfigureAwait(false);
-            //methodResult.Result = _mapper.Map<UserViewModel>(query);
-            return Ok(query);
-        }
         /// <summary>
         /// Get info user - (Author: son)
         /// </summary>
@@ -58,7 +49,7 @@ namespace API.Controllers
 
         public async Task<ActionResult> GetDanhSachUserAsync(UserRequestViewModel request)
         {
-            var methodResult = new MethodResult<PagingItems<UserResponseViewModel>>(); 
+            var methodResult = new MethodResult<PagingItems<UserResponseViewModel>>();
             var userFilterParam = _mapper.Map<UserFilterParam>(request);
             var queryResult = await _iUserQueries.GetAllUserPaging(userFilterParam).ConfigureAwait(false);
             methodResult.Result = new PagingItems<UserResponseViewModel>
@@ -68,6 +59,15 @@ namespace API.Controllers
             };
             return Ok(methodResult);
         }
+        [HttpPost]
+        [Route(GetById)]
+        public async Task<ActionResult> GetUserByIdAsync(GetUserByIdParam param, CancellationToken cancellationToken)
+        {
+            var query = await _iUserQueries.GetInfoUserByID(param.id,cancellationToken).ConfigureAwait(false);
+            //methodResult.Result = _mapper.Map<UserViewModel>(query);
+            return Ok(query);
+        }
+
 
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateUserCommand>), (int)HttpStatusCode.OK)]
@@ -113,7 +113,7 @@ namespace API.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(MethodResult<ChangePasswordCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]ogin
         [Route(ChangePassword)]
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordCommand command)
         {

@@ -23,7 +23,7 @@ namespace API.Controllers
         /// <summary>
         /// Gen token login - (Author: son)
         /// </summary>
-        /// <param name="command">Gen token login - (Author: son) </param>
+        /// <param name="command"></param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<LoginCommandResponse>), (int)HttpStatusCode.OK)]
@@ -31,7 +31,6 @@ namespace API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> LoginAsync(LoginCommand command)
         {
-            var ip= HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);
 

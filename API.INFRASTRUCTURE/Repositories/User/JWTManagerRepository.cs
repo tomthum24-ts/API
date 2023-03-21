@@ -44,6 +44,9 @@ namespace API.INFRASTRUCTURE.Repositories.User
 			  {
 				 new Claim(AuthorSetting.UserName, users.UserName),
 				 new Claim(AuthorSetting.ID, user.Id.ToString()),
+				 new Claim(AuthorSetting.LastName,user.LastName.ToString()),
+				 new Claim(AuthorSetting.Email,user.Email.ToString()),
+				 new Claim(AuthorSetting.Project,user.Project.ToString())
 			  }),
 				Expires = DateTime.UtcNow.AddMinutes(int.Parse(_iconfiguration["JWT:Time"])),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature),

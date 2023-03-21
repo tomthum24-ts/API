@@ -11,5 +11,9 @@ namespace BaseCommon.Common.Enum
         public const string UserName = "UserName";
         public const string ID = "ID";
         public const string Name = "Name";
+        public const string LastName = "LastName";
+        public const string Email = "Email";
+        public const string Project = "Project";
+
     }
 }

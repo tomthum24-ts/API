@@ -18,7 +18,7 @@ namespace API.APPLICATION
         private readonly IUserService _user;
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public CreateUserCommandHandler( IMapper mapper, IUserService user, IUserRepository userRepository, IUnitOfWork unitOfWork)
+        public CreateUserCommandHandler(IMapper mapper, IUserService user, IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _user = user;
@@ -28,7 +28,7 @@ namespace API.APPLICATION
         public async Task<MethodResult<CreateUserCommandResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<CreateUserCommandResponse>();
-            bool existingUser =await _userRepository.Get(x=>x.UserName==request.UserName).AnyAsync(cancellationToken);
+            bool existingUser = await _userRepository.Get(x => x.UserName == request.UserName).AnyAsync(cancellationToken);
             if (existingUser)
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB01), new[]
@@ -40,8 +40,17 @@ namespace API.APPLICATION
             var createUser = new User(
                  request.UserName,
                  request.Name,
+                 request.LastName,
+                 request.Email,
                  request.Address,
                  request.Phone,
+                 request.Department,
+                 request.BirthDay,
+                 request.Province,
+                 request.District,
+                 request.Village,
+                 request.Project,
+                 request.Note,
                  request.Status
                 );
             _userRepository.Add(createUser);
