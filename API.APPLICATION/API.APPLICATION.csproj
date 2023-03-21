@@ -29,9 +29,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\API.HRM.DOMAIN\API.HRM.DOMAIN.csproj" />
+    <ProjectReference Include="..\API.HRM.DOMAIN\API.DOMAIN.csproj" />
     <ProjectReference Include="..\API.INFRASTRUCTURE\API.INFRASTRUCTURE.csproj" />
     <ProjectReference Include="..\BaseCommon\BaseCommon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Mappings\Project\" />
+    <Folder Include="Parameters\project\" />
   </ItemGroup>
 
 </Project>

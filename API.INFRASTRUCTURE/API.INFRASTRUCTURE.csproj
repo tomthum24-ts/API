@@ -28,8 +28,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\API.HRM.DOMAIN\API.HRM.DOMAIN.csproj" />
+    <ProjectReference Include="..\API.HRM.DOMAIN\API.DOMAIN.csproj" />
     <ProjectReference Include="..\BaseCommon\BaseCommon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EFConfigs\Project\" />
+    <Folder Include="Interface\Project\" />
+    <Folder Include="Repositories\Project\" />
   </ItemGroup>
 
 </Project>

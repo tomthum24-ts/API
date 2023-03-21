@@ -6,9 +6,13 @@
 
   <ItemGroup>
     <Compile Remove="Queries\**" />
+    <Compile Remove="Resources\**" />
     <Content Remove="Queries\**" />
+    <Content Remove="Resources\**" />
     <EmbeddedResource Remove="Queries\**" />
+    <EmbeddedResource Remove="Resources\**" />
     <None Remove="Queries\**" />
+    <None Remove="Resources\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Folder Include="Mapper\Project\" />
   </ItemGroup>
 
 </Project>
