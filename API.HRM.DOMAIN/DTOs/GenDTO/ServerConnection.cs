@@ -1,5 +1,5 @@
 ﻿
-namespace API.HRM.DOMAIN.DTOs
+namespace API.DOMAIN.DTOs
 {
     public class ServerConnection
     {

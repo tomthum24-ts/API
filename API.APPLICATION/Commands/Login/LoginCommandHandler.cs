@@ -1,5 +1,5 @@
 ﻿using API.HRM.DOMAIN;
-using API.HRM.DOMAIN.DTOs.User;
+using API.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using AutoMapper;
@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using API.DOMAIN;
 
 namespace API.APPLICATION.Commands.Login
 {

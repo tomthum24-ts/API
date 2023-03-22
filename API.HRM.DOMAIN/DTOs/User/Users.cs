@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace API.HRM.DOMAIN.DTOs.User
+namespace API.DOMAIN.DTOs.User
 {
     public class Users
     {

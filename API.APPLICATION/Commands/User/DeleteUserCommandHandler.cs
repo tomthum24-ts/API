@@ -1,4 +1,5 @@
 ﻿using API.APPLICATION.Commands.User;
+using API.DOMAIN;
 using API.HRM.DOMAIN;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;

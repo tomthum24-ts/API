@@ -1,5 +1,4 @@
-﻿using API.HRM.DOMAIN;
-
+﻿using API.DOMAIN;
 
 namespace API.INFRASTRUCTURE
 {

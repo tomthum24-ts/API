@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace API.HRM.DOMAIN.DomainObjects.Media
+namespace API.DOMAIN.DomainObjects.Media
 {
     public class AttachmentFile
     {

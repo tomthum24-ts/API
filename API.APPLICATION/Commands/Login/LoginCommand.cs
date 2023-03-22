@@ -12,6 +12,7 @@ namespace API.APPLICATION.Commands.Login
     {
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string Device { get; set; }
     }
     public class LoginCommandResponse 
     {

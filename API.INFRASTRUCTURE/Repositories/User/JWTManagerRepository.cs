@@ -1,4 +1,4 @@
-﻿using API.HRM.DOMAIN.DTOs.User;
+﻿using API.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE.DataConnect;
 using BaseCommon.Common.EnCrypt;
 using BaseCommon.Common.Enum;

@@ -1,6 +1,6 @@
 ﻿using API.APPLICATION.Parameters.GenDTO;
 using API.APPLICATION.Queries.GenDTO;
-using API.HRM.DOMAIN.DTOs;
+using API.DOMAIN.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace API.HRM.DOMAIN
+namespace API.DOMAIN
 {
     public class APIEntity : Entity<int>
     {

@@ -1,5 +1,5 @@
 ﻿using API.APPLICATION.Parameters.GenDTO;
-using API.HRM.DOMAIN.DTOs;
+using API.DOMAIN.DTOs;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;

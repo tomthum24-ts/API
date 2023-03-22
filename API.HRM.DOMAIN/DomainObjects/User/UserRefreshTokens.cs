@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace API.HRM.DOMAIN.DomainObjects.User
+namespace API.DOMAIN.DomainObjects.User
 {
     public class UserRefreshTokens
     {

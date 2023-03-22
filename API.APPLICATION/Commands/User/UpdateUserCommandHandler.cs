@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using BaseCommon.Enums;
+using API.DOMAIN;
 
 namespace API.APPLICATION.Commands.User
 {

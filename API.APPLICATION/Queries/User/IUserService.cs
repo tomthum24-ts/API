@@ -1,5 +1,5 @@
 ﻿using API.APPLICATION.Parameters.User;
-using API.HRM.DOMAIN.DTOs.User;
+using API.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE.DataConnect;
 using BaseCommon.Common.Response;
 using Dapper;

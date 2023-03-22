@@ -2,9 +2,8 @@
 using API.APPLICATION.Commands.User;
 using API.APPLICATION.Parameters.User;
 using API.APPLICATION.ViewModels.User;
-using API.HRM.DOMAIN;
-using API.HRM.DOMAIN.DTOs.User;
-using API.Models;
+using API.DOMAIN;
+using API.DOMAIN.DTOs.User;
 using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 

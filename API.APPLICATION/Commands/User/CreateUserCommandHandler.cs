@@ -1,5 +1,5 @@
 ﻿using API.APPLICATION.Commands.User;
-using API.HRM.DOMAIN;
+using API.DOMAIN;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using AutoMapper;

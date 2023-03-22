@@ -1,8 +1,11 @@
+using API.APPLICATION;
+using API.APPLICATION.Commands.Project;
 using API.APPLICATION.Commands.User;
 using API.APPLICATION.Queries.GenDTO;
 using API.APPLICATION.Queries.Media;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
+using API.INFRASTRUCTURE.Interface;
 using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.UnitOfWork;
@@ -54,12 +57,11 @@ namespace API
                 });
             });
             services.AddDbContext<AppDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
-            //services.AddCors();
-            //services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
             services.AddScoped<IUserRepository, UserRepository>();
-            
-            services.AddSingleton<IGenDTORepoQueries, GenDTORepoQueries>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProjectServices, ProjectServices>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddSingleton<IGenDTORepoQueries, GenDTORepoQueries>();
             services.AddScoped<IMediaService, MediaService>();
             services.AddScoped<IUserSessionInfo, UserSessionInfo>();
             services.AddScoped<IJWTManagerRepository, JWTManagerRepository>();
@@ -70,8 +72,8 @@ namespace API
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddMediatR(typeof(IUserService).Assembly);
             services.AddMediatR(typeof(CreateUserCommand).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(CreateProjectCommand).GetTypeInfo().Assembly);
 
-            
             services.AddHttpClient();
             services.AddSingleton<DapperContext>();
             

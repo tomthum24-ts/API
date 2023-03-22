@@ -1,7 +1,7 @@
 ﻿using API.APPLICATION.Commands.User;
 using API.APPLICATION.ViewModels.User;
-using API.HRM.DOMAIN;
-using API.HRM.DOMAIN.DTOs.User;
+using API.DOMAIN;
+using API.DOMAIN.DTOs.User;
 using AutoMapper;
 
 

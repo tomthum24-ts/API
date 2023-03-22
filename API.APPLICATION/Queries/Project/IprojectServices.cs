@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace API.APPLICATION.Queries.Project
+namespace API.APPLICATION
 {
-    public interface IprojectServices
+    public interface IProjectServices
     {
     }
-    public class ProjectServices : IprojectServices
+    public class ProjectServices : IProjectServices
     {
         public readonly DapperContext _context;
 

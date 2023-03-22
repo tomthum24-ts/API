@@ -32,10 +32,4 @@
     <ProjectReference Include="..\BaseCommon\BaseCommon.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="EFConfigs\Project\" />
-    <Folder Include="Interface\Project\" />
-    <Folder Include="Repositories\Project\" />
-  </ItemGroup>
-
 </Project>

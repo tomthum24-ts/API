@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace API.APPLICATION.ViewModels.Project
 {
-    internal class ProjectResponseViewModel
+    public class ProjectResponseViewModel
     {
     }
 }

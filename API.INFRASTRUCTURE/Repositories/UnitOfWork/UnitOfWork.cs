@@ -1,4 +1,5 @@
-﻿using API.HRM.DOMAIN;
+﻿using API.DOMAIN;
+using API.HRM.DOMAIN;
 using API.INFRASTRUCTURE.DataConnect;
 using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using BaseCommon.Common.ClaimUser;

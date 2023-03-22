@@ -1,4 +1,4 @@
-﻿using API.HRM.DOMAIN.DTOs.User;
+﻿using API.DOMAIN.DTOs.User;
 using BaseCommon.Common.MethodResult;
 using System.Threading;
 using System.Threading.Tasks;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using API.APPLICATION.Commands.User;
 using BaseCommon.Common.MethodResult;
-using API.HRM.DOMAIN.DTOs.User;
+using API.DOMAIN.DTOs.User;
 using API.APPLICATION.Parameters.User;
 using API.INFRASTRUCTURE;
 using API.APPLICATION.ViewModels.User;

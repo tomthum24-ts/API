@@ -1,4 +1,5 @@
-﻿using API.HRM.DOMAIN;
+﻿using API.DOMAIN;
+using API.HRM.DOMAIN;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,7 +9,7 @@ namespace API.INFRASTRUCTURE.EFConfigs
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable(TableConstants.User_TABLENAME);
+            builder.ToTable(TableConstants.USER_TABLENAME);
             builder.Property(x => x.UserName).HasField("_userName").HasMaxLength(225).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.PassWord).HasField("_passWord").HasMaxLength(40).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Name).HasField("_name").HasMaxLength(255).UsePropertyAccessMode(PropertyAccessMode.Field);

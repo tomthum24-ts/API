@@ -43,8 +43,4 @@
     <ProjectReference Include="..\BaseCommon\BaseCommon.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Mapper\Project\" />
-  </ItemGroup>
-
 </Project>

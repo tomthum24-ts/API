@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace API.HRM.DOMAIN
+namespace API.DOMAIN
 {
     public class User : APIEntity
     {

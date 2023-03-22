@@ -44,7 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DomainObjects\Project\" />
     <Folder Include="DTOs\Project\" />
   </ItemGroup>
 

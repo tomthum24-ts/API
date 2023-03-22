@@ -1,13 +1,7 @@
-﻿using API.HRM.DOMAIN;
-using API.HRM.DOMAIN.DomainObjects.User;
-using API.INFRASTRUCTURE.EFConfigs;
+﻿using API.INFRASTRUCTURE.EFConfigs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using API.DOMAIN;
 
 namespace API.INFRASTRUCTURE.DataConnect
 {
@@ -30,11 +24,19 @@ namespace API.INFRASTRUCTURE.DataConnect
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.ToTable("user");
+                entity.ToTable("DA_User");
             });
+           
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.Entity<Project>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable("DA_Project");
+            });
+            modelBuilder.ApplyConfiguration(new ProjectConfiguration());
         }
         public DbSet<User> User { get; set; }
+        public DbSet<Project> Project { get; set; }
 
         //public virtual DbSet<UserRefreshTokens> UserRefreshToken { get; set; }
 
