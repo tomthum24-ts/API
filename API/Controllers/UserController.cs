@@ -13,6 +13,9 @@ using API.APPLICATION.ViewModels.User;
 using BaseCommon.Common.Response;
 using System.Collections.Generic;
 using System.Threading;
+using API.APPLICATION.ViewModels;
+using System.Linq;
+using BaseCommon.Utilities;
 
 namespace API.Controllers
 {
@@ -30,14 +33,14 @@ namespace API.Controllers
         private readonly IUserService _iUserQueries;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-        private readonly IJWTManagerRepository _jWTManager;
+       
 
-        public UserController(IUserService repository, IMapper mapper, IMediator mediator, IJWTManagerRepository jWTManager)
+        public UserController(IUserService repository, IMapper mapper, IMediator mediator)
         {
             _iUserQueries = repository;
             _mapper = mapper;
             _mediator = mediator;
-            _jWTManager = jWTManager;
+            
         }
         /// <summary>
         /// Get info user - (Author: son)
@@ -61,11 +64,16 @@ namespace API.Controllers
         }
         [HttpPost]
         [Route(GetById)]
-        public async Task<ActionResult> GetUserByIdAsync(GetUserByIdParam param, CancellationToken cancellationToken)
+        [ProducesResponseType(typeof(MethodResult<UserResponseByIdViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult> GetUserByIdAsync(UserRequestByIdViewModel param, CancellationToken cancellationToken)
         {
-            var query = await _iUserQueries.GetInfoUserByID(param.id,cancellationToken).ConfigureAwait(false);
+            var methodResult = new MethodResult<Dictionary<string, string>>();
+            var query = await _iUserQueries.GetInfoUserByID(param).ConfigureAwait(false);
             //methodResult.Result = _mapper.Map<UserViewModel>(query);
-            return Ok(query);
+            Dictionary<string,string> data= query.ToDictionary(x => x.ObjKey, x => StringHelpers.Normalization(x.ObjValue));
+            methodResult.Result = data;
+            return Ok(methodResult);
         }
 
 
@@ -99,7 +107,6 @@ namespace API.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(MethodResult<UpdateUserCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> UpdateUserAsync(UpdateUserCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -113,7 +120,6 @@ namespace API.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(MethodResult<ChangePasswordCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]ogin
         [Route(ChangePassword)]
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordCommand command)
         {

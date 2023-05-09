@@ -1,4 +1,7 @@
 ﻿using API.APPLICATION.Parameters.User;
+using API.APPLICATION.ViewModels;
+using API.APPLICATION.ViewModels.User;
+using API.DOMAIN.DTOs;
 using API.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE.DataConnect;
 using BaseCommon.Common.Response;
@@ -14,7 +17,7 @@ namespace API.INFRASTRUCTURE
     {
 
         Task<IEnumerable<UserDTO>> GetAllUser();
-        Task<UserDTO> GetInfoUserByID(int id, CancellationToken cancellationToken);
+        Task<IEnumerable<UserResponseByIdViewModel>> GetInfoUserByID(UserRequestByIdViewModel param);
         Task<PagingItems<UserDTO>> GetAllUserPaging(UserFilterParam param);
     }
 
@@ -48,18 +51,19 @@ namespace API.INFRASTRUCTURE
                 }
             };
             var conn = _context.CreateConnection();
-            using var rs = await conn.QueryMultipleAsync("GetAllUser_SelectWithPaging", param, commandType: CommandType.StoredProcedure);
+            using var rs = await conn.QueryMultipleAsync("SP_User_GetListUser_SelectWithPaging", param, commandType: CommandType.StoredProcedure);
             result.Items = await rs.ReadAsync<UserDTO>().ConfigureAwait(false);
             result.PagingInfo.TotalItems = await rs.ReadSingleAsync<int>().ConfigureAwait(false);
             return result;
         }
-        public async Task<UserDTO> GetInfoUserByID(int id, CancellationToken cancellationToken)
+        public async Task<IEnumerable<UserResponseByIdViewModel>> GetInfoUserByID(UserRequestByIdViewModel param)
         {
             var conn = _context.CreateConnection();
-            using var rs = await conn.QueryMultipleAsync("GetUserByID", new { IDUser = id }, commandType: CommandType.StoredProcedure);
-            var result = await rs.ReadFirstOrDefaultAsync<UserDTO>();
-            return result;
+            using var rs = await conn.QueryMultipleAsync("SP_User_GetThongTinUserByIdReplace", param, commandType: System.Data.CommandType.StoredProcedure);
+            var result = await rs.ReadAsync<UserResponseByIdViewModel>().ConfigureAwait(false);
+            return result; ;
         }
+
 
     }
 }

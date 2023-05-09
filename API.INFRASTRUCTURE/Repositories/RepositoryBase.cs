@@ -10,10 +10,10 @@ namespace API.INFRASTRUCTURE.Repositories
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
     {
-        private readonly AppDbContext _db;
+        private readonly IDbContext _db;
         private DbSet<T> _dbSet;
 
-        protected RepositoryBase(AppDbContext db)
+        protected RepositoryBase(IDbContext db)
         {
             _db = db;
         }

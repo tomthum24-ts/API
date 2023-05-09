@@ -12,7 +12,7 @@ namespace API.INFRASTRUCTURE.Repositories
 {
     public class ProjectRepository : RepositoryBase<Project>, IProjectRepository
     {
-        public ProjectRepository(AppDbContext db) : base(db)
+        public ProjectRepository(IDbContext db) : base(db)
         {
         }
     }

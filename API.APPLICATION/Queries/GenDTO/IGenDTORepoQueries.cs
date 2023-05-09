@@ -20,6 +20,7 @@ namespace API.APPLICATION.Queries.GenDTO
     public class GenDTORepoQueries : IGenDTORepoQueries
     {
         private const string F_CONNECT = "data source={0};initial catalog={1};uid={2};password={3};MultipleActiveResultSets=True;App=EntityFramework";
+        private const string L_CONNECT = "data source=DESKTOP-2LILVUD\\SQLEXPRESS;initial catalog=NetCore;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework";
         protected readonly IConfiguration _configuration;
 
         public GenDTORepoQueries(IConfiguration configuration)
@@ -32,7 +33,8 @@ namespace API.APPLICATION.Queries.GenDTO
             try
             {
                 DataSet ds = new DataSet();
-                string connect = string.Format(F_CONNECT, pInfo.ServerName, pInfo.DBName, pInfo.Login, pInfo.Password);
+                //string connect = string.Format(F_CONNECT, pInfo.ServerName, pInfo.DBName, pInfo.Login, pInfo.Password);
+                string connect = string.Format(L_CONNECT, pInfo.ServerName, pInfo.DBName);
                 SqlConnection sqlConn = new SqlConnection(connect);
 
                 SqlCommand cmdReport = new SqlCommand(pInfo.SqlCmd, sqlConn);

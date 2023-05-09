@@ -7,11 +7,12 @@ namespace API.Mapper
 {
     public class ProjectProfile : Profile
     {
-        public  ProjectProfile(){
+        public ProjectProfile()
+        {
             CreateMap<Project, CreateProjectCommandResponse>();
             CreateMap<Project, DeleteProjectCommandResponse>();
             CreateMap<Project, UpdateProjectCommandResponse>();
-            }
-        
+        }
+
     }
 }

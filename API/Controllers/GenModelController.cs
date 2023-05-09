@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class GenModelController : ControllerBase
@@ -20,7 +20,7 @@ namespace API.Controllers
             _genDTORepoQueries = genDTORepoQueries;
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpPost]
         [Route(genDTO)]
         public IActionResult GenDTO(string param)

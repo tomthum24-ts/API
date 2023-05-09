@@ -16,8 +16,8 @@ namespace API.INFRASTRUCTURE.Repositories.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly IUserSessionInfo  _userSessionInfo;
-        private readonly AppDbContext _context;
-        public UnitOfWork(AppDbContext context, IUserSessionInfo userSessionInfo)
+        private readonly IDbContext _context;
+        public UnitOfWork(IDbContext context, IUserSessionInfo userSessionInfo)
         {
             _context = context;
             Users = new UserRepository(_context);

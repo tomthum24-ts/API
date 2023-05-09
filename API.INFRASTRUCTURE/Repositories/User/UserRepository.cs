@@ -6,7 +6,7 @@ namespace API.INFRASTRUCTURE
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        public UserRepository(AppDbContext db) : base(db)
+        public UserRepository(IDbContext db) : base(db)
         {
         }
     }

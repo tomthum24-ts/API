@@ -1,20 +1,24 @@
 using API.APPLICATION;
+using API.APPLICATION.Commands;
 using API.APPLICATION.Commands.Project;
 using API.APPLICATION.Commands.User;
 using API.APPLICATION.Queries.GenDTO;
+using API.APPLICATION.Queries.Location;
 using API.APPLICATION.Queries.Media;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
 using API.INFRASTRUCTURE.Interface;
+using API.INFRASTRUCTURE.Interface.Location;
 using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories.User;
 using BaseCommon.Common.ClaimUser;
+using BaseCommon.Entities;
+using BaseCommon.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -26,17 +30,15 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System;
-using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+
 
 namespace API
 {
     public class Startup
     {
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -56,11 +58,9 @@ namespace API
                         .AllowAnyMethod();
                 });
             });
-            services.AddDbContext<AppDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IProjectServices, ProjectServices>();
-            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddDbContext<IDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
+            
+            
             services.AddSingleton<IGenDTORepoQueries, GenDTORepoQueries>();
             services.AddScoped<IMediaService, MediaService>();
             services.AddScoped<IUserSessionInfo, UserSessionInfo>();
@@ -71,8 +71,19 @@ namespace API
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddMediatR(typeof(IUserService).Assembly);
-            services.AddMediatR(typeof(CreateUserCommand).GetTypeInfo().Assembly);
-            services.AddMediatR(typeof(CreateProjectCommand).GetTypeInfo().Assembly);
+            //User
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            //Project
+            services.AddScoped<IProjectServices, ProjectServices>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            //Location
+            services.AddScoped<ILocationServices, LocationServices>();
+            services.AddScoped<IProvinceRepository, ProvinceRepository>();
+            services.AddScoped<IDistrictRepository, DistrictRepository>();
+            services.AddScoped<IVillageRepository, VillageRepository>();
+
+
 
             services.AddHttpClient();
             services.AddSingleton<DapperContext>();

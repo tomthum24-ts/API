@@ -21,13 +21,7 @@ namespace API.DOMAIN
         private int? _village;
         private int? _project;
         private string _note;
-        private DateTime? _creationDate;
-        private int? _createdById;
-        private DateTime? _updateDate;
-        private int? _updatedById;
-        private DateTime? _deletionDate;
-        private int? _deletedById;
-        private bool? _isDelete;
+
         private bool? _status;
 
         #endregion Fields
@@ -77,14 +71,8 @@ namespace API.DOMAIN
         public int? Village { get => _village; }
         public int? Project { get => _project; }
         public string Note { get => _note; }
-        public DateTime? CreationDate { get => _creationDate; }
-        public int? CreatedById { get => _createdById; }
-        public DateTime? UpdateDate { get => _updateDate; }
-        public int? UpdatedById { get => _updatedById; }
-        public DateTime? DeletionDate { get => _deletionDate; }
-        public int? DeletedById { get => _deletedById; }
-        public bool? IsDelete { get => _isDelete; }
         public bool? Status { get => _status; }
+
 
         #endregion Properties
 
