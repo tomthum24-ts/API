@@ -1,22 +1,16 @@
-﻿using API.INFRASTRUCTURE.DataConnect;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using API.APPLICATION.Queries;
+using API.DOMAIN.DTOs.Project;
+using API.INFRASTRUCTURE.DataConnect;
 
 namespace API.APPLICATION
 {
-    public interface IProjectServices
+    public interface IProjectServices : IDanhMucQueries<ProjectDTO>
     {
     }
-    public class ProjectServices : IProjectServices
+    public class ProjectServices : DanhMucQueries<ProjectDTO>, IProjectServices
     {
-        public readonly DapperContext _context;
-
-        public ProjectServices(DapperContext context)
+        public ProjectServices(DapperContext connectionFactory) : base(connectionFactory)
         {
-            _context = context;
         }
     }
 }

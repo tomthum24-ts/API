@@ -15,10 +15,10 @@ namespace API.APPLICATION
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, MethodResult<CreateUserCommandResponse>>
     {
         private readonly IMapper _mapper;
-        private readonly IUserService _user;
+        private readonly IUserServices _user;
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public CreateUserCommandHandler(IMapper mapper, IUserService user, IUserRepository userRepository, IUnitOfWork unitOfWork)
+        public CreateUserCommandHandler(IMapper mapper, IUserServices user, IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _user = user;

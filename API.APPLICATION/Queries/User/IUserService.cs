@@ -1,6 +1,6 @@
 ﻿using API.APPLICATION.Parameters.User;
 using API.APPLICATION.ViewModels;
-using API.APPLICATION.ViewModels.User;
+using API.APPLICATION.ViewModels.ByIdViewModel;
 using API.DOMAIN.DTOs;
 using API.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE.DataConnect;
@@ -13,22 +13,22 @@ using System.Threading.Tasks;
 
 namespace API.INFRASTRUCTURE
 {
-    public interface IUserService
+    public interface IUserServices
     {
 
         Task<IEnumerable<UserDTO>> GetAllUser();
-        Task<IEnumerable<UserResponseByIdViewModel>> GetInfoUserByID(UserRequestByIdViewModel param);
+        Task<IEnumerable<ResponseByIdViewModel>> GetInfoUserByID(RequestByIdViewModel param);
         Task<PagingItems<UserDTO>> GetAllUserPaging(UserFilterParam param);
     }
 
-    public class UserService : IUserService
+    public class UserServices : IUserServices
     {
 
 
         public readonly DapperContext _context;
 
 
-        public UserService(DapperContext context)
+        public UserServices(DapperContext context)
         {
             _context = context;
         }
@@ -56,11 +56,11 @@ namespace API.INFRASTRUCTURE
             result.PagingInfo.TotalItems = await rs.ReadSingleAsync<int>().ConfigureAwait(false);
             return result;
         }
-        public async Task<IEnumerable<UserResponseByIdViewModel>> GetInfoUserByID(UserRequestByIdViewModel param)
+        public async Task<IEnumerable<ResponseByIdViewModel>> GetInfoUserByID(RequestByIdViewModel param)
         {
             var conn = _context.CreateConnection();
             using var rs = await conn.QueryMultipleAsync("SP_User_GetThongTinUserByIdReplace", param, commandType: System.Data.CommandType.StoredProcedure);
-            var result = await rs.ReadAsync<UserResponseByIdViewModel>().ConfigureAwait(false);
+            var result = await rs.ReadAsync<ResponseByIdViewModel>().ConfigureAwait(false);
             return result; ;
         }
 

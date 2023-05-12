@@ -16,6 +16,7 @@ using System.Threading;
 using API.APPLICATION.ViewModels;
 using System.Linq;
 using BaseCommon.Utilities;
+using API.APPLICATION.ViewModels.ByIdViewModel;
 
 namespace API.Controllers
 {
@@ -30,12 +31,12 @@ namespace API.Controllers
         private const string Login = nameof(Login);
      
 
-        private readonly IUserService _iUserQueries;
+        private readonly IUserServices _iUserQueries;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
        
 
-        public UserController(IUserService repository, IMapper mapper, IMediator mediator)
+        public UserController(IUserServices repository, IMapper mapper, IMediator mediator)
         {
             _iUserQueries = repository;
             _mapper = mapper;
@@ -64,9 +65,9 @@ namespace API.Controllers
         }
         [HttpPost]
         [Route(GetById)]
-        [ProducesResponseType(typeof(MethodResult<UserResponseByIdViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult> GetUserByIdAsync(UserRequestByIdViewModel param, CancellationToken cancellationToken)
+        public async Task<ActionResult> GetUserByIdAsync(RequestByIdViewModel param, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<Dictionary<string, string>>();
             var query = await _iUserQueries.GetInfoUserByID(param).ConfigureAwait(false);

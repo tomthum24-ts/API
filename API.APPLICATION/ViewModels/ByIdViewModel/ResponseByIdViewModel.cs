@@ -7,9 +7,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace API.APPLICATION.ViewModels.User
+namespace API.APPLICATION.ViewModels.ByIdViewModel
 {
-    public class UserResponseByIdViewModel
+    public class ResponseByIdViewModel
     {
         private string _objValue = string.Empty;
         public int Id { get; set; }

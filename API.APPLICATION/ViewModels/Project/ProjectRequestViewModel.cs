@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using API.APPLICATION.ViewModels.BaseClasses;
 
 namespace API.APPLICATION.ViewModels.Project
 {
-    public class ProjectRequestViewModel
+    public class ProjectRequestViewModel : DanhMucRequestViewModel
     {
+
+    }
+    public class ProjectByIdRequestViewModel
+    {
+        public int Id { get; set; }
     }
 }

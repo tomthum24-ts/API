@@ -1,10 +1,15 @@
-﻿using API.APPLICATION.Commands.Project;
+﻿using API.APPLICATION;
+using API.APPLICATION.Commands.Project;
 using API.APPLICATION.ViewModels.Project;
+using API.HRM.DOMAIN;
+using AutoMapper;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Common.Response;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,10 +25,14 @@ namespace API.Controllers
         private const string GetById = nameof(GetById);
 
         private readonly IMediator _mediator;
+        private readonly IProjectServices _projectServices;
+        private readonly IMapper _mapper;
 
-        public ProjectController(IMediator mediator)
+        public ProjectController(IMediator mediator, IProjectServices projectServices, IMapper mapper)
         {
             _mediator = mediator;
+            _projectServices = projectServices;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -33,23 +42,39 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route(GetList)]
-
-        public async Task<ActionResult> GetDanhSachUserAsync(ProjectRequestViewModel request)
+        public async Task<ActionResult> GetDanhSachProjectAsync(ProjectRequestViewModel request)
         {
             var methodResult = new MethodResult<PagingItems<ProjectResponseViewModel>>();
+
+            DanhMucFilterParam danhMucFilterParam = new DanhMucFilterParam();
+            danhMucFilterParam = _mapper.Map<DanhMucFilterParam>(request);
+            danhMucFilterParam.TableName = TableConstants.PRỌJECT_TABLENAME;
+
+            var queryResult = await _projectServices.GetDanhMucByListIdAsync(danhMucFilterParam).ConfigureAwait(false);
+            methodResult.Result = new PagingItems<ProjectResponseViewModel>
+            {
+                PagingInfo = queryResult.PagingInfo,
+                Items = _mapper.Map<IEnumerable<ProjectResponseViewModel>>(queryResult.Items)
+            };
 
             return Ok(methodResult);
         }
 
-        //[HttpPost]
-        //[Route(GetById)]
-        //public async Task<ActionResult> GetProjectByIdAsync(GetProjectByIdParam param, CancellationToken cancellationToken)
-        //{
-        //    var query = await _iProjectQueries.GetInfoProjectByID(param.id, cancellationToken).ConfigureAwait(false);
-        //    //methodResult.Result = _mapper.Map<ProjectViewModel>(query);
-        //    return Ok(query);
-        //}
-
+        /// <summary>
+        /// Get List of GetProjectById.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost(GetById)]
+        [ProducesResponseType(typeof(MethodResult<ProjectResponseViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetProjectByIdAsync(ProjectByIdRequestViewModel request)
+        {
+            var methodResult = new MethodResult<ProjectResponseViewModel>();
+            var queryResult = await _projectServices.GetDanhMucByIdAsync(request.Id, TableConstants.PRỌJECT_TABLENAME).ConfigureAwait(false);
+            methodResult.Result = _mapper.Map<ProjectResponseViewModel>(queryResult.Items.FirstOrDefault());
+            return Ok(methodResult);
+        }
 
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateProjectCommand>), (int)HttpStatusCode.OK)]
@@ -81,7 +106,6 @@ namespace API.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(MethodResult<UpdateProjectCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> UpdateProjectAsync(UpdateProjectCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);

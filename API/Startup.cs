@@ -1,7 +1,4 @@
 using API.APPLICATION;
-using API.APPLICATION.Commands;
-using API.APPLICATION.Commands.Project;
-using API.APPLICATION.Commands.User;
 using API.APPLICATION.Queries.GenDTO;
 using API.APPLICATION.Queries.Location;
 using API.APPLICATION.Queries.Media;
@@ -14,13 +11,12 @@ using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories.User;
 using BaseCommon.Common.ClaimUser;
-using BaseCommon.Entities;
-using BaseCommon.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -70,20 +66,21 @@ namespace API
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(Startup).Assembly);
-            services.AddMediatR(typeof(IUserService).Assembly);
+            services.AddMediatR(typeof(IUserServices).Assembly);
             //User
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserServices, UserServices>();
             //Project
             services.AddScoped<IProjectServices, ProjectServices>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             //Location
             services.AddScoped<ILocationServices, LocationServices>();
             services.AddScoped<IProvinceRepository, ProvinceRepository>();
+            services.AddScoped<IProvinceServices, ProvinceServices>();
             services.AddScoped<IDistrictRepository, DistrictRepository>();
+            services.AddScoped<IDistrictServices, DistrictServices>();
             services.AddScoped<IVillageRepository, VillageRepository>();
-
-
+            services.AddScoped<IVillageServices, VillageServices>();
 
             services.AddHttpClient();
             services.AddSingleton<DapperContext>();
@@ -158,7 +155,9 @@ namespace API
             app.UseHttpsRedirection();
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
-            
+            // todo: replace with app.UseHsts(); once the feature will be stable
+            app.UseRewriter(new RewriteOptions().AddRedirectToHttps(StatusCodes.Status301MovedPermanently, 443));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
         }
     }
 }

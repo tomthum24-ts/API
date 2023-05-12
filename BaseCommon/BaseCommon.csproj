@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\ErrorMessages-vn.json" />
+    <None Remove="Resources\BaseErrorMessages-vn.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ErrorMessages-vn.json">
+    <EmbeddedResource Include="Resources\BaseErrorMessages-vn.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

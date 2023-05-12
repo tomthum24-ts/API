@@ -47,7 +47,7 @@ namespace API.APPLICATION.Commands
             HttpClient client = _factory.CreateClient();
 
             client.BaseAddress = new Uri("http://provinces.open-api.vn");
-            var response = client.GetAsync("/api/?depth=3").Result;
+            var response = client.GetAsync("/api/?depth="+ request.PhanLoai).Result;
             var jsonData = response.Content.ReadAsStringAsync().Result;
             List<LocationReponseViewModel> data = JsonSerializer.Deserialize<List<LocationReponseViewModel>>(jsonData);
             foreach (var item_Provice in data)
@@ -98,15 +98,11 @@ namespace API.APPLICATION.Commands
                                 }
                                 else // existing update
                                 {
-                                    var village = new Village(item_Village.code.ToString(),
-                                                    item_Village.name,
-                                                    item_Village.codename,
-                                                    item_Village.division_type,
-                                                    district.Id,
-                                                    null,
-                                                    true
-                                                    );
-                                    _villageRepository.Update(village);
+                                    existingVillage.SetVillageCode(item_Village.code.ToString());
+                                    existingVillage.SetVillageName(item_Village.name);
+                                    existingVillage.SetCodeName(item_Village.codename);
+                                    existingVillage.SetIdDistrict(district.Id);
+                                    _villageRepository.Update(existingVillage);
                                     await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
                                 }
 
@@ -114,16 +110,42 @@ namespace API.APPLICATION.Commands
                         }
                         else  // existing update
                         {
-                            var district = new District(item_District.code.ToString(),
-                                                    item_District.name,
-                                                    item_District.codename,
-                                                    item_District.division_type,
-                                                    province.Id,
+                            existingDistrict.SetDistrictCode(item_District.code.ToString());
+                            existingDistrict.SetDistrictName(item_District.name);
+                            existingDistrict.SetCodeName(item_District.codename);
+                            existingDistrict.SetDivisionType(item_District.division_type);
+                            existingDistrict.SetIdProvince(existingProvince.Id);
+                            _districtRepository.Update(existingDistrict);
+                            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+                            foreach (var item_Village in item_District.wards)
+                            {
+                                var existingVillage = await _villageRepository.Get(x => x.VillageCode == item_Village.code.ToString()).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+                                if (existingVillage == null) //Not existing addNew
+                                {
+                                    var village = new Village(item_Village.code.ToString(),
+                                                    item_Village.name,
+                                                    item_Village.codename,
+                                                    item_Village.division_type,
+                                                    existingDistrict.Id,
                                                     null,
                                                     true
-                            );
-                            _districtRepository.Update(district);
-                            var idDistrict = await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                                                    );
+                                    _villageRepository.Add(village);
+                                    await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                                }
+                                else // existing update
+                                {
+                                    existingVillage.SetVillageCode(item_Village.code.ToString());
+                                    existingVillage.SetVillageName(item_Village.name);
+                                    existingVillage.SetCodeName(item_Village.codename);
+                                    existingVillage.SetDivisionType(item_Village.division_type);
+                                    existingVillage.SetIdDistrict(existingDistrict.Id);
+                                    _villageRepository.Update(existingVillage);
+                                    await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                                }
+
+                            }
                         }
 
                     }
@@ -135,14 +157,96 @@ namespace API.APPLICATION.Commands
                     existingProvince.SetCodeName(item_Provice.codename);
                     existingProvince.SetDivisionType(item_Provice.division_type);
                     _provinceRepository.Update(existingProvince);
-                    var idProvince = await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                    await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                    foreach (var item_District in item_Provice.districts)
+                    {
+                        var existingDistrict = await _districtRepository.Get(x => x.DistrictCode == item_District.code.ToString()).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+                        if (existingDistrict == null)  //Not existing addNew
+                        {
+                            var district = new District(item_District.code.ToString(),
+                                                    item_District.name,
+                                                    item_District.codename,
+                                                    item_District.division_type,
+                                                    existingProvince.Id,
+                                                    null,
+                                                    true
+                            );
+                            _districtRepository.Add(district);
+                            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+                            foreach (var item_Village in item_District.wards)
+                            {
+                                var existingVillage = await _villageRepository.Get(x => x.VillageCode == item_Village.code.ToString()).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+                                if (existingVillage == null) //Not existing addNew
+                                {
+                                    var village = new Village(item_Village.code.ToString(),
+                                                    item_Village.name,
+                                                    item_Village.codename,
+                                                    item_Village.division_type,
+                                                    district.Id,
+                                                    null,
+                                                    true
+                                                    );
+                                    _villageRepository.Add(village);
+                                    await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                                }
+                                else // existing update
+                                {
+                                    existingVillage.SetVillageCode(item_Village.code.ToString());
+                                    existingVillage.SetVillageName(item_Village.name);
+                                    existingVillage.SetCodeName(item_Village.codename);
+                                    existingVillage.SetIdDistrict(district.Id);
+                                    _villageRepository.Update(existingVillage);
+                                    await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                                }
+
+                            }
+                        }
+                        else  // existing update
+                        {
+                            existingDistrict.SetDistrictCode(item_District.code.ToString());
+                            existingDistrict.SetDistrictName(item_District.name);
+                            existingDistrict.SetCodeName(item_District.codename);
+                            existingDistrict.SetDivisionType(item_District.division_type);
+                            existingDistrict.SetIdProvince(existingProvince.Id);
+                            _districtRepository.Update(existingDistrict);
+                            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+                            foreach (var item_Village in item_District.wards)
+                            {
+                                var existingVillage = await _villageRepository.Get(x => x.VillageCode == item_Village.code.ToString()).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+                                if (existingVillage == null) //Not existing addNew
+                                {
+                                    var village = new Village(item_Village.code.ToString(),
+                                                    item_Village.name,
+                                                    item_Village.codename,
+                                                    item_Village.division_type,
+                                                    existingDistrict.Id,
+                                                    null,
+                                                    true
+                                                    );
+                                    _villageRepository.Add(village);
+                                    await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                                }
+                                else // existing update
+                                {
+                                    existingVillage.SetVillageCode(item_Village.code.ToString());
+                                    existingVillage.SetVillageName(item_Village.name);
+                                    existingVillage.SetCodeName(item_Village.codename);
+                                    existingVillage.SetDivisionType(item_Village.division_type);
+                                    existingVillage.SetIdDistrict(existingDistrict.Id);
+                                    _villageRepository.Update(existingVillage);
+                                    await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                                }
+
+                            }
+                        }
+
+                    }
                 }
 
 
             }
-
-
-            // methodResult.Result = _mapper.Map<List<LocationReponseViewModel>>(lsData);
             return methodResult;
         }
     }
