@@ -8,6 +8,6 @@ namespace API.APPLICATION.Parameters.Location
 {
     public class ProvinceFilterParam : PagingDTO
     {
-        public string Id { get; set; }
+        public string Ids { get; set; }
     }
 }

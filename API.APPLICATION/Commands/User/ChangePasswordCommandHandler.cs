@@ -3,6 +3,7 @@ using API.HRM.DOMAIN;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using AutoMapper;
+using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.EnCrypt;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
@@ -19,26 +20,29 @@ namespace API.APPLICATION.Commands.User
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private IUserSessionInfo _userSessionInfo;
 
-        public ChangePasswordCommandHandler( IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public ChangePasswordCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper, IUserSessionInfo userSessionInfo)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userSessionInfo = userSessionInfo;
         }
 
         public async Task<MethodResult<ChangePasswordCommandResponse>> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<ChangePasswordCommandResponse>();
-            var editEntity = await _userRepository.Get(x=>x.Id==request.id).FirstOrDefaultAsync(cancellationToken);
-            bool item = await _userRepository.Get(x => x.Id == request.id).AnyAsync(cancellationToken);
+            var id = _userSessionInfo.ID.GetValueOrDefault();
+            var editEntity = await _userRepository.Get(x=>x.Id== id).FirstOrDefaultAsync(cancellationToken);
+            bool item = await _userRepository.Get(x => x.Id == id).AnyAsync(cancellationToken);
             string errorMessage = "";
             
             if (!item)
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB02), new[]
                     {
-                        ErrorHelpers.GenerateErrorResult(nameof(User), request.id),
+                        ErrorHelpers.GenerateErrorResult(nameof(User), id),
                         errorMessage
                     });
                 return methodResult;
@@ -49,7 +53,7 @@ namespace API.APPLICATION.Commands.User
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB03), new[]
                     {
-                        ErrorHelpers.GenerateErrorResult(nameof(User), request.id),
+                        ErrorHelpers.GenerateErrorResult(nameof(User), id),
                         errorMessage
                     });
                 return methodResult;

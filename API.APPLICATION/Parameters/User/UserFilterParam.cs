@@ -5,7 +5,7 @@ namespace API.APPLICATION.Parameters.User
 {
     public class UserFilterParam : PagingDTO
     {
-        public string Id { get; set; }
+        public string Ids { get; set; }
 
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using API.APPLICATION.Commands.Location.SyncLocation;
+﻿using API.APPLICATION.Commands.Location.SyncLocation;
 using API.APPLICATION.ViewModels.Location;
 using API.DOMAIN;
 using API.INFRASTRUCTURE.Interface.Location;
@@ -42,7 +41,6 @@ namespace API.APPLICATION.Commands
 
         public async Task<MethodResult<SyncLocationCommandResponse>> Handle(SyncLocationCommand request, CancellationToken cancellationToken)
         {
-            var Id = _userSessionInfo.ID.GetValueOrDefault();
             var methodResult = new MethodResult<SyncLocationCommandResponse>();
             HttpClient client = _factory.CreateClient();
 
