@@ -5,6 +5,7 @@ using API.APPLICATION.ViewModels.ByIdViewModel;
 using API.APPLICATION.ViewModels.Location;
 using API.DOMAIN.DTOs.Location;
 using AutoMapper;
+using BaseCommon.Attributes;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Common.Response;
 using BaseCommon.Utilities;
@@ -44,7 +45,7 @@ namespace API.Controllers.Location
         /// <returns></returns>
         [HttpPost]
         [Route(GetList)]
-
+        [SQLInjectionCheckOperation]
         public async Task<ActionResult> GetDanhSachProvinceAsync(ProvinceRequestViewModel request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<PagingItems<ProvinceDTO>>();
@@ -67,6 +68,7 @@ namespace API.Controllers.Location
         [Route(GetById)]
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [SQLInjectionCheckOperation]
         public async Task<ActionResult> GetProvinceByIdAsync(RequestByIdViewModel param, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<Dictionary<string, string>>();

@@ -5,6 +5,7 @@ using API.APPLICATION.ViewModels.ByIdViewModel;
 using API.APPLICATION.ViewModels.Location;
 using API.DOMAIN.DTOs.Location;
 using AutoMapper;
+using BaseCommon.Attributes;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Common.Response;
 using BaseCommon.Utilities;
@@ -45,8 +46,8 @@ namespace API.Controllers.Location
         /// <returns></returns>
         [HttpPost]
         [Route(GetList)]
-
-        public async Task<ActionResult> GetDanhSachDistrictAsync(DistrictRequestViewModel request, CancellationToken cancellationToken)
+        [SQLInjectionCheckOperation(new string[] { nameof(DistrictRequestViewModel.Ids), nameof(DistrictRequestViewModel.IdProvinces),nameof(DistrictRequestViewModel.Keyword) })]
+        public async Task<ActionResult> GetDanhSachDistrictAsync(DistrictRequestViewModel request)
         {
             var methodResult = new MethodResult<PagingItems<DistrictDTO>>();
             var param = _mapper.Map<DistrictFilterParam>(request);
@@ -68,6 +69,7 @@ namespace API.Controllers.Location
         [Route(GetById)]
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [SQLInjectionCheckOperation]
         public async Task<ActionResult> GetDistrictByIdAsync(RequestByIdViewModel param, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<Dictionary<string, string>>();

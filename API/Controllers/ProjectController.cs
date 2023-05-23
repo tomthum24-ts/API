@@ -3,6 +3,7 @@ using API.APPLICATION.Commands.Project;
 using API.APPLICATION.ViewModels.Project;
 using API.HRM.DOMAIN;
 using AutoMapper;
+using BaseCommon.Attributes;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Common.Response;
 using MediatR;
@@ -42,6 +43,7 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route(GetList)]
+        [SQLInjectionCheckOperation]
         public async Task<ActionResult> GetDanhSachProjectAsync(ProjectRequestViewModel request)
         {
             var methodResult = new MethodResult<PagingItems<ProjectResponseViewModel>>();
@@ -68,6 +70,7 @@ namespace API.Controllers
         [HttpPost(GetById)]
         [ProducesResponseType(typeof(MethodResult<ProjectResponseViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [SQLInjectionCheckOperation]
         public async Task<IActionResult> GetProjectByIdAsync(ProjectByIdRequestViewModel request)
         {
             var methodResult = new MethodResult<ProjectResponseViewModel>();

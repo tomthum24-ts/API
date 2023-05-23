@@ -1,6 +1,7 @@
 ﻿using API.APPLICATION.Commands.Location.SyncLocation;
 using API.APPLICATION.Queries.Location;
 using API.APPLICATION.ViewModels.Location;
+using BaseCommon.Attributes;
 using BaseCommon.Common.MethodResult;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -32,6 +33,7 @@ namespace API.Controllers.Location
         [ProducesResponseType(typeof(MethodResult<SyncLocationCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         //[AllowAnonymous]
+        [SQLInjectionCheckOperation]
         public async Task<ActionResult> GetDataLocationAsync(SyncLocationCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);

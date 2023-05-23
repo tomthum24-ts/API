@@ -3,7 +3,7 @@ using API.HRM.DOMAIN;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace API.INFRASTRUCTURE.EFConfigs
+namespace API.INFRASTRUCTURE
 {
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {

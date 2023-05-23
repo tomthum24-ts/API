@@ -17,6 +17,7 @@ using API.APPLICATION.ViewModels;
 using System.Linq;
 using BaseCommon.Utilities;
 using API.APPLICATION.ViewModels.ByIdViewModel;
+using BaseCommon.Attributes;
 
 namespace API.Controllers
 {
@@ -50,7 +51,7 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route(GetListUser)]
-
+        [SQLInjectionCheckOperation]
         public async Task<ActionResult> GetDanhSachUserAsync(UserRequestViewModel request)
         {
             var methodResult = new MethodResult<PagingItems<UserResponseViewModel>>();
@@ -67,6 +68,7 @@ namespace API.Controllers
         [Route(GetById)]
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [SQLInjectionCheckOperation]
         public async Task<ActionResult> GetUserByIdAsync(RequestByIdViewModel param, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<Dictionary<string, string>>();

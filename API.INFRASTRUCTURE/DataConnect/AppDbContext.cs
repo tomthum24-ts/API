@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using API.DOMAIN;
 using API.INFRASTRUCTURE.EFConfigs.Location;
+using API.HRM.DOMAIN;
 
 namespace API.INFRASTRUCTURE.DataConnect
 {
@@ -25,46 +26,53 @@ namespace API.INFRASTRUCTURE.DataConnect
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.ToTable("DA_User");
+                entity.ToTable(TableConstants.USER_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new UserConfiguration());
 
             modelBuilder.Entity<Project>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.ToTable("DA_Project");
+                entity.ToTable(TableConstants.PRỌJECT_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new ProjectConfiguration());
 
             modelBuilder.Entity<Province>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.ToTable("DA_Province");
+                entity.ToTable(TableConstants.Province_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new ProvinceConfiguration());
 
             modelBuilder.Entity<District>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.ToTable("DA_District");
+                entity.ToTable(TableConstants.District_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new DistrictConfiguration());
 
             modelBuilder.Entity<Village>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.ToTable("DA_Village");
+                entity.ToTable(TableConstants.Village_TABLENAME);
             });
+            
             modelBuilder.ApplyConfiguration(new VillageConfiguration());
 
+
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.REFRESHTOKEN_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new UserRefreshTokenConfiguration());
         }
         public DbSet<User> User { get; set; }
         public DbSet<Project> Project { get; set; }
         public DbSet<Province> Province { get; set; }
         public DbSet<District> District { get; set; }
         public DbSet<Village> Village { get; set; }
-
-        //public virtual DbSet<UserRefreshTokens> UserRefreshToken { get; set; }
+        public DbSet<RefreshToken> UserRefreshToken { get; set; }
 
     }
 }

@@ -5,6 +5,7 @@ using API.APPLICATION.ViewModels.ByIdViewModel;
 using API.APPLICATION.ViewModels.Location;
 using API.DOMAIN.DTOs.Location;
 using AutoMapper;
+using BaseCommon.Attributes;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Common.Response;
 using BaseCommon.Utilities;
@@ -46,8 +47,8 @@ namespace API.Controllers.Location
         /// <returns></returns>
         [HttpPost]
         [Route(GetList)]
-
-        public async Task<ActionResult> GetDanhSachVillageAsync(VillageRequestViewModel request, CancellationToken cancellationToken)
+        [SQLInjectionCheckOperation(new string[] { nameof(DistrictRequestViewModel.Ids), nameof(DistrictRequestViewModel.IdProvinces), nameof(DistrictRequestViewModel.Keyword),nameof(VillageRequestViewModel.IdDistricts) })]
+        public async Task<ActionResult> GetDanhSachVillageAsync(VillageRequestViewModel request)
         {
             var methodResult = new MethodResult<PagingItems<VillageDTO>>();
             var param = _mapper.Map<VillageFilterParam>(request);
@@ -69,6 +70,7 @@ namespace API.Controllers.Location
         [Route(GetById)]
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [SQLInjectionCheckOperation]
         public async Task<ActionResult> GetVillageByIdAsync(RequestByIdViewModel param, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<Dictionary<string, string>>();

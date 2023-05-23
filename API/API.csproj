@@ -44,4 +44,8 @@
     <ProjectReference Include="..\BaseCommon\BaseCommon.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\ACL\" />
+  </ItemGroup>
+
 </Project>

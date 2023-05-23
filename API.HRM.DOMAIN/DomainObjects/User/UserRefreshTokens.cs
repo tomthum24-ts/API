@@ -1,64 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace API.DOMAIN.DomainObjects.User
+namespace API.DOMAIN
 {
-    public class UserRefreshTokens
+    public class RefreshToken : APIEntity
     {
         #region Fields
-        [Key]
-        private int _id;
-        private string _userName;
-        private string _refreshToken;
-        private bool? _isActive;
-        private DateTime? _createdDate;
-        private string _createdBy;
-        private DateTime? _modifiedDate;
-        private string _modifiedBy;
+        private string _token;
+        private string _idRefreshToken;
+        private DateTime? _expires;
+        private string _ipAddress;
 
         #endregion Fields
 
         #region Constructors
 
-        private UserRefreshTokens()
+        private RefreshToken()
         {
         }
 
-        public UserRefreshTokens(string userName, string refreshToken, bool? isActive)
+        public RefreshToken(string token,string idrefreshTooken, DateTime? expires, string ipAddress)
         {
-            _userName = userName;
-            _refreshToken = refreshToken;
-            _isActive = isActive;
-            
-
+            _token = token;
+            _idRefreshToken = idrefreshTooken;
+            _expires = expires;
+            _ipAddress = ipAddress;
         }
         #endregion Constructors
 
         #region Properties
-        public int Id { get => _id; }
-        public string UserName { get => _userName; }
-        public string RefreshToken { get => _refreshToken; }
-        public bool? IsActive { get => _isActive; }
-        public DateTime? CreatedDate { get => _createdDate; }
-        public string CreatedBy { get => _createdBy; }
-        public DateTime? ModifiedDate { get => _modifiedDate; }
-        public string ModifiedBy { get => _modifiedBy; }
+        public string Token { get => _token; }
+        public string IdRefreshToken { get => _idRefreshToken; }
+        public DateTime? Expires { get => _expires; }
+        public string IpAddress { get => _ipAddress; }
 
         #endregion Properties
 
         #region Behaviours
-        public void SetId(int id) => _id = id;
-        public void SetUserName(string userName) => _userName = userName;
-        public void SetRefreshToken(string refreshToken) => _refreshToken = refreshToken;
-        public void SetIsActive(bool? isActive) => _isActive = isActive;
-        public void SetCreatedDate(DateTime? createdDate) => _createdDate = createdDate;
-        public void SetCreatedBy(string createdBy) => _createdBy = createdBy;
-        public void SetModifiedDate(DateTime? modifiedDate) => _modifiedDate = modifiedDate;
-        public void SetModifiedBy(string modifiedBy) => _modifiedBy = modifiedBy;
+        public void SetToken(string token) => _token = token;
+        public void SetRefreshTooken(string refreshToken) => _idRefreshToken = refreshToken;
+        public void SetExpires(DateTime expires) => _expires = expires;
+        public void SetIpAddress(string ipAddress) => _ipAddress = ipAddress;
 
         #endregion Behaviours
     }

@@ -23,6 +23,7 @@ namespace API.Controllers
         //[AllowAnonymous]
         [HttpPost]
         [Route(genDTO)]
+
         public IActionResult GenDTO(string param)
         {        
             var connect = _genDTORepoQueries.ChuoiKetNoi();

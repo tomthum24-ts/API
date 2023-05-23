@@ -6,6 +6,7 @@ using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
 using API.INFRASTRUCTURE.Interface;
 using API.INFRASTRUCTURE.Interface.Location;
+using API.INFRASTRUCTURE.Interface.RefreshTooken;
 using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.UnitOfWork;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -55,8 +57,8 @@ namespace API
                 });
             });
             services.AddDbContext<IDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
-            
-            
+
+
             services.AddSingleton<IGenDTORepoQueries, GenDTORepoQueries>();
             services.AddScoped<IMediaService, MediaService>();
             services.AddScoped<IUserSessionInfo, UserSessionInfo>();
@@ -81,12 +83,13 @@ namespace API
             services.AddScoped<IDistrictServices, DistrictServices>();
             services.AddScoped<IVillageRepository, VillageRepository>();
             services.AddScoped<IVillageServices, VillageServices>();
+            services.AddScoped<IRefreshTookenRepository, RefreshTookenRepository>();
 
             services.AddHttpClient();
             services.AddSingleton<DapperContext>();
-            
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-          
+
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -107,7 +110,8 @@ namespace API
                 };
                 o.Events = new JwtBearerEvents
                 {
-                    OnAuthenticationFailed = context => {
+                    OnAuthenticationFailed = context =>
+                    {
                         if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
                         {
                             context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
@@ -131,7 +135,7 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
-        
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -145,8 +149,11 @@ namespace API
             app.UseSwagger();
             app.UseCors("EnableCORS");
             app.UseRouting();
-            
-            app.UseAuthentication(); 	
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

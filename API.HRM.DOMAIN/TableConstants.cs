@@ -14,6 +14,8 @@ namespace API.HRM.DOMAIN
         public const string Province_TABLENAME = "LC_Province";
         public const string District_TABLENAME = "LC_District";
         public const string Village_TABLENAME = "LC_Village";
+        public const string REFRESHTOKEN_TABLENAME = "DA_RefreshToken";
+        public const string LOGGING_TABLENAME = "LOG_Logging";
 
     }
 }

@@ -1,28 +1,19 @@
-﻿using API.DOMAIN.DomainObjects.User;
+﻿using API.DOMAIN;
+using API.HRM.DOMAIN;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace API.INFRASTRUCTURE.EFConfigs
+namespace API.INFRASTRUCTURE
 {
-    public class UserRefreshTokensConfiguration : IEntityTypeConfiguration<UserRefreshTokens>
+    public class UserRefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
     {
-        public void Configure(EntityTypeBuilder<UserRefreshTokens> builder)
+        public void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
-            builder.ToTable("UserRefreshTokens");
-            builder.Property(x => x.Id).HasField("_id").UsePropertyAccessMode(PropertyAccessMode.Field);
-            builder.Property(x => x.UserName).HasField("_userName").HasMaxLength(255).UsePropertyAccessMode(PropertyAccessMode.Field);
-            builder.Property(x => x.RefreshToken).HasField("_refreshToken").HasMaxLength(255).UsePropertyAccessMode(PropertyAccessMode.Field);
-            builder.Property(x => x.IsActive).HasField("_isActive").UsePropertyAccessMode(PropertyAccessMode.Field);
-            builder.Property(x => x.CreatedDate).HasField("_createdDate").UsePropertyAccessMode(PropertyAccessMode.Field);
-            builder.Property(x => x.CreatedBy).HasField("_createdBy").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
-            builder.Property(x => x.ModifiedDate).HasField("_modifiedDate").UsePropertyAccessMode(PropertyAccessMode.Field);
-            builder.Property(x => x.ModifiedBy).HasField("_modifiedBy").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
-
+            builder.ToTable(TableConstants.REFRESHTOKEN_TABLENAME);
+            builder.Property(x => x.Token).HasField("_token").HasMaxLength(2000).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.IdRefreshToken).HasField("_idRefreshToken").HasMaxLength(2000).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.Expires).HasField("_expires").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.IpAddress).HasField("_ipAddress").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }
