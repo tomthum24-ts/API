@@ -16,7 +16,9 @@ namespace BaseCommon.Enums
         [Description("Không tìm thấy dữ liệu trong hệ thống")]
         EB02,
         [Description("Mật khẩu yếu")]
-        EB03
+        EB03,
+        [Description("Hết hạn phiên đăng nhập")]
+        EB04
 
     }
 

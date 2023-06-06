@@ -41,8 +41,8 @@ namespace API.APPLICATION.Commands.Project
                     });
                 return methodResult;
             }
-            bool existingProject = await _ProjectRepository.Get(x => x.ProjectCode == request.ProjectCode && x.Id != request.Id).AnyAsync(cancellationToken);
-            if (existingProject)
+            var existingProject = await _ProjectRepository.Get(x => x.ProjectCode == request.ProjectCode && x.Id != request.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+            if (existingProject == null)
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB01), new[]
                     {

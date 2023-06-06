@@ -34,7 +34,7 @@ namespace API.INFRASTRUCTURE.Repositories.User
         }
         public async Task<Tokens> GenerateJWTTokens(Users users, CancellationToken cancellationToken)
 		{
-			var user= await _userRepository.Get(x => x.UserName == users.UserName && x.PassWord == CommonBase.ToMD5(users.Password)).FirstOrDefaultAsync(cancellationToken);
+			var user= await _userRepository.Get(x => x.UserName == users.UserName && x.PassWord == users.Password).FirstOrDefaultAsync(cancellationToken);
 			// Else we generate JSON Web Token
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var tokenKey = Encoding.UTF8.GetBytes(_iconfiguration["JWT:Key"]);

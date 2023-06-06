@@ -11,7 +11,7 @@ namespace API.INFRASTRUCTURE.EFConfigs.User
         public void Configure(EntityTypeBuilder<Logging> builder)
         {
             builder.ToTable(TableConstants.LOGGING_TABLENAME);
-            builder.Property(x => x.Tooken).HasField("_tooken").HasMaxLength(-1).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.Tooken).HasField("_tooken").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Expired).HasField("_expired").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.IsActive).HasField("_isActive").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Devices).HasField("_devices").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);

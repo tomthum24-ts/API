@@ -178,5 +178,12 @@ namespace BaseCommon.Common.EnCrypt
             // Return the decrypted data as a string
             return plainText;
         }
+        public static byte[] RandomBytes()
+        {
+            using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
+            var randomBytes = new byte[64];
+            rngCryptoServiceProvider.GetBytes(randomBytes);
+            return randomBytes;
+        }
     }
 }

@@ -10,10 +10,17 @@ namespace API.INFRASTRUCTURE
         public void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
             builder.ToTable(TableConstants.REFRESHTOKEN_TABLENAME);
-            builder.Property(x => x.Token).HasField("_token").HasMaxLength(2000).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.Token).HasField("_token").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.IdRefreshToken).HasField("_idRefreshToken").HasMaxLength(2000).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Expires).HasField("_expires").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.IpAddress).HasField("_ipAddress").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.UserLogin).HasField("_userLogin").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.Revoked).HasField("_revoked").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.RevokedByIp).HasField("_revokedByIp").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.ReplacedByToken).HasField("_replacedByToken").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.ReasonRevoked).HasField("_reasonRevoked").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.IsRevoked).HasField("_isRevoked").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.IsActive).HasField("_isActive").UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }
