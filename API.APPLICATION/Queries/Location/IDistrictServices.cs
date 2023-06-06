@@ -7,8 +7,13 @@ using API.DOMAIN.DTOs.Location;
 using API.INFRASTRUCTURE.DataConnect;
 using BaseCommon.Common.Response;
 using Dapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.APPLICATION.Queries.Location
@@ -21,13 +26,18 @@ namespace API.APPLICATION.Queries.Location
     public class DistrictServices : IDistrictServices
     {
         public readonly DapperContext _context;
-
-        public DistrictServices(DapperContext context)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IDistributedCache _cache;
+        public DistrictServices(DapperContext context, IHttpContextAccessor httpContextAccessor, IDistributedCache cache)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
+            _cache = cache;
         }
         public async Task<PagingItems<DistrictDTO>> GetDistrictAsync(DistrictFilterParam param)
         {
+            var data = GetCurrentAsync();
+             await DeactivateAsync(data);
             var result = new PagingItems<DistrictDTO>
             {
                 PagingInfo = new PagingInfoDto
@@ -49,6 +59,23 @@ namespace API.APPLICATION.Queries.Location
             var result = await rs.ReadAsync<ResponseByIdViewModel>().ConfigureAwait(false);
             return result; ;
         }
+        private string GetCurrentAsync()
+        {
+            var authorizationHeader = _httpContextAccessor
+                .HttpContext.Request.Headers["authorization"];
+
+            return authorizationHeader == StringValues.Empty
+                ? string.Empty
+                : authorizationHeader.Single().Split(" ").Last();
+        }
+        public async Task DeactivateAsync(string token)
+           => await _cache.SetStringAsync(token,
+               " ", new DistributedCacheEntryOptions
+               {
+                   AbsoluteExpirationRelativeToNow =
+                       TimeSpan.FromMinutes(0.1)
+               });
+
 
     }
 }

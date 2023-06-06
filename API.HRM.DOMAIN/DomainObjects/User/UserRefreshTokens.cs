@@ -5,7 +5,6 @@ namespace API.DOMAIN
     public class RefreshToken : APIEntity
     {
         #region Fields
-        private string _token;
         private string _idRefreshToken;
         private DateTime? _expires;
         private string _ipAddress;
@@ -25,10 +24,10 @@ namespace API.DOMAIN
         {
         }
 
-        public RefreshToken(string token,string idrefreshTooken, DateTime? expires, string ipAddress,string userLogin,DateTime? revoked,string revokedByIp, bool? isRevoked, bool? isActive)
+        public RefreshToken(string idrefreshToken, DateTime? expires, string ipAddress,string userLogin,DateTime? revoked,string revokedByIp, bool? isRevoked, bool? isActive)
         {
-            _token = token;
-            _idRefreshToken = idrefreshTooken;
+
+            _idRefreshToken = idrefreshToken;
             _expires = expires;
             _ipAddress = ipAddress;
             _userLogin=userLogin;
@@ -40,7 +39,6 @@ namespace API.DOMAIN
         #endregion Constructors
 
         #region Properties
-        public string Token { get => _token; }
         public string IdRefreshToken { get => _idRefreshToken; }
         public DateTime? Expires { get => _expires; }
         public string IpAddress { get => _ipAddress; }
@@ -55,7 +53,6 @@ namespace API.DOMAIN
         #endregion Properties
 
         #region Behaviours
-        public void SetToken(string token) => _token = token;
         public void SetIdRefreshToken(string idRefreshToken) => _idRefreshToken = idRefreshToken;
         public void SetExpires(DateTime? expires) => _expires = expires;
         public void SetIpAddress(string ipAddress) => _ipAddress = ipAddress;

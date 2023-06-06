@@ -1,5 +1,5 @@
 ﻿using API.APPLICATION.Commands.Login;
-using API.APPLICATION.Commands.RefreshTooken;
+using API.APPLICATION.Commands.RefreshToken;
 using BaseCommon.Common.MethodResult;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -50,7 +50,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [AllowAnonymous]
         [Route(RefreshToken)]
-        public async Task<IActionResult> RefreshTokenAsync(UpdateRefreshTookenCommand command)
+        public async Task<IActionResult> RefreshTokenAsync(UpdateRefreshTokenCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);

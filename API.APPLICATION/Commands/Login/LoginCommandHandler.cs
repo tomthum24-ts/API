@@ -13,8 +13,9 @@ using API.DOMAIN;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Security.Cryptography;
-using API.INFRASTRUCTURE.Interface.RefreshTooken;
+using API.INFRASTRUCTURE.Interface.RefreshToken;
 using BaseCommon.Common.ClaimUser;
+using Microsoft.Extensions.Configuration;
 
 namespace API.APPLICATION.Commands.Login
 {
@@ -24,19 +25,21 @@ namespace API.APPLICATION.Commands.Login
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
         private readonly IJWTManagerRepository _jWTManagerRepository;
-        private readonly IRefreshTookenRepository _refreshTookenRepository;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
         private IHttpContextAccessor _accessor;
         private IUserSessionInfo _userSessionInfo;
+        private readonly IConfiguration _iconfiguration;
 
-        public LoginCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserRepository userRepository, IJWTManagerRepository jWTManagerRepository, IHttpContextAccessor accessor, IRefreshTookenRepository refreshTookenRepository, IUserSessionInfo userSessionInfo)
+        public LoginCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserRepository userRepository, IJWTManagerRepository jWTManagerRepository, IHttpContextAccessor accessor, IRefreshTokenRepository refreshTokenRepository, IUserSessionInfo userSessionInfo, IConfiguration iconfiguration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _userRepository = userRepository;
             _jWTManagerRepository = jWTManagerRepository;
             _accessor = accessor;
-            _refreshTookenRepository = refreshTookenRepository;
+            _refreshTokenRepository = refreshTokenRepository;
             _userSessionInfo = userSessionInfo;
+            _iconfiguration = iconfiguration;
         }
 
         public async Task<MethodResult<LoginCommandResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -52,30 +55,18 @@ namespace API.APPLICATION.Commands.Login
                     });
                 return methodResult;
             }
-            var ip = _accessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            var ip = IpAddress();
             var paramUser = new Users();
             paramUser.UserName = request.UserName;
             paramUser.Password = CommonBase.ToMD5(request.Password);
 
             var genToken = await _jWTManagerRepository.GenerateJWTTokens(paramUser, cancellationToken);
-            genToken.RefreshToken = GenerateRefreshToken(ip).IdRefreshToken;
+            genToken.RefreshToken = GenerateRefreshToken(ip, request.UserName).IdRefreshToken;
             methodResult.Result = _mapper.Map<LoginCommandResponse>(genToken);
 
-            #region Refresh Tooken
-            var randomBytes = CMSEncryption.RandomBytes();
-
-            var createUser = new RefreshToken(
-                   genToken.Token,
-                   genToken.RefreshToken,
-                   DateTime.UtcNow.AddDays(7),
-                   ip,
-                   request.UserName,
-                   null,
-                   null,
-                   null,
-                   true
-                  );
-            _refreshTookenRepository.Add(createUser);
+            #region Refresh Token
+            var createUser = GenerateRefreshToken(ip, request.UserName);
+            _refreshTokenRepository.Add(createUser);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             #endregion
 
@@ -89,14 +80,12 @@ namespace API.APPLICATION.Commands.Login
             else
                 return _accessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
         }
-        public RefreshToken GenerateRefreshToken(string ipAddress)
+        public DOMAIN.RefreshToken GenerateRefreshToken(string ipAddress,string userName)
         {
-            var userName = _userSessionInfo.UserName;
             var randomBytes = CMSEncryption.RandomBytes();
-            var refreshToken = new RefreshToken(
-                  null,
+            var refreshToken = new DOMAIN.RefreshToken(
                  Convert.ToBase64String(randomBytes),
-                 DateTime.UtcNow.AddDays(7),
+                 DateTime.UtcNow.AddHours(int.Parse(_iconfiguration["JWT:TimeRefresh"])),
                  ipAddress,
                  userName,
                  null,

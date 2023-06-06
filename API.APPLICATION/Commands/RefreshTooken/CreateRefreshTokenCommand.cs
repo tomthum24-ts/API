@@ -2,9 +2,9 @@
 using MediatR;
 using System;
 
-namespace API.APPLICATION.Commands.RefreshTooken
+namespace API.APPLICATION.Commands.RefreshToken
 {
-    public class CreateRefreshTookenCommand : IRequest<MethodResult<CreateRefreshTookenCommandResponse>>
+    public class CreateRefreshTokenCommand : IRequest<MethodResult<CreateRefreshTokenCommandResponse>>
     {
         public string Token { get; set; }
         public string RefreshToken { get; set; }
@@ -12,7 +12,7 @@ namespace API.APPLICATION.Commands.RefreshTooken
         public bool? isExpired { get; set; }
         public string IpAddress { get; set; }
     }
-    public class CreateRefreshTookenCommandResponse
+    public class CreateRefreshTokenCommandResponse
     {
 
     }

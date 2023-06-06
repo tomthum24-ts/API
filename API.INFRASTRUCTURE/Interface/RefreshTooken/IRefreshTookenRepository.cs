@@ -1,8 +1,8 @@
 ﻿using API.DOMAIN;
 
-namespace API.INFRASTRUCTURE.Interface.RefreshTooken
+namespace API.INFRASTRUCTURE.Interface.RefreshToken
 {
-    public interface IRefreshTookenRepository :IRepositoryBase<RefreshToken>
+    public interface IRefreshTokenRepository :IRepositoryBase<DOMAIN.RefreshToken>
     {
     }
 }

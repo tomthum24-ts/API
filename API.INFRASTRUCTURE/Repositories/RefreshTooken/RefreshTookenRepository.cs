@@ -1,12 +1,12 @@
 ﻿using API.DOMAIN;
 using API.INFRASTRUCTURE.DataConnect;
-using API.INFRASTRUCTURE.Interface.RefreshTooken;
+using API.INFRASTRUCTURE.Interface.RefreshToken;
 
 namespace API.INFRASTRUCTURE.Repositories
 {
-    public class RefreshTookenRepository : RepositoryBase<RefreshToken>, IRefreshTookenRepository
+    public class RefreshTokenRepository : RepositoryBase<RefreshToken>, IRefreshTokenRepository
     {
-        public RefreshTookenRepository(IDbContext db) : base(db)
+        public RefreshTokenRepository(IDbContext db) : base(db)
         {
         }
     }

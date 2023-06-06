@@ -1,4 +1,4 @@
-﻿using API.APPLICATION.Commands.RefreshTooken;
+﻿using API.APPLICATION.Commands.RefreshToken;
 using API.APPLICATION.Commands.User;
 using API.APPLICATION.ViewModels.User;
 using API.DOMAIN;
@@ -10,9 +10,9 @@ namespace API.APPLICATION.Mappings.User
     {
         public RefreshTokenProfile()
         {
-            CreateMap<CreateRefreshTookenCommand, CreateRefreshTookenCommandResponse>();
+            CreateMap<CreateRefreshTokenCommand, CreateRefreshTokenCommandResponse>();
             CreateMap<RefreshToken, CreateUserCommandResponse>();
-            CreateMap<Tokens, UpdateRefreshTookenCommandResponse>().ForMember(x => x.AccessToken,options => options.MapFrom(source => source.Token)); ;
+            CreateMap<Tokens, UpdateRefreshTokenCommandResponse>().ForMember(x => x.AccessToken,options => options.MapFrom(source => source.Token)); ;
             //CreateMap<UserDTO, UserResponseViewModel>();
         }
         

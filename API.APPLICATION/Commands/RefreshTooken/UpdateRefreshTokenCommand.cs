@@ -3,13 +3,13 @@ using BaseCommon.Common.MethodResult;
 using MediatR;
 using System;
 
-namespace API.APPLICATION.Commands.RefreshTooken
+namespace API.APPLICATION.Commands.RefreshToken
 {
-    public class UpdateRefreshTookenCommand : IRequest<MethodResult<UpdateRefreshTookenCommandResponse>>
+    public class UpdateRefreshTokenCommand : IRequest<MethodResult<UpdateRefreshTokenCommandResponse>>
     {
         public string RefreshToken { get; set; }
     }
-    public class UpdateRefreshTookenCommandResponse : UpdateRefreshTookenCommand
+    public class UpdateRefreshTokenCommandResponse : UpdateRefreshTokenCommand
     {
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }

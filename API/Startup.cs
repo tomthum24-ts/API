@@ -6,7 +6,7 @@ using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
 using API.INFRASTRUCTURE.Interface;
 using API.INFRASTRUCTURE.Interface.Location;
-using API.INFRASTRUCTURE.Interface.RefreshTooken;
+using API.INFRASTRUCTURE.Interface.RefreshToken;
 using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.UnitOfWork;
@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -64,6 +65,7 @@ namespace API
             services.AddScoped<IUserSessionInfo, UserSessionInfo>();
             services.AddScoped<IJWTManagerRepository, JWTManagerRepository>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddDistributedMemoryCache();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMediatR(Assembly.GetExecutingAssembly());
@@ -83,7 +85,7 @@ namespace API
             services.AddScoped<IDistrictServices, DistrictServices>();
             services.AddScoped<IVillageRepository, VillageRepository>();
             services.AddScoped<IVillageServices, VillageServices>();
-            services.AddScoped<IRefreshTookenRepository, RefreshTookenRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
             services.AddHttpClient();
             services.AddSingleton<DapperContext>();

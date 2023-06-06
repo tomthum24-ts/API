@@ -10,8 +10,7 @@ namespace API.INFRASTRUCTURE
         public void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
             builder.ToTable(TableConstants.REFRESHTOKEN_TABLENAME);
-            builder.Property(x => x.Token).HasField("_token").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
-            builder.Property(x => x.IdRefreshToken).HasField("_idRefreshToken").HasMaxLength(2000).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.IdRefreshToken).HasField("_idRefreshToken").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Expires).HasField("_expires").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.IpAddress).HasField("_ipAddress").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.UserLogin).HasField("_userLogin").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);

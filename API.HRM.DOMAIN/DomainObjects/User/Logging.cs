@@ -5,7 +5,7 @@ namespace API.DOMAIN.DomainObjects.User
     public class Logging : APIEntity
     {
         #region Fields
-        private string _tooken;
+        private string _token;
         private DateTime? _expired;
         private bool? _isActive;
         private string _devices;
@@ -19,9 +19,9 @@ namespace API.DOMAIN.DomainObjects.User
         {
         }
 
-        public Logging(string tooken, DateTime? expired, bool? isActive,string devices, string ipAddress)
+        public Logging(string token, DateTime? expired, bool? isActive,string devices, string ipAddress)
         {
-            _tooken=tooken;
+            _token=token;
             _expired=expired;
             _isActive=isActive;
             _devices=devices;
@@ -30,7 +30,7 @@ namespace API.DOMAIN.DomainObjects.User
         #endregion Constructors
 
         #region Properties
-        public string Tooken { get => _tooken; }
+        public string Token { get => _token; }
         public DateTime? Expired { get => _expired; }
         public bool? IsActive { get => _isActive; }
         public string Devices { get => _devices; }
@@ -40,7 +40,7 @@ namespace API.DOMAIN.DomainObjects.User
         #endregion Properties
 
         #region Behaviours
-        public void SetTooken(string tooken) => _tooken = tooken;
+        public void SetToken(string token) => _token = token;
         public void SetExpired(DateTime? expired) => _expired = expired;
         public void SetIsActive(bool? isActive) => _isActive = isActive;
         public void SetDevices(string devices) => _devices = devices;
