@@ -1,8 +1,5 @@
-﻿
-
-using API.APPLICATION.Parameters.Location;
+﻿using API.APPLICATION.Parameters.Location;
 using API.APPLICATION.ViewModels.ByIdViewModel;
-using API.APPLICATION.ViewModels.Location;
 using API.DOMAIN.DTOs.Location;
 using API.INFRASTRUCTURE.DataConnect;
 using BaseCommon.Common.Response;

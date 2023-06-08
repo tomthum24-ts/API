@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\API.HRM.DOMAIN\API.DOMAIN.csproj" />
+    <ProjectReference Include="..\API.DOMAIN\API.DOMAIN.csproj" />
     <ProjectReference Include="..\BaseCommon\BaseCommon.csproj" />
   </ItemGroup>
 

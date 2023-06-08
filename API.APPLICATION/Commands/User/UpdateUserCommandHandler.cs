@@ -2,7 +2,6 @@
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using API.HRM.DOMAIN;
 using API.INFRASTRUCTURE;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;

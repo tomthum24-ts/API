@@ -1,6 +1,4 @@
-﻿
-using API.DOMAIN;
-using API.HRM.DOMAIN;
+﻿using API.DOMAIN;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

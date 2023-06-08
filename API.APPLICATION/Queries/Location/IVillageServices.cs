@@ -45,7 +45,7 @@ namespace API.APPLICATION.Queries.Location
         public async Task<IEnumerable<ResponseByIdViewModel>> GetInfoByIdAsync(RequestByIdViewModel param)
         {
             var conn = _context.CreateConnection();
-            using var rs = await conn.QueryMultipleAsync("SP_LC_GetVillageByIdReplace", param, commandType: System.Data.CommandType.StoredProcedure);
+            using var rs = await conn.QueryMultipleAsync("SP_LC_GetVillageByIdReplace", param, commandType: CommandType.StoredProcedure);
             var result = await rs.ReadAsync<ResponseByIdViewModel>().ConfigureAwait(false);
             return result; ;
         }

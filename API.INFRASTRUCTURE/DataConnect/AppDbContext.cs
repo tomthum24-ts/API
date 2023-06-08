@@ -1,9 +1,8 @@
 ﻿using API.INFRASTRUCTURE.EFConfigs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using API.DOMAIN;
 using API.INFRASTRUCTURE.EFConfigs.Location;
-using API.HRM.DOMAIN;
+using API.DOMAIN;
 
 namespace API.INFRASTRUCTURE.DataConnect
 {

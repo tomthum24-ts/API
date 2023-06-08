@@ -1,5 +1,5 @@
 ﻿
-namespace API.HRM.DOMAIN
+namespace API.DOMAIN
 {
     public class TableConstants
     {

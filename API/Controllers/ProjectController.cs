@@ -1,7 +1,7 @@
 ﻿using API.APPLICATION;
 using API.APPLICATION.Commands.Project;
 using API.APPLICATION.ViewModels.Project;
-using API.HRM.DOMAIN;
+using API.DOMAIN;
 using AutoMapper;
 using BaseCommon.Attributes;
 using BaseCommon.Common.MethodResult;

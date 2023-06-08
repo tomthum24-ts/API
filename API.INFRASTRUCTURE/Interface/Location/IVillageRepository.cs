@@ -1,6 +1,4 @@
-﻿
-
-using API.DOMAIN;
+﻿using API.DOMAIN;
 
 namespace API.INFRASTRUCTURE.Interface.Location
 {
