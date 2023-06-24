@@ -2,5 +2,6 @@
   "EB01": "Dữ liệu đã tồn tại trong hệ thống",
   "EB02": "Không tìm thấy dữ liệu trong hệ thống",
   "EB03": "Mật khẩu yếu",
-  "EB04": "Hết hạn phiên đăng nhập"
+  "EB04": "Hết hạn phiên đăng nhập",
+  "EB05": "Hết phiên đăng nhập vui lòng đăng nhập lại"
 }

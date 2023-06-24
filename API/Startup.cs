@@ -12,6 +12,7 @@ using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories.User;
 using BaseCommon.Common.ClaimUser;
+using BaseCommon.Utilities;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -63,10 +64,9 @@ namespace API
             services.AddSingleton<IGenDTORepoQueries, GenDTORepoQueries>();
             services.AddScoped<IMediaService, MediaService>();
             services.AddScoped<IUserSessionInfo, UserSessionInfo>();
-            services.AddScoped<IJWTManagerRepository, JWTManagerRepository>();
+            
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDistributedMemoryCache();
-            services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(Startup).Assembly);
@@ -86,10 +86,11 @@ namespace API
             services.AddScoped<IVillageRepository, VillageRepository>();
             services.AddScoped<IVillageServices, VillageServices>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
-
+            //services.AddScoped<IRefreshTokenServices, RefreshTokenServices>();
             services.AddHttpClient();
             services.AddSingleton<DapperContext>();
-
+            services.AddSingleton<GetInfoHelpers>();
+            services.AddSingleton<GetConnectString>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddAuthentication(x =>
@@ -105,6 +106,7 @@ namespace API
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = Configuration["JWT:Issuer"],
                     ValidAudience = Configuration["JWT:Audience"],
@@ -122,6 +124,7 @@ namespace API
                     }
                 };
             });
+            services.AddScoped<IJWTManagerRepository, JWTManagerRepository>();
             services.AddSwaggerGen(options =>
             {
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -137,7 +140,7 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
-
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

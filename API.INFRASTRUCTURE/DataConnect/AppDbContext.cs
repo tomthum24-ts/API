@@ -3,22 +3,24 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using API.INFRASTRUCTURE.EFConfigs.Location;
 using API.DOMAIN;
+using Microsoft.AspNetCore.Hosting;
 
 namespace API.INFRASTRUCTURE.DataConnect
 {
     public class IDbContext : DbContext
     {
-        protected readonly IConfiguration Configuration;
+        private readonly GetConnectString _getConnectString;
 
-        public IDbContext(IConfiguration configuration)
+        public IDbContext(GetConnectString getConnectString)
         {
-            Configuration = configuration;
+            _getConnectString = getConnectString;
         }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             // connect to sql server with connection string from app settings
-            options.UseSqlServer(Configuration.GetConnectionString("Default"));
+            options.UseSqlServer(_getConnectString.GetConnect());
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -59,7 +61,7 @@ namespace API.INFRASTRUCTURE.DataConnect
             modelBuilder.ApplyConfiguration(new VillageConfiguration());
 
 
-            modelBuilder.Entity<RefreshToken>(entity =>
+            modelBuilder.Entity<UserRefreshToken>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.ToTable(TableConstants.REFRESHTOKEN_TABLENAME);
@@ -71,7 +73,7 @@ namespace API.INFRASTRUCTURE.DataConnect
         public DbSet<Province> Province { get; set; }
         public DbSet<District> District { get; set; }
         public DbSet<Village> Village { get; set; }
-        public DbSet<RefreshToken> UserRefreshToken { get; set; }
+        public DbSet<UserRefreshToken> UserRefreshToken { get; set; }
 
     }
 }

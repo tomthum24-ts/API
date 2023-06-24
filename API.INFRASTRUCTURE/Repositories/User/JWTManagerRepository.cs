@@ -34,10 +34,12 @@ namespace API.INFRASTRUCTURE.Repositories.User
         }
         public async Task<Tokens> GenerateJWTTokens(Users users, CancellationToken cancellationToken)
 		{
+
 			var user= await _userRepository.Get(x => x.UserName == users.UserName && x.PassWord == users.Password).FirstOrDefaultAsync(cancellationToken);
 			// Else we generate JSON Web Token
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var tokenKey = Encoding.UTF8.GetBytes(_iconfiguration["JWT:Key"]);
+			var time = int.Parse(_iconfiguration["JWT:Time"]);
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{
 				Subject = new ClaimsIdentity(new Claim[]
@@ -53,7 +55,8 @@ namespace API.INFRASTRUCTURE.Repositories.User
 				
 			};
 			var token = tokenHandler.CreateToken(tokenDescriptor);
-			return new Tokens { Token = tokenHandler.WriteToken(token), ExpiresIn= tokenDescriptor.Expires };
+
+			return new Tokens { Token = tokenHandler.WriteToken(token), ExpiresIn= token.ValidTo };
 
 		}
 		public async Task<IEnumerable<UserDTO>> GetAll(Users users)

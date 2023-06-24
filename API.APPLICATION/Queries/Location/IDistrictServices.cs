@@ -33,8 +33,6 @@ namespace API.APPLICATION.Queries.Location
         }
         public async Task<PagingItems<DistrictDTO>> GetDistrictAsync(DistrictFilterParam param)
         {
-            var data = GetCurrentAsync();
-             await DeactivateAsync(data);
             var result = new PagingItems<DistrictDTO>
             {
                 PagingInfo = new PagingInfoDto

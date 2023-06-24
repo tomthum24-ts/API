@@ -16,6 +16,7 @@ using System.Security.Cryptography;
 using API.INFRASTRUCTURE.Interface.RefreshToken;
 using BaseCommon.Common.ClaimUser;
 using Microsoft.Extensions.Configuration;
+using BaseCommon.Utilities;
 
 namespace API.APPLICATION.Commands.Login
 {
@@ -29,8 +30,9 @@ namespace API.APPLICATION.Commands.Login
         private IHttpContextAccessor _accessor;
         private IUserSessionInfo _userSessionInfo;
         private readonly IConfiguration _iconfiguration;
+        private readonly GetInfoHelpers _getInfoHelpers;
 
-        public LoginCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserRepository userRepository, IJWTManagerRepository jWTManagerRepository, IHttpContextAccessor accessor, IRefreshTokenRepository refreshTokenRepository, IUserSessionInfo userSessionInfo, IConfiguration iconfiguration)
+        public LoginCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserRepository userRepository, IJWTManagerRepository jWTManagerRepository, IHttpContextAccessor accessor, IRefreshTokenRepository refreshTokenRepository, IUserSessionInfo userSessionInfo, IConfiguration iconfiguration, GetInfoHelpers getInfoHelpers)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -40,6 +42,7 @@ namespace API.APPLICATION.Commands.Login
             _refreshTokenRepository = refreshTokenRepository;
             _userSessionInfo = userSessionInfo;
             _iconfiguration = iconfiguration;
+            _getInfoHelpers = getInfoHelpers;
         }
 
         public async Task<MethodResult<LoginCommandResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -55,37 +58,28 @@ namespace API.APPLICATION.Commands.Login
                     });
                 return methodResult;
             }
-            var ip = IpAddress();
+            var ip = _getInfoHelpers?.IpAddress();
             var paramUser = new Users();
             paramUser.UserName = request.UserName;
             paramUser.Password = CommonBase.ToMD5(request.Password);
-
             var genToken = await _jWTManagerRepository.GenerateJWTTokens(paramUser, cancellationToken);
-            genToken.RefreshToken = GenerateRefreshToken(ip, request.UserName).IdRefreshToken;
-            methodResult.Result = _mapper.Map<LoginCommandResponse>(genToken);
 
             #region Refresh Token
             var createUser = GenerateRefreshToken(ip, request.UserName);
             _refreshTokenRepository.Add(createUser);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             #endregion
-
+            genToken.RefreshToken = createUser.IdRefreshToken;
+            methodResult.Result = _mapper.Map<LoginCommandResponse>(genToken);
             return methodResult;
         }
-        private string IpAddress()
-        {
-            // get source ip address for the current request
-            if (_accessor.HttpContext.Request.Headers.ContainsKey("X-Forwarded-For"))
-                return _accessor.HttpContext.Request.Headers["X-Forwarded-For"].ToString();
-            else
-                return _accessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
-        }
-        public DOMAIN.RefreshToken GenerateRefreshToken(string ipAddress,string userName)
+      
+        public UserRefreshToken GenerateRefreshToken(string ipAddress,string userName)
         {
             var randomBytes = CMSEncryption.RandomBytes();
-            var refreshToken = new DOMAIN.RefreshToken(
+            var refreshToken = new UserRefreshToken(
                  Convert.ToBase64String(randomBytes),
-                 DateTime.UtcNow.AddHours(int.Parse(_iconfiguration["JWT:TimeRefresh"])),
+                 DateTime.UtcNow.AddMinutes(int.Parse(_iconfiguration["JWT:TimeRefresh"])),
                  ipAddress,
                  userName,
                  null,

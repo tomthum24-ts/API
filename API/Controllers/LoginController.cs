@@ -16,6 +16,7 @@ namespace API.Controllers
     {
         private const string Login = nameof(Login);
         private const string RefreshToken = nameof(RefreshToken);
+        private const string Revoke = nameof(Revoke);
         private readonly IMediator _mediator;
 
         public LoginController(IMediator mediator)
@@ -51,6 +52,23 @@ namespace API.Controllers
         [AllowAnonymous]
         [Route(RefreshToken)]
         public async Task<IActionResult> RefreshTokenAsync(UpdateRefreshTokenCommand command)
+        {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+
+        }
+
+        /// <summary>
+        /// Revoke token  - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(MethodResult<RevokeTokenCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
+        [Route(Revoke)]
+        public async Task<IActionResult> RevokeTokenAsync(RevokeTokenCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);

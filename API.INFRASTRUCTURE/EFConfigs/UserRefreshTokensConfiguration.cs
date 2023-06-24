@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace API.INFRASTRUCTURE
 {
-    public class UserRefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
+    public class UserRefreshTokenConfiguration : IEntityTypeConfiguration<UserRefreshToken>
     {
-        public void Configure(EntityTypeBuilder<RefreshToken> builder)
+        public void Configure(EntityTypeBuilder<UserRefreshToken> builder)
         {
             builder.ToTable(TableConstants.REFRESHTOKEN_TABLENAME);
             builder.Property(x => x.IdRefreshToken).HasField("_idRefreshToken").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);

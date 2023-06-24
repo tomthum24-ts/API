@@ -39,7 +39,7 @@ namespace API.INFRASTRUCTURE.Repositories.UnitOfWork
         }
         protected  void StandardizeEntities()
         {
-            var dateTimeNow = DateTime.Now;
+            var dateTimeNow = DateTime.UtcNow;
 
             var listState = new List<EntityState>
             {

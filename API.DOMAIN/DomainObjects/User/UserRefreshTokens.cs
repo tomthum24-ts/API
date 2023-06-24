@@ -2,7 +2,7 @@
 
 namespace API.DOMAIN
 {
-    public class RefreshToken : APIEntity
+    public class UserRefreshToken : APIEntity
     {
         #region Fields
         private string _idRefreshToken;
@@ -20,11 +20,11 @@ namespace API.DOMAIN
 
         #region Constructors
 
-        private RefreshToken()
+        private UserRefreshToken()
         {
         }
 
-        public RefreshToken(string idrefreshToken, DateTime? expires, string ipAddress,string userLogin,DateTime? revoked,string revokedByIp, bool? isRevoked, bool? isActive)
+        public UserRefreshToken(string idrefreshToken, DateTime? expires, string ipAddress,string userLogin,DateTime? revoked,string revokedByIp, bool? isRevoked, bool? isActive)
         {
 
             _idRefreshToken = idrefreshToken;

@@ -11,7 +11,7 @@ namespace API.APPLICATION.Mappings.User
         public RefreshTokenProfile()
         {
             CreateMap<CreateRefreshTokenCommand, CreateRefreshTokenCommandResponse>();
-            CreateMap<RefreshToken, CreateUserCommandResponse>();
+            CreateMap<UserRefreshToken, CreateUserCommandResponse>();
             CreateMap<Tokens, UpdateRefreshTokenCommandResponse>().ForMember(x => x.AccessToken,options => options.MapFrom(source => source.Token)); ;
             //CreateMap<UserDTO, UserResponseViewModel>();
         }

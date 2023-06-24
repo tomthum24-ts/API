@@ -18,7 +18,9 @@ namespace BaseCommon.Enums
         [Description("Mật khẩu yếu")]
         EB03,
         [Description("Hết hạn phiên đăng nhập")]
-        EB04
+        EB04,
+        [Description("Hết phiên đăng nhập vui lòng đăng nhập lại")]
+        EB05
 
     }
 

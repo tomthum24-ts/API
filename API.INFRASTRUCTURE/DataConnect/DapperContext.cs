@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 
@@ -7,14 +8,15 @@ namespace API.INFRASTRUCTURE.DataConnect
 {
     public class DapperContext
     {
-        private readonly IConfiguration _configuration;
-        private readonly string _connectionString;
-        public DapperContext(IConfiguration configuration)
+        protected readonly IWebHostEnvironment _env;
+        private readonly GetConnectString _getConnectString;
+        public DapperContext( IWebHostEnvironment env, GetConnectString getConnectString)
         {
-            _configuration = configuration;
-            _connectionString = _configuration.GetConnectionString("Default");
+            _env = env;
+            _getConnectString = getConnectString;
         }
+
         public IDbConnection CreateConnection()
-            => new SqlConnection(_connectionString);
+            => new SqlConnection(_getConnectString.GetConnect());
     }
 }

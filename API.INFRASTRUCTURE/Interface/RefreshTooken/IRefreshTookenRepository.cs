@@ -2,7 +2,7 @@
 
 namespace API.INFRASTRUCTURE.Interface.RefreshToken
 {
-    public interface IRefreshTokenRepository :IRepositoryBase<DOMAIN.RefreshToken>
+    public interface IRefreshTokenRepository :IRepositoryBase<UserRefreshToken>
     {
     }
 }

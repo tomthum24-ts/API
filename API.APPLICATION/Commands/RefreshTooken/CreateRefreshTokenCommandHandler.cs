@@ -33,7 +33,7 @@ namespace API.APPLICATION
         {
             var userName = _userSessionInfo.UserName;
             var methodResult = new MethodResult<CreateRefreshTokenCommandResponse>();
-            var createUser = new RefreshToken(
+            var createUser = new UserRefreshToken(
                 request.RefreshToken,
                 request.Expires,
                 request.IpAddress,
