@@ -14,6 +14,7 @@ namespace BaseCommon.Common.Enum
         public const string LastName = "LastName";
         public const string Email = "Email";
         public const string Project = "Project";
+        public const string Permissiongroups = "UserGroup";
 
     }
 }

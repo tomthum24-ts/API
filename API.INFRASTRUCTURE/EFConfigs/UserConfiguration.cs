@@ -24,6 +24,7 @@ namespace API.INFRASTRUCTURE
             builder.Property(x => x.Project).HasField("_project").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Note).HasField("_note").HasMaxLength(500).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Status).HasField("_status").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.UserGroup).HasField("_userGroup").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         }
     }

@@ -21,6 +21,7 @@ namespace API.DOMAIN
         private int? _village;
         private int? _project;
         private string _note;
+        private int? _userGroup;
 
         private bool? _status;
 
@@ -72,6 +73,7 @@ namespace API.DOMAIN
         public int? Project { get => _project; }
         public string Note { get => _note; }
         public bool? Status { get => _status; }
+        public int? UserGroup { get => _userGroup; }
 
 
         #endregion Properties
@@ -92,6 +94,7 @@ namespace API.DOMAIN
         public void SetProject(int? project) => _project = project;
         public void SetNote(string note) => _note = note;
         public void SetStatus(bool? status) => _status = status;
+        public void SetUserGroup(int? userGroup) => _userGroup = userGroup;
 
         #endregion Behaviours
     }
