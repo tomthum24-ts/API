@@ -2,7 +2,9 @@
 using API.APPLICATION.Queries.Media;
 using API.APPLICATION.ViewModels;
 using API.APPLICATION.ViewModels.Media;
+using BaseCommon.Attributes;
 using BaseCommon.Common.MethodResult;
+using BaseCommon.Model;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +47,7 @@ namespace API.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route(UploadFile)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public IActionResult UploadFileAsyn(List<IFormFile> files)
         {
             if (files.Count == 0)
@@ -71,7 +74,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(MethodResult<List<MediaResponse>>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [AllowAnonymous]
-        //[AuthorizeGroupCheckOperation(EAuthorizeType.AuthorizedUsers)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> UploadFileAsync(IEnumerable<IFormFile> formFiles, [FromQuery] UploadFileViewModel uploadFileViewModel)
         {
             var uploadResult = await _mediaService.UploadFileAsync(formFiles, uploadFileViewModel).ConfigureAwait(false);

@@ -5,8 +5,9 @@ namespace API.DOMAIN.DomainObjects.Permission
     public class RolePermission : APIEntity
     {
         #region Fields
-        private string _nameControl;
-        private string _name;
+        private string _nameController;
+        private string _actionName;
+        private string _note;
 
         #endregion Fields
 
@@ -19,13 +20,15 @@ namespace API.DOMAIN.DomainObjects.Permission
         #endregion Constructors
         #region Properties
 
-        public string NameControl { get => _nameControl; }
-        public string Name { get => _name; }
+        public string NameController { get => _nameController; }
+        public string ActionName { get => _actionName; }
+        public string Note { get => _note; }
 
         #endregion Properties
         #region Behaviours
-        public void SetNameControl(string nameControl) => _nameControl = nameControl;
-        public void SetName(string name) => _name = name;
+        public void SetNameController(string nameController) => _nameController = nameController;
+        public void SetActionName(string actionName) => _actionName = actionName;
+        public void SetNote(string note) => _note = note;
 
         #endregion Behaviours
     }

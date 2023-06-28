@@ -8,6 +8,7 @@ using AutoMapper;
 using BaseCommon.Attributes;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Common.Response;
+using BaseCommon.Model;
 using BaseCommon.Utilities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -47,6 +48,7 @@ namespace API.Controllers.Location
         [HttpPost]
         [Route(GetList)]
         [SQLInjectionCheckOperation(new string[] { nameof(DistrictRequestViewModel.Ids), nameof(DistrictRequestViewModel.IdProvinces),nameof(DistrictRequestViewModel.Keyword) })]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<ActionResult> GetDanhSachDistrictAsync(DistrictRequestViewModel request)
         {
             var methodResult = new MethodResult<PagingItems<DistrictDTO>>();
@@ -70,6 +72,7 @@ namespace API.Controllers.Location
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<ActionResult> GetDistrictByIdAsync(RequestByIdViewModel param, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<Dictionary<string, string>>();
@@ -83,7 +86,7 @@ namespace API.Controllers.Location
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateDistrictCommand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> CreateDistrictAsync(CreateDistrictCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -97,6 +100,7 @@ namespace API.Controllers.Location
         [HttpDelete]
         [ProducesResponseType(typeof(MethodResult<DeleteDistrictCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> DeleteDistrictAsync(DeleteDistrictCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -110,7 +114,7 @@ namespace API.Controllers.Location
         [HttpPut]
         [ProducesResponseType(typeof(MethodResult<UpdateDistrictCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> UpdateDistrictAsync(UpdateDistrictCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);

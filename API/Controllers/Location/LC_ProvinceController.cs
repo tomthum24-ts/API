@@ -8,6 +8,7 @@ using AutoMapper;
 using BaseCommon.Attributes;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Common.Response;
+using BaseCommon.Model;
 using BaseCommon.Utilities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -46,6 +47,9 @@ namespace API.Controllers.Location
         [HttpPost]
         [Route(GetList)]
         [SQLInjectionCheckOperation]
+        [ProducesResponseType(typeof(MethodResult<PagingItems<ProvinceDTO>>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<ActionResult> GetDanhSachProvinceAsync(ProvinceRequestViewModel request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<PagingItems<ProvinceDTO>>();
@@ -69,6 +73,7 @@ namespace API.Controllers.Location
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<ActionResult> GetProvinceByIdAsync(RequestByIdViewModel param, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<Dictionary<string, string>>();
@@ -97,6 +102,7 @@ namespace API.Controllers.Location
         [HttpDelete]
         [ProducesResponseType(typeof(MethodResult<DeleteProvinceCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> DeleteProvinceAsync(DeleteProvinceCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -110,7 +116,7 @@ namespace API.Controllers.Location
         [HttpPut]
         [ProducesResponseType(typeof(MethodResult<UpdateProvinceCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> UpdateProvinceAsync(UpdateProvinceCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);

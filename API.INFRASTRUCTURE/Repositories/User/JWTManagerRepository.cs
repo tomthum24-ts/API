@@ -1,10 +1,11 @@
-﻿using API.DOMAIN.DTOs.User;
+﻿using API.DOMAIN.DTOs.Permission;
+using API.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE.DataConnect;
-using BaseCommon.Common.EnCrypt;
 using BaseCommon.Common.Enum;
-using BaseCommon.Model;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -26,16 +27,29 @@ namespace API.INFRASTRUCTURE.Repositories.User
 		private readonly IConfiguration _iconfiguration;
 		private readonly IUserRepository _userRepository;
 		private readonly DapperContext _context;
-        public JWTManagerRepository(IConfiguration iconfiguration, DapperContext context, IUserRepository userRepository)
+		//private readonly IDistributedCached<UserItemCache> _distributedCache;
+		private readonly IMemoryCache _memoryCache;
+		public JWTManagerRepository(IConfiguration iconfiguration, DapperContext context, IUserRepository userRepository, IMemoryCache memoryCache)
         {
             _iconfiguration = iconfiguration;
             _context = context;
             _userRepository = userRepository;
+			_memoryCache = memoryCache;
         }
         public async Task<Tokens> GenerateJWTTokens(Users users, CancellationToken cancellationToken)
 		{
-
+			
+			
 			var user= await _userRepository.Get(x => x.UserName == users.UserName && x.PassWord == users.Password).FirstOrDefaultAsync(cancellationToken);
+			var groupId = new PermissionParam();
+			groupId.IdGroup = user.UserGroup  ;
+
+			var data = await GetAllPermissionNotPaging(groupId);
+			var lstPermission = data.Select(x => x.RoleController);
+			var cacheOptions = new MemoryCacheEntryOptions()
+				.SetSlidingExpiration(TimeSpan.FromMinutes(int.Parse(_iconfiguration["JWT:TimeSliding"])))
+				.SetAbsoluteExpiration(TimeSpan.FromMinutes(int.Parse(_iconfiguration["JWT:TimeAbsolute"])));
+			_memoryCache.Set(AuthorSetting.NamePermission, lstPermission, cacheOptions);
 			// Else we generate JSON Web Token
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var tokenKey = Encoding.UTF8.GetBytes(_iconfiguration["JWT:Key"]);
@@ -51,7 +65,7 @@ namespace API.INFRASTRUCTURE.Repositories.User
 				 new Claim(AuthorSetting.Project,user.Project.ToString()),
 				 new Claim(AuthorSetting.Permissiongroups,user.UserGroup.ToString())
 			  }),
-				Expires = DateTime.UtcNow.AddMinutes(int.Parse(_iconfiguration["JWT:Time"])),
+				Expires = DateTime.UtcNow.AddMinutes(time),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature),
 				
 			};
@@ -60,13 +74,13 @@ namespace API.INFRASTRUCTURE.Repositories.User
 			return new Tokens { Token = tokenHandler.WriteToken(token), ExpiresIn= token.ValidTo };
 
 		}
-		public async Task<IEnumerable<UserDTO>> GetAll(Users users)
-		{
-			var conn = _context.CreateConnection();
-			using var rs = await conn.QueryMultipleAsync("GetAllUser", new { users .UserName}, commandType: CommandType.StoredProcedure);
-			var result = await rs.ReadAsync<UserDTO>().ConfigureAwait(false);
-			return result;
-		}
+		//public async Task<IEnumerable<UserDTO>> GetAll(Users users)
+		//{
+		//	var conn = _context.CreateConnection();
+		//	using var rs = await conn.QueryMultipleAsync("GetAllUser", new { users .UserName}, commandType: CommandType.StoredProcedure);
+		//	var result = await rs.ReadAsync<UserDTO>().ConfigureAwait(false);
+		//	return result;
+		//}
 		public async Task<Tokens> GenerateToken(Users userName, CancellationToken cancellationToken)
 		{
 			return await  GenerateJWTTokens(userName, cancellationToken);
@@ -107,6 +121,13 @@ namespace API.INFRASTRUCTURE.Repositories.User
 				throw new SecurityTokenException("Invalid token");
 			}
 			return principal;
+		}
+		public async Task<IEnumerable<PermissionDTO>> GetAllPermissionNotPaging(PermissionParam param)
+		{
+			var conn = _context.CreateConnection();
+			using var rs = await conn.QueryMultipleAsync("SP_PM_GetListPermission", param, commandType: CommandType.StoredProcedure);
+			var result = await rs.ReadAsync<PermissionDTO>().ConfigureAwait(false);
+			return result;
 		}
 	}
 }

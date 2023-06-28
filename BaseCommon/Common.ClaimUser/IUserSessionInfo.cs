@@ -18,6 +18,12 @@ namespace BaseCommon.Common.ClaimUser
         string LastName { get; }
         string Email { get; }
         int? Project { get; }
+        string PermissionGroups { get; }
+        /// <summary>
+        /// Get permission belonging to user's group
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<string>> GetPermissionOfGroupAsync();
 
 
     }

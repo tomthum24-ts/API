@@ -8,6 +8,7 @@ using AutoMapper;
 using BaseCommon.Attributes;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Common.Response;
+using BaseCommon.Model;
 using BaseCommon.Utilities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -48,6 +49,7 @@ namespace API.Controllers.Location
         [HttpPost]
         [Route(GetList)]
         [SQLInjectionCheckOperation(new string[] { nameof(DistrictRequestViewModel.Ids), nameof(DistrictRequestViewModel.IdProvinces), nameof(DistrictRequestViewModel.Keyword),nameof(VillageRequestViewModel.IdDistricts) })]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<ActionResult> GetDanhSachVillageAsync(VillageRequestViewModel request)
         {
             var methodResult = new MethodResult<PagingItems<VillageDTO>>();
@@ -71,6 +73,7 @@ namespace API.Controllers.Location
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<ActionResult> GetVillageByIdAsync(RequestByIdViewModel param, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<Dictionary<string, string>>();
@@ -84,7 +87,7 @@ namespace API.Controllers.Location
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateVillageCommand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> CreateVillageAsync(CreateVillageCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -98,6 +101,7 @@ namespace API.Controllers.Location
         [HttpDelete]
         [ProducesResponseType(typeof(MethodResult<DeleteVillageCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> DeleteVillageAsync(DeleteVillageCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -111,7 +115,7 @@ namespace API.Controllers.Location
         [HttpPut]
         [ProducesResponseType(typeof(MethodResult<UpdateVillageCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> UpdateVillageAsync(UpdateVillageCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);

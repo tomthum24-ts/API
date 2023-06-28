@@ -16,5 +16,7 @@ namespace BaseCommon.Common.Enum
         public const string Project = "Project";
         public const string Permissiongroups = "UserGroup";
 
+        //Caching
+        public const string NamePermission = "permission";
     }
 }

@@ -6,6 +6,7 @@ using AutoMapper;
 using BaseCommon.Attributes;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Common.Response;
+using BaseCommon.Model;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,7 @@ namespace API.Controllers
         [HttpPost]
         [Route(GetList)]
         [SQLInjectionCheckOperation]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<ActionResult> GetDanhSachProjectAsync(ProjectRequestViewModel request)
         {
             var methodResult = new MethodResult<PagingItems<ProjectResponseViewModel>>();
@@ -61,7 +63,6 @@ namespace API.Controllers
 
             return Ok(methodResult);
         }
-
         /// <summary>
         /// Get List of GetProjectById.
         /// </summary>
@@ -71,6 +72,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(MethodResult<ProjectResponseViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> GetProjectByIdAsync(ProjectByIdRequestViewModel request)
         {
             var methodResult = new MethodResult<ProjectResponseViewModel>();
@@ -82,7 +84,7 @@ namespace API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateProjectCommand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> CreateProjectAsync(CreateProjectCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -96,6 +98,7 @@ namespace API.Controllers
         [HttpDelete]
         [ProducesResponseType(typeof(MethodResult<DeleteProjectCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> DeleteProjectAsync(DeleteProjectCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -109,6 +112,7 @@ namespace API.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(MethodResult<UpdateProjectCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> UpdateProjectAsync(UpdateProjectCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);

@@ -18,6 +18,7 @@ using System.Linq;
 using BaseCommon.Utilities;
 using API.APPLICATION.ViewModels.ByIdViewModel;
 using BaseCommon.Attributes;
+using BaseCommon.Model;
 
 namespace API.Controllers
 {
@@ -52,6 +53,7 @@ namespace API.Controllers
         [HttpPost]
         [Route(GetListUser)]
         [SQLInjectionCheckOperation]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<ActionResult> GetDanhSachUserAsync(UserRequestViewModel request)
         {
             var methodResult = new MethodResult<PagingItems<UserResponseViewModel>>();
@@ -69,6 +71,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<ActionResult> GetUserByIdAsync(RequestByIdViewModel param, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<Dictionary<string, string>>();
@@ -83,7 +86,7 @@ namespace API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateUserCommand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> CreateUserAsync(CreateUserCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -97,6 +100,7 @@ namespace API.Controllers
         [HttpDelete]
         [ProducesResponseType(typeof(MethodResult<DeleteUserCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> DeleteUserAsync(DeleteUserCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -110,6 +114,7 @@ namespace API.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(MethodResult<UpdateUserCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> UpdateUserAsync(UpdateUserCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -124,6 +129,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(MethodResult<ChangePasswordCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [Route(ChangePassword)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);

@@ -11,6 +11,9 @@ using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories.User;
+using BaseCommon.Authorization;
+using BaseCommon.Caching;
+using BaseCommon.Caching.Interfaces;
 using BaseCommon.Common.ClaimUser;
 using BaseCommon.Utilities;
 using MediatR;
@@ -64,7 +67,8 @@ namespace API
             services.AddSingleton<IGenDTORepoQueries, GenDTORepoQueries>();
             services.AddScoped<IMediaService, MediaService>();
             services.AddScoped<IUserSessionInfo, UserSessionInfo>();
-            
+            services.AddScoped<IPermissionChecker, PermissionChecker>();
+            //services.AddScoped<IDistributedCached<T>, DistributedCache<T>>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDistributedMemoryCache();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -141,6 +145,7 @@ namespace API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
             services.AddControllers();
+            services.AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
