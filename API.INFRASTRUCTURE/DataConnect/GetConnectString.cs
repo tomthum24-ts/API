@@ -1,4 +1,5 @@
 ﻿
+using BaseCommon.Common.MethodResult;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -19,9 +20,11 @@ namespace API.INFRASTRUCTURE.DataConnect
 
             if (_env.EnvironmentName == "Development")
             {
-                return _configuration.GetConnectionString("Develop");
+                var connDev= SecurityHelper.Decrypt(_configuration.GetConnectionString("Develop"), "@Son@123");
+                return connDev;
             }
-            return _configuration.GetConnectionString("Product");
+            var connProduct = SecurityHelper.Decrypt(_configuration.GetConnectionString("Product"), "@Son@123");
+            return connProduct;
         }
 
     }

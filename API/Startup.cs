@@ -12,8 +12,6 @@ using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories.User;
 using BaseCommon.Authorization;
-using BaseCommon.Caching;
-using BaseCommon.Caching.Interfaces;
 using BaseCommon.Common.ClaimUser;
 using BaseCommon.Utilities;
 using MediatR;

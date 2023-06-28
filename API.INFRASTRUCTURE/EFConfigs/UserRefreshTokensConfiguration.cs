@@ -19,6 +19,7 @@ namespace API.INFRASTRUCTURE
             builder.Property(x => x.ReasonRevoked).HasField("_reasonRevoked").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.IsRevoked).HasField("_isRevoked").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.IsActive).HasField("_isActive").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.TimeLogout).HasField("_timeLogout").UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

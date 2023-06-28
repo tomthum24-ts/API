@@ -15,6 +15,7 @@ namespace API.DOMAIN
         private string _reasonRevoked;
         private bool? _isRevoked;
         private bool? _isActive;
+        private DateTime? _timeLogout;
 
         #endregion Fields
 
@@ -49,6 +50,7 @@ namespace API.DOMAIN
         public string ReasonRevoked { get => _reasonRevoked; }
         public bool? IsRevoked { get => _isRevoked; }
         public bool? IsActive { get => _isActive; }
+        public DateTime? TimeLogout { get => _revoked; }
 
         #endregion Properties
 
@@ -63,6 +65,7 @@ namespace API.DOMAIN
         public void SetReasonRevoked(string reasonRevoked) => _reasonRevoked = reasonRevoked;
         public void SetIsRevoked(bool? isRevoked) => _isRevoked = isRevoked;
         public void SetIsActive(bool? isActive) => _isActive = isActive;
+        public void SetTimeLogout(DateTime? timeLogout) => _timeLogout = timeLogout;
 
         #endregion Behaviours
     }

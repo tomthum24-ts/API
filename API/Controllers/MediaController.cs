@@ -50,6 +50,7 @@ namespace API.Controllers
         [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public IActionResult UploadFileAsyn(List<IFormFile> files)
         {
+            var result = "";
             if (files.Count == 0)
                 return BadRequest();
             string dictionaryPath = Path.Combine(_webHostEnvironment.ContentRootPath, "Media");
@@ -61,8 +62,8 @@ namespace API.Controllers
                     file.CopyTo(stream);
                 }
             }
-
-            return Ok("Upload successful");
+            result = dictionaryPath;
+            return Ok(result);
         }
         /// <summary>
         /// Upload files.

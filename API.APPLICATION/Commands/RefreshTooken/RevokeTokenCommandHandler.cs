@@ -44,6 +44,10 @@ namespace API.APPLICATION.Commands.RefreshToken
             existingRevoke.SetIsRevoked(true);
             existingRevoke.SetRevokedByIp(_getInfoHelpers.IpAddress());
             existingRevoke.SetRevoked(DateTime.UtcNow);
+            if (request.IsLogout == true)
+            {
+                existingRevoke.SetTimeLogout(DateTime.UtcNow);
+            }
             _refreshTokenRepository.Update(existingRevoke);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             return methodResult;

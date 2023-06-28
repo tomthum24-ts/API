@@ -12,14 +12,15 @@ namespace API.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class LoginController : ControllerBase
+    public class AccountController : ControllerBase
     {
         private const string Login = nameof(Login);
         private const string RefreshToken = nameof(RefreshToken);
         private const string Revoke = nameof(Revoke);
+        private const string Logout = nameof(Logout);
         private readonly IMediator _mediator;
 
-        public LoginController(IMediator mediator)
+        public AccountController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -70,6 +71,23 @@ namespace API.Controllers
         [Route(Revoke)]
         public async Task<IActionResult> RevokeTokenAsync(RevokeTokenCommand command)
         {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+
+        }
+        /// <summary>
+        /// Revoke token  - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(MethodResult<RevokeTokenCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
+        [Route(Logout)]
+        public async Task<IActionResult> LogOutAsync(RevokeTokenCommand command)
+        {
+            command.IsLogout = true;
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);
 
