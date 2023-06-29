@@ -2,6 +2,7 @@ using API.APPLICATION;
 using API.APPLICATION.Queries.GenDTO;
 using API.APPLICATION.Queries.Location;
 using API.APPLICATION.Queries.Media;
+using API.APPLICATION.Queries.Menu;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
 using API.INFRASTRUCTURE.Interface;
@@ -88,7 +89,9 @@ namespace API
             services.AddScoped<IVillageRepository, VillageRepository>();
             services.AddScoped<IVillageServices, VillageServices>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
-            //services.AddScoped<IRefreshTokenServices, RefreshTokenServices>();
+            services.AddScoped<IMenuServices, MenuServices>();
+
+
             services.AddHttpClient();
             services.AddSingleton<DapperContext>();
             services.AddSingleton<GetInfoHelpers>();

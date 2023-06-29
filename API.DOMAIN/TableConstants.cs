@@ -14,7 +14,6 @@ namespace API.DOMAIN
         public const string USERPERMISSION_TABLENAME = "PM_UserGroupPermission"; 
         public const string ROLEPERMISSION_TABLENAME = "PM_RolePermission"; 
         public const string CREDENTIAL_TABLENAME = "PM_Credential";
-
-
+        public const string MENU_TABLENAME = "DA_Menu";
     }
 }
