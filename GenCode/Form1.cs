@@ -13,7 +13,7 @@ namespace GenCode
 {
     public partial class Form1 : Form
     {
-
+        string connectString = "server=DESKTOP-2LILVUD\\SQLEXPRESS;database=NetCore;uid=sa;password=Tienson0204;MultipleActiveResultSets=True;App=EntityFramework;TrustServerCertificate=True";
         public Form1()
         {
             InitializeComponent();
@@ -23,6 +23,7 @@ namespace GenCode
             TxtNameSpace.Text = "API";
             txtThuMuc.Text = Application.StartupPath;
             TxtOutput.ScrollBars = ScrollBars.Both;
+            TxtConnectString.Text = connectString;
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -39,8 +40,10 @@ namespace GenCode
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string value = TxtConnectString.Text;
-
+            
+            //string value = TxtConnectString.Text;
+            
+            string value = connectString;
             DataAccess context = new DataAccess(value);
 
             string[] arrParameterNames = new string[] { "Refix" };
@@ -169,7 +172,7 @@ namespace GenCode
                 #endregion
 
                 #region EFConfigs
-               
+
                 StringBuilder strEFConfigs = new StringBuilder();
                 strEFConfigs.AppendLine(@"using API." + txtRefix.Text.ToUpper() + @".DOMAIN;
                                             using Microsoft.EntityFrameworkCore;
@@ -197,7 +200,7 @@ namespace GenCode
                 }
                 if (RdEFConfigs.Checked)
                 {
-                   
+
                     TxtOutput.Text = strEFConfigs.ToString();
                 }
                 #endregion
@@ -236,7 +239,8 @@ namespace GenCode
                 strMappings.AppendLine("}");
 
                 strMappings.AppendLine("");
-                if (RdMapper.Checked) {
+                if (RdMapper.Checked)
+                {
                     TxtOutput.Text = strMappings.ToString();
                 }
                 #endregion
@@ -246,7 +250,7 @@ namespace GenCode
                 #region Queries
 
                 StringBuilder strIQueries = new StringBuilder();
-                strIQueries.AppendLine(@"using Services.Common.MethodResultUtils;
+                strIQueries.AppendLine(@"using BaseCommon.Common.MethodResult;
                                         using Services.Common.Paging;
                                         using System.Threading.Tasks;");
 
@@ -279,7 +283,7 @@ namespace GenCode
                                         using Services.Common.DI;
                                         using Services.Common.Domain.Repositories;
                                         using Services.Common.Domain.Uow;
-                                        using Services.Common.MethodResultUtils;
+                                        using BaseCommon.Common.MethodResult;
                                         using Services.Common.Paging;
                                         using System.Data;
                                         using System.Threading.Tasks;
@@ -452,7 +456,7 @@ namespace GenCode
                             using Dapper.Common.Services;
                             using Services.Common.DI;
                             using Services.Common.DomainObjects.Exceptions;
-                            using Services.Common.MethodResultUtils;
+                            using BaseCommon.Common.MethodResult;
                             using System;
                             using System.Collections.Generic;
                             using System.Data;
@@ -520,12 +524,12 @@ namespace GenCode
 
             #endregion
 
-//using (StreamWriter writetext = new StreamWriter(thumuc + @"\Orthers/ApplicationModule.cs"))
-//{
-//    writetext.WriteLine(strApplicationModule.ToString());
-//}
+            //using (StreamWriter writetext = new StreamWriter(thumuc + @"\Orthers/ApplicationModule.cs"))
+            //{
+            //    writetext.WriteLine(strApplicationModule.ToString());
+            //}
 
-using (StreamWriter writetext = new StreamWriter(thumucAPI + @"\Mappings.cs"))
+            using (StreamWriter writetext = new StreamWriter(thumucAPI + @"\Mappings.cs"))
             {
                 writetext.WriteLine(strMappings.ToString());
             }
@@ -645,44 +649,11 @@ using (StreamWriter writetext = new StreamWriter(thumucAPI + @"\Mappings.cs"))
 
             #endregion
 
-            #region BaseClasses CommandHandler
-
-            strBD = new StringBuilder();
-            strBD.AppendLine(@"using API." + module + @".DOMAIN;
-                            using AutoMapper;
-                            using Services.Common.Domain.Repositories;
-                            using Services.Common.Domain.Uow;");
-
-            strBD.AppendLine("namespace API." + module + ".APPLICATION");
-            strBD.AppendLine("{");
-            strBD.AppendLine("public class " + objectName + "CommandHandler");
-            strBD.AppendLine("{");
-            strBD.AppendLine("protected readonly IMapper _mapper;");
-            strBD.AppendLine("protected readonly IEntityRepository<" + objectName + ", int> _contextRepository;");
-            strBD.AppendLine("protected readonly IUnitOfWork _unitOfWork;");
-
-            strBD.AppendLine("public " + objectName + "CommandHandler(IMapper mapper, IUnitOfWork unitOfWork)");
-            strBD.AppendLine("{");
-            strBD.AppendLine("_mapper = mapper;");
-            strBD.AppendLine("_unitOfWork = unitOfWork;");
-            strBD.AppendLine(" _contextRepository = unitOfWork.GetEntityRepository<" + objectName + ", int>();");
-            strBD.AppendLine("}");
-            strBD.AppendLine("}");
-            strBD.AppendLine("}");
-
-            using (StreamWriter writetext = new StreamWriter(string.Format(path + @"\Commands/" + objectName + @"\BaseClasses\{0}CommandHandler.cs", objectName)))
-            {
-                writetext.WriteLine(strBD.ToString());
-            }
-
-
-            #endregion
-
             #region Create Command
 
             strBD = new StringBuilder();
             strBD.AppendLine(@" using MediatR;
-                                using Services.Common.MethodResultUtils;");
+                                using BaseCommon.Common.MethodResult;");
 
             strBD.AppendLine("namespace API." + module + ".APPLICATION");
             strBD.AppendLine("{");
@@ -713,23 +684,28 @@ using (StreamWriter writetext = new StreamWriter(thumucAPI + @"\Mappings.cs"))
                                 using MediatR;
                                 using Microsoft.AspNetCore.Http;
                                 using Microsoft.EntityFrameworkCore;
-                                using Services.Common.Domain.Uow;
-                                using Services.Common.DomainObjects.Exceptions;
-                                using Services.Common.MethodResultUtils;
                                 using System.Threading;
+                                using BaseCommon.Common.MethodResult;
+                                using API.Extension;
+                                using API.INFRASTRUCTURE.Interface.UnitOfWork;
                                 using System.Threading.Tasks;");
 
             strBD.AppendLine("namespace API." + module + ".APPLICATION");
             strBD.AppendLine("{");
-            strBD.AppendLine("public class Create" + objectName + "CommandHandler : " + objectName + "CommandHandler, IRequestHandler<Create" + objectName + "Command, MethodResult<Create" + objectName + "CommandResponse>>");
+            strBD.AppendLine("public class Create" + objectName + "CommandHandler : " + objectName + "IRequestHandler<Create" + objectName + "Command, MethodResult<Create" + objectName + "CommandResponse>>");
             strBD.AppendLine("{");
 
             strBD.AppendLine("private readonly IHttpContextAccessor _httpContextAccessor;");
+            strBD.AppendLine("private readonly IMapper _mapper;");
+            strBD.AppendLine("private readonly IUnitOfWork _unitOfWork;");
+            strBD.AppendLine("private readonly I"+ objectName + "Repository _contextRepository ;");
 
 
-            strBD.AppendLine("public Create" + objectName + "CommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor) : base(mapper, unitOfWork)");
+            strBD.AppendLine("public Create" + objectName + "CommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor) ");
             strBD.AppendLine("{");
             strBD.AppendLine("_httpContextAccessor = httpContextAccessor;");
+            strBD.AppendLine("_unitOfWork = unitOfWork;");
+            strBD.AppendLine("_contextRepository = unitOfWork;");
             strBD.AppendLine("}");
 
             strBD.AppendLine("public async Task<MethodResult<Create" + objectName + "CommandResponse>> Handle(Create" + objectName + "Command request, CancellationToken cancellationToken)");
@@ -782,7 +758,7 @@ using (StreamWriter writetext = new StreamWriter(thumucAPI + @"\Mappings.cs"))
 
             strBD = new StringBuilder();
             strBD.AppendLine(@" using MediatR;
-                                using Services.Common.MethodResultUtils;
+                                using BaseCommon.Common.MethodResult;
                                 using System;
                                 using System.Collections.Generic;");
 
@@ -818,7 +794,7 @@ using (StreamWriter writetext = new StreamWriter(thumucAPI + @"\Mappings.cs"))
                                 using Microsoft.EntityFrameworkCore;
                                 using Services.Common.Domain.Uow;
                                 using Services.Common.DomainObjects.Exceptions;
-                                using Services.Common.MethodResultUtils;
+                                using BaseCommon.Common.MethodResult;
                                 using System;
                                 using System.Collections.Generic;
                                 using System.Linq;
@@ -894,7 +870,7 @@ using (StreamWriter writetext = new StreamWriter(thumucAPI + @"\Mappings.cs"))
 
             strBD = new StringBuilder();
             strBD.AppendLine(@"using MediatR;
-                            using Services.Common.MethodResultUtils;
+                            using BaseCommon.Common.MethodResult;
                             using System.Collections.Generic;");
 
             strBD.AppendLine("namespace API." + module + ".APPLICATION");
@@ -934,7 +910,7 @@ using (StreamWriter writetext = new StreamWriter(thumucAPI + @"\Mappings.cs"))
                                 using Microsoft.EntityFrameworkCore;
                                 using Services.Common.Domain.Uow;
                                 using Services.Common.DomainObjects.Exceptions;
-                                using Services.Common.MethodResultUtils;
+                                using BaseCommon.Common.MethodResult;
                                 using System.Collections.Generic;
                                 using System.Linq;
                                 using System.Threading;
@@ -984,7 +960,7 @@ using (StreamWriter writetext = new StreamWriter(thumucAPI + @"\Mappings.cs"))
             using (StreamWriter writetext = new StreamWriter(string.Format(path + @"\Commands/" + objectName + @"\Delete{0}CommandHandler.cs", objectName)))
             {
                 writetext.WriteLine(strBD.ToString());
-              
+
             }
 
 
@@ -993,31 +969,40 @@ using (StreamWriter writetext = new StreamWriter(thumucAPI + @"\Mappings.cs"))
             #region Controllers
 
             strBD = new StringBuilder();
-            strBD.AppendLine(@"using API." + module + @".APPLICATION;
-                        using API." + module + @".API.Controllers.v1.BaseClasses;
-                        using API." + module + @".APPLICATION.Queries;
+            strBD.AppendLine(@"
+                        using API.DOMAIN;
+                        using AutoMapper;
+                        using BaseCommon.Attributes;
+                        using BaseCommon.Common.MethodResult;
+                        using BaseCommon.Common.Response;
+                        using BaseCommon.Model;
                         using MediatR;
+                        using Microsoft.AspNetCore.Authorization;
                         using Microsoft.AspNetCore.Mvc;
-                        using Services.Common.APIs;
-                        using Services.Common.DomainObjects;
-                        using Services.Common.Authorization;
+                        using System.Collections.Generic;
+                        using System.Linq;
                         using System.Net;
-                        using System.Threading.Tasks;
-                        using Dapper;
-                        using Services.Common.MethodResultUtils;
-                        using Services.Common.Paging;");
+                        using System.Threading;
+                        using System.Threading.Tasks;");
 
-            strBD.AppendLine("namespace API." + module + @".API.Controllers.v1");
+            strBD.AppendLine("namespace API." + module );
             strBD.AppendLine("{");
-            strBD.AppendLine("[AuthorizeGroupCheckOperation(EAuthorizeType.AuthorizedUsers)]");
-            strBD.AppendLine("public class " + objectName + "sController : APIControllerBase");
+            strBD.AppendLine("[Authorize]");
+            strBD.AppendLine("[ApiController]");
+            strBD.AppendLine("[Route(\"[controller]\")]");
+            strBD.AppendLine("public class " + objectName + "Controller : ControllerBase");
             strBD.AppendLine("{");
             strBD.AppendLine("private const string GetById = nameof(GetById);");
             strBD.AppendLine("private const string GetList = nameof(GetList);");
             strBD.AppendLine("private readonly I" + objectName + "Queries _queires;");
-            strBD.AppendLine("public " + objectName + "sController(IMediator mediator, I" + objectName + "Queries queires) : base(mediator)");
+            strBD.AppendLine("private readonly IMediator _mediator;");
+            strBD.AppendLine("private readonly IMapper _mapper;");
+            strBD.AppendLine("public " + objectName + "Controller(IMediator mediator, I" + objectName + "Queries queires, IMapper mapper)");
             strBD.AppendLine("{");
+            strBD.AppendLine("_mediator = mediator;");
             strBD.AppendLine("_queires = queires;");
+            strBD.AppendLine("_mapper = mapper;");
+
             strBD.AppendLine("}");
 
             strBD.AppendLine("/// <summary>");
@@ -1111,7 +1096,7 @@ using (StreamWriter writetext = new StreamWriter(thumucAPI + @"\Mappings.cs"))
                 }
             }
 
-           
+
             #endregion
         }
 

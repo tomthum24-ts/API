@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using API.INFRASTRUCTURE.EFConfigs.Location;
 using API.DOMAIN;
 using Microsoft.AspNetCore.Hosting;
+using API.INFRASTRUCTURE.EFConfigs.Permission;
 
 namespace API.INFRASTRUCTURE.DataConnect
 {
@@ -67,6 +68,13 @@ namespace API.INFRASTRUCTURE.DataConnect
                 entity.ToTable(TableConstants.REFRESHTOKEN_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new UserRefreshTokenConfiguration());
+
+            modelBuilder.Entity<PM_Credential>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.CREDENTIAL_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new CredentialConfiguration());
         }
         public DbSet<User> User { get; set; }
         public DbSet<Project> Project { get; set; }
@@ -74,6 +82,7 @@ namespace API.INFRASTRUCTURE.DataConnect
         public DbSet<District> District { get; set; }
         public DbSet<Village> Village { get; set; }
         public DbSet<UserRefreshToken> UserRefreshToken { get; set; }
+        public DbSet<PM_Credential> Credential { get; set; }
 
     }
 }

@@ -1,9 +1,8 @@
 ﻿
-using API.DOMAIN.DomainObjects.Permission;
-
+using API.DOMAIN;
 namespace API.INFRASTRUCTURE
 {
-    public interface ICredentialRepository : IRepositoryBase<Credential>
+    public interface ICredentialRepository : IRepositoryBase<PM_Credential>
     {
     }
 }

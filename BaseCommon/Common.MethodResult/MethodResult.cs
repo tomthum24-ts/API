@@ -16,11 +16,11 @@ namespace BaseCommon.Common.MethodResult
             {
                 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-                string password = AppSettings.Instance.Get<string>("Key");
+                string password = AppSettings.Instance.Get<string>("password");
 
                 if (IsOk && Result != null && env == "Production")
                 {
-                    return SecurityHelper.Encrypt(NewtonsoftJsonConvert.SerializeObject(Result), "password");
+                    return SecurityHelper.Encrypt(NewtonsoftJsonConvert.SerializeObject(Result), password);
                 }
 
                 return null;

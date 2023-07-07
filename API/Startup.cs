@@ -10,6 +10,7 @@ using API.INFRASTRUCTURE.Interface.Location;
 using API.INFRASTRUCTURE.Interface.RefreshToken;
 using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories;
+using API.INFRASTRUCTURE.Repositories.Permission;
 using API.INFRASTRUCTURE.Repositories.UnitOfWork;
 using API.INFRASTRUCTURE.Repositories.User;
 using BaseCommon.Authorization;
@@ -89,8 +90,10 @@ namespace API
             services.AddScoped<IVillageRepository, VillageRepository>();
             services.AddScoped<IVillageServices, VillageServices>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            //Menu
             services.AddScoped<IMenuServices, MenuServices>();
-
+            //Credetial
+            services.AddScoped<ICredentialRepository, CredentialRepository>();
 
             services.AddHttpClient();
             services.AddSingleton<DapperContext>();
@@ -175,7 +178,7 @@ namespace API
             app.UseStatusCodePages();
             // todo: replace with app.UseHsts(); once the feature will be stable
             app.UseRewriter(new RewriteOptions().AddRedirectToHttps(StatusCodes.Status301MovedPermanently, 443));
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1")); 
         }
     }
 }

@@ -12,5 +12,7 @@ namespace API.APPLICATION.Commands.Project
     {
         public List<int> Ids { get; set; }
     }
-    public class DeleteProjectCommandResponse { }
+    public class DeleteProjectCommandResponse : DeleteProjectCommand
+    { 
+    }
 }

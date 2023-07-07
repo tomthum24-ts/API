@@ -1,31 +1,43 @@
 ﻿
-namespace API.DOMAIN.DomainObjects.Permission
+namespace API.DOMAIN
 {
-    public class Credential : APIEntity
+    public class PM_Credential : APIEntity
     {
         #region Fields
-        private string _userGroupId;
-        private string _roleId;
+        private int _userGroupId;
+        private int _roleId;
+        private string _note;
+        private bool? _status;
 
         #endregion Fields
 
         #region Constructors
 
-        private Credential()
+        private PM_Credential()
         {
+        }
+        public PM_Credential(int userGroupId, int roleId,string note, bool? status)
+        {
+            _userGroupId = userGroupId;
+            _roleId = roleId;
+            _note = note;
+            _status = status;
         }
 
         #endregion Constructors
         #region Properties
 
-        public string UserGroupId { get => _userGroupId; }
-        public string RoleId { get => _roleId; }
+        public int UserGroupId { get => _userGroupId; }
+        public int RoleId { get => _roleId; }
+        public string Note { get => _note; }
 
+        public bool? Status { get => _status; }
         #endregion Properties
         #region Behaviours
-        public void SetUserGroupId(string userGroupId) => _userGroupId = userGroupId;
-        public void SetRoleId(string roleId) => _roleId = roleId;
-
+        public void SetUserGroupId(int userGroupId) => _userGroupId = userGroupId;
+        public void SetRoleId(int roleId) => _roleId = roleId;
+        public void SetNote(string note) => _note = note;
+        public void SetStatus(bool? status) => _status = status;
         #endregion Behaviours
     }
 }

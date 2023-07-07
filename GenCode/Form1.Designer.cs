@@ -200,6 +200,7 @@
             // 
             this.TxtConnectString.Location = new System.Drawing.Point(145, 203);
             this.TxtConnectString.Name = "TxtConnectString";
+            this.TxtConnectString.ReadOnly = true;
             this.TxtConnectString.Size = new System.Drawing.Size(602, 27);
             this.TxtConnectString.TabIndex = 18;
             // 
