@@ -27,9 +27,9 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route(Decrypt)]
-        public async Task<ActionResult> DecryptAsync(SecurityViewModel request)
+        public ActionResult DecryptAsync(SecurityViewModel request)
         {
-           var key= SecurityHelper.Decrypt(request.Value, request.Password);
+           var key=  SecurityHelper.Decrypt(request.Value, request.Password);
             return Ok(key);
         }
 
@@ -40,7 +40,7 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route(Encrypt)]
-        public async Task<ActionResult> EncryptAsync(SecurityViewModel request)
+        public ActionResult EncryptAsync(SecurityViewModel request)
         {
             var key = SecurityHelper.Encrypt(request.Value, request.Password);
             return Ok(key);

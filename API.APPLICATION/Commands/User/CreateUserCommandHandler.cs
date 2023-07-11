@@ -38,7 +38,7 @@ namespace API.APPLICATION
                 return methodResult;
             }
             var createUser = new User(
-                 request.UserName,
+                 request.UserName.ToLower(),
                  request.Name,
                  request.LastName,
                  request.Email,

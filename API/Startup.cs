@@ -31,6 +31,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Shyjus.BrowserDetection;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Reflection;
@@ -75,9 +76,11 @@ namespace API
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddMediatR(typeof(IUserServices).Assembly);
+
             //User
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserServices, UserServices>();
+            
             //Project
             services.AddScoped<IProjectServices, ProjectServices>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
@@ -100,7 +103,7 @@ namespace API
             services.AddSingleton<GetInfoHelpers>();
             services.AddSingleton<GetConnectString>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-
+            services.AddScoped<IBrowserDetector, BrowserDetector>();
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -178,7 +181,8 @@ namespace API
             app.UseStatusCodePages();
             // todo: replace with app.UseHsts(); once the feature will be stable
             app.UseRewriter(new RewriteOptions().AddRedirectToHttps(StatusCodes.Status301MovedPermanently, 443));
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1")); 
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
+            
         }
     }
 }

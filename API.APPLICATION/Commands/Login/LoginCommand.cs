@@ -18,6 +18,6 @@ namespace API.APPLICATION.Commands.Login
     {
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
-        public DateTime? ExpiresIn { get; set; }
+        public DateTime ExpiresIn { get; set; }
     }
 }

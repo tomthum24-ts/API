@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -91,5 +92,88 @@ namespace BaseCommon.Utilities
             }
             return str;
         }
+
+        #region Random
+
+        public static readonly char[] UpperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+        public static readonly char[] LowerChars = "abcdefghijklmnopqrstuvwxyz".ToCharArray();
+        public static readonly char[] NumberChars = "0123456789".ToCharArray();
+        public static readonly char[] SpecialChars = "!@#$%^*&".ToCharArray();
+        public static string Generate(int length, bool isIncludeUpper = true, bool isIncludeLower = true, bool isIncludeNumber = true, bool isIncludeSpecial = false)
+        {
+            var chars = new List<char>();
+
+            if (isIncludeUpper)
+            {
+                chars.AddRange(UpperChars);
+            }
+
+            if (isIncludeLower)
+            {
+                chars.AddRange(LowerChars);
+            }
+
+            if (isIncludeNumber)
+            {
+                chars.AddRange(NumberChars);
+            }
+
+            if (isIncludeSpecial)
+            {
+                chars.AddRange(SpecialChars);
+            }
+
+            return GenerateRandom(length, chars.ToArray());
+        }
+        public static string GenerateRandom(int length, params char[] chars)
+        {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(length), $"{length} cannot be less than zero.");
+            }
+
+            if (chars?.Any() != true)
+            {
+                throw new ArgumentOutOfRangeException(nameof(chars), $"{nameof(chars)} cannot be empty.");
+            }
+
+            chars = chars.Distinct().ToArray();
+
+            const int maxLength = 256;
+
+            if (maxLength < chars.Length)
+            {
+                throw new ArgumentException($"{nameof(chars)} may contain more than {maxLength} chars.", nameof(chars));
+            }
+
+            var outOfRangeStart = maxLength - (maxLength % chars.Length);
+
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                var sb = new StringBuilder();
+
+                var buffer = new byte[128];
+
+                while (sb.Length < length)
+                {
+                    rng.GetBytes(buffer);
+
+                    for (var i = 0; i < buffer.Length && sb.Length < length; ++i)
+                    {
+                        if (outOfRangeStart <= buffer[i])
+                        {
+                            continue;
+                        }
+
+                        sb.Append(chars[buffer[i] % chars.Length]);
+                    }
+                }
+
+                return sb.ToString();
+            }
+        }
+
+        #endregion Random
+
     }
 }
