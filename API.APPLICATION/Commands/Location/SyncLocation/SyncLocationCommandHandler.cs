@@ -2,10 +2,10 @@
 using API.APPLICATION.ViewModels.Location;
 using API.DOMAIN;
 using API.INFRASTRUCTURE.Interface.Location;
-using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using AutoMapper;
 using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.MethodResult;
+using BaseCommon.UnitOfWork;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;

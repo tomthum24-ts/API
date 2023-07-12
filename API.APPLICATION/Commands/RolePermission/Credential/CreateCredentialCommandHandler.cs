@@ -2,10 +2,11 @@
 using API.DOMAIN;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface;
-using API.INFRASTRUCTURE.Interface.UnitOfWork;
+using BaseCommon.UnitOfWork;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
+using BaseCommon.UnitOfWork;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;

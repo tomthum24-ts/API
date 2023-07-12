@@ -100,7 +100,8 @@ namespace BaseCommon.Common.MethodResult
 
             Dictionary<string, string> messages = null;
 
-            var currentLanguage = CultureInfo.DefaultThreadCurrentCulture.TwoLetterISOLanguageName;
+            //var currentLanguage = CultureInfo.DefaultThreadCurrentCulture.TwoLetterISOLanguageName;
+            var currentLanguage = "vn";
 
             var dictionaryKey = $"{resourceAssembly.GetName().Name}@@{currentLanguage}";
 

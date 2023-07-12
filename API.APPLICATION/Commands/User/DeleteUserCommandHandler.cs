@@ -2,7 +2,7 @@
 using API.DOMAIN;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
-using API.INFRASTRUCTURE.Interface.UnitOfWork;
+using BaseCommon.UnitOfWork;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;

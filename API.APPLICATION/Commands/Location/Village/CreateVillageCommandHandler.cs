@@ -1,10 +1,10 @@
 ﻿using API.APPLICATION.Commands.Location.Village;
 using API.DOMAIN;
 using API.INFRASTRUCTURE.Interface.Location;
-using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
+using BaseCommon.UnitOfWork;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;

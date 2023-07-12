@@ -2,7 +2,7 @@
 using API.DOMAIN;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface.RefreshToken;
-using API.INFRASTRUCTURE.Interface.UnitOfWork;
+using BaseCommon.UnitOfWork;
 using AutoMapper;
 using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.MethodResult;

@@ -1,10 +1,11 @@
 ﻿using API.APPLICATION.Commands.User;
 using API.DOMAIN;
 using API.INFRASTRUCTURE;
-using API.INFRASTRUCTURE.Interface.UnitOfWork;
+using BaseCommon.UnitOfWork;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
+using BaseCommon.UnitOfWork;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;

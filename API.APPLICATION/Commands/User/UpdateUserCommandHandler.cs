@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using API.INFRASTRUCTURE;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using API.INFRASTRUCTURE.Interface.UnitOfWork;
+using BaseCommon.UnitOfWork;
 using BaseCommon.Enums;
 using API.DOMAIN;
+using BaseCommon.UnitOfWork;
 
 namespace API.APPLICATION.Commands.User
 {

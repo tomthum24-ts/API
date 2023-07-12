@@ -1,6 +1,5 @@
 ﻿using API.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE;
-using API.INFRASTRUCTURE.Interface.UnitOfWork;
 using AutoMapper;
 using BaseCommon.Common.EnCrypt;
 using BaseCommon.Common.MethodResult;
@@ -19,6 +18,10 @@ using Microsoft.Extensions.Configuration;
 using BaseCommon.Utilities;
 using Shyjus.BrowserDetection;
 using BaseCommon.Common.HttpDetection;
+using BaseCommon.UnitOfWork;
+using BaseCommon.Common.Notification.Model;
+using System.Collections.Generic;
+using BaseCommon.Common.Notification;
 
 namespace API.APPLICATION.Commands.Login
 {
@@ -50,7 +53,21 @@ namespace API.APPLICATION.Commands.Login
 
         public async Task<MethodResult<LoginCommandResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            
+            #region Pushnotification
+            var newNotificationCreatedIntegrationEvents = new List<NotificationCreatedIntegrationEvent>();
+            var newNotificationCreatedIntegrationEvent = new NotificationCreatedIntegrationEvent(
+              1,
+              1,
+              NotificationHelpers.GetNotificationMessage(nameof(EMessageCode.TNS_NoiDung)),
+              "Noi Dung",
+              ENotificationType.Loai1,
+              _userSessionInfo.ID.GetValueOrDefault(),
+              metaData: new { LoaiDon = 1});
+
+            newNotificationCreatedIntegrationEvents.Add(newNotificationCreatedIntegrationEvent);
+            _unitOfWork.PublishNotification(newNotificationCreatedIntegrationEvents);
+            #endregion
+
             var methodResult = new MethodResult<LoginCommandResponse>();
             var existingUser = await _userRepository.Get(x => x.UserName == request.UserName.ToLower() && x.PassWord == CommonBase.ToMD5(request.Password)).FirstOrDefaultAsync(cancellationToken);
             if (existingUser == null)

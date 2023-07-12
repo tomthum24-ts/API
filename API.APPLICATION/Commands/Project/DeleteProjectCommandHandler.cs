@@ -1,6 +1,6 @@
 ﻿using API.DOMAIN;
 using API.INFRASTRUCTURE.Interface;
-using API.INFRASTRUCTURE.Interface.UnitOfWork;
+using BaseCommon.UnitOfWork;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;

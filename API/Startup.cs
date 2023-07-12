@@ -1,43 +1,12 @@
-using API.APPLICATION;
-using API.APPLICATION.Queries.GenDTO;
-using API.APPLICATION.Queries.Location;
-using API.APPLICATION.Queries.Media;
-using API.APPLICATION.Queries.Menu;
-using API.INFRASTRUCTURE;
-using API.INFRASTRUCTURE.DataConnect;
-using API.INFRASTRUCTURE.Interface;
-using API.INFRASTRUCTURE.Interface.Location;
-using API.INFRASTRUCTURE.Interface.RefreshToken;
-using API.INFRASTRUCTURE.Interface.UnitOfWork;
-using API.INFRASTRUCTURE.Repositories;
-using API.INFRASTRUCTURE.Repositories.Permission;
-using API.INFRASTRUCTURE.Repositories.UnitOfWork;
-using API.INFRASTRUCTURE.Repositories.User;
-using BaseCommon.Authorization;
-using BaseCommon.Common.ClaimUser;
-using BaseCommon.Utilities;
-using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using API.Dependency;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Rewrite;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using Shyjus.BrowserDetection;
-using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace API
 {
@@ -53,106 +22,7 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("EnableCORS", builder =>
-                {
-                    builder.AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
-            });
-            services.AddDbContext<IDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
-
-
-            services.AddSingleton<IGenDTORepoQueries, GenDTORepoQueries>();
-            services.AddScoped<IMediaService, MediaService>();
-            services.AddScoped<IUserSessionInfo, UserSessionInfo>();
-            services.AddScoped<IPermissionChecker, PermissionChecker>();
-            //services.AddScoped<IDistributedCached<T>, DistributedCache<T>>();
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddDistributedMemoryCache();
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddMediatR(typeof(Startup).Assembly);
-            services.AddMediatR(typeof(IUserServices).Assembly);
-
-            //User
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserServices, UserServices>();
-            
-            //Project
-            services.AddScoped<IProjectServices, ProjectServices>();
-            services.AddScoped<IProjectRepository, ProjectRepository>();
-            //Location
-            services.AddScoped<ILocationServices, LocationServices>();
-            services.AddScoped<IProvinceRepository, ProvinceRepository>();
-            services.AddScoped<IProvinceServices, ProvinceServices>();
-            services.AddScoped<IDistrictRepository, DistrictRepository>();
-            services.AddScoped<IDistrictServices, DistrictServices>();
-            services.AddScoped<IVillageRepository, VillageRepository>();
-            services.AddScoped<IVillageServices, VillageServices>();
-            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
-            //Menu
-            services.AddScoped<IMenuServices, MenuServices>();
-            //Credetial
-            services.AddScoped<ICredentialRepository, CredentialRepository>();
-
-            services.AddHttpClient();
-            services.AddSingleton<DapperContext>();
-            services.AddSingleton<GetInfoHelpers>();
-            services.AddSingleton<GetConnectString>();
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IBrowserDetector, BrowserDetector>();
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(o =>
-            {
-                var Key = Encoding.UTF8.GetBytes(Configuration["JWT:Key"]);
-                o.SaveToken = true;
-                o.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["JWT:Issuer"],
-                    ValidAudience = Configuration["JWT:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Key)
-                };
-                o.Events = new JwtBearerEvents
-                {
-                    OnAuthenticationFailed = context =>
-                    {
-                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                        {
-                            context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
-                        }
-                        return Task.CompletedTask;
-                    }
-                };
-            });
-            services.AddScoped<IJWTManagerRepository, JWTManagerRepository>();
-            services.AddSwaggerGen(options =>
-            {
-                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-                {
-                    Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
-                    In = ParameterLocation.Header,
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
-                });
-                options.OperationFilter<SecurityRequirementsOperationFilter>();
-            });
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-            });
-            services.AddControllers();
-            services.AddMemoryCache();
+            services.InstallServicesInAssembly(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -182,7 +52,6 @@ namespace API
             // todo: replace with app.UseHsts(); once the feature will be stable
             app.UseRewriter(new RewriteOptions().AddRedirectToHttps(StatusCodes.Status301MovedPermanently, 443));
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
-            
         }
     }
 }

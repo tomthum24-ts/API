@@ -1,7 +1,8 @@
 ﻿using API.DOMAIN;
 using API.INFRASTRUCTURE.DataConnect;
-using API.INFRASTRUCTURE.Interface.UnitOfWork;
+using BaseCommon.UnitOfWork;
 using BaseCommon.Common.ClaimUser;
+using BaseCommon.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BaseCommon.Model;
 
 namespace API.INFRASTRUCTURE.Repositories.UnitOfWork
 {
@@ -23,6 +25,19 @@ namespace API.INFRASTRUCTURE.Repositories.UnitOfWork
             _userSessionInfo = userSessionInfo;
         }
         public IUserRepository Users { get; private set; }
+
+        public ActionCollection ActionsBeforeCommit { get; } = new ActionCollection();
+
+        public ActionCollection ActionsAfterCommit { get; } = new ActionCollection();
+
+        public ActionCollection ActionsBeforeRollback { get; } = new ActionCollection();
+
+        public ActionCollection ActionsAfterRollback { get; } = new ActionCollection();
+
+        public ActionCollection ActionsBeforeSaveChanges { get; } = new ActionCollection();
+
+        public ActionCollection ActionsAfterSaveChanges { get; } = new ActionCollection();
+
         public int Complete()
         {
             return _context.SaveChanges();

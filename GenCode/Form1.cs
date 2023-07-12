@@ -687,7 +687,7 @@ namespace GenCode
                                 using System.Threading;
                                 using BaseCommon.Common.MethodResult;
                                 using API.Extension;
-                                using API.INFRASTRUCTURE.Interface.UnitOfWork;
+                                using BaseCommon.UnitOfWork;
                                 using System.Threading.Tasks;");
 
             strBD.AppendLine("namespace API." + module + ".APPLICATION");
