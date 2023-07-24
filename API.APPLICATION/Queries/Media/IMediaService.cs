@@ -1,76 +1,62 @@
 ﻿using API.APPLICATION.ViewModels;
 using API.APPLICATION.ViewModels.Media;
+using API.DOMAIN;
+using BaseCommon.Common.AttachFile;
+using BaseCommon.Common.MethodResult;
+using BaseCommon.Enums;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace API.APPLICATION.Queries.Media
 {
     public interface IMediaService
     {
-        Task<List<MediaResponse>> UploadFileAsync(IEnumerable<IFormFile> formFiles, UploadFileViewModel uploadFileViewModel);
+        Task<List<MediaResponse>> UploadFileAsync(IEnumerable<IFormFile> files, UploadFileViewModel uploadFileViewModel);
     }
+
     public class MediaService : IMediaService
     {
-        private readonly IHttpClientFactory _clientFactory;
-
-        private readonly MediaOptions _mediaOptions;
-
-        public MediaService(IOptionsSnapshot<MediaOptions> snapshotOptionsAccessor, IHttpClientFactory clientFactory)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IConfiguration _iconfiguration;
+        public MediaService(IWebHostEnvironment webHostEnvironment, IConfiguration iconfiguration)
         {
-            _mediaOptions = snapshotOptionsAccessor.Value;
-
-            _clientFactory = clientFactory;
+            _webHostEnvironment = webHostEnvironment;
+            _iconfiguration = iconfiguration;
         }
 
-        public async Task<List<MediaResponse>> UploadFileAsync(IEnumerable<IFormFile> formFiles, UploadFileViewModel uploadFileViewModel)
+        public async Task<List<MediaResponse>> UploadFileAsync(IEnumerable<IFormFile> files, UploadFileViewModel uploadFileViewModel)
         {
-            if (formFiles == null || !formFiles.Any()) return default;
             var listOfMediaResponse = new List<MediaResponse>();
-            var fileType = new FileType();
-            var client = _clientFactory.CreateClient();
-            int i = 0;
+            
+            var fileType = new MineTypeModel();
 
-            foreach (var formFile in formFiles)
+            string dayString = string.Format("{0:yyyy/MM/dd}", DateTime.Now);
+            string folder = Path.Combine(_webHostEnvironment.ContentRootPath, $"{_iconfiguration["MediaLink:Media"]}/{dayString}/{uploadFileViewModel.FolderFunction}");
+            string patch = $"{_iconfiguration["MediaLink:Media"]}/{dayString}/{uploadFileViewModel.FolderFunction}";
+            if (!Directory.Exists(folder))
             {
-                var fileTypeVerifyResult = await fileType.ProcessFormFile(formFile, _mediaOptions.PermittedExtensions, _mediaOptions.SizeLimit);
-
-                MultipartFormDataContent content = new MultipartFormDataContent();
-
-                //StringContent strFolderName = new StringContent(_mediaOptions.FolderForWeb);
-
-                StringContent strFolderFunction = new StringContent(uploadFileViewModel.FolderFunction);
-
-                StringContent strFileSize = new StringContent(uploadFileViewModel.FileSize.ToString());
-
-                ByteArrayContent byteArrayContent = new ByteArrayContent(fileTypeVerifyResult.Result);
-
-                //content.Add(strFolderName, "pFolder");
-
-                content.Add(strFolderFunction, "pFolderFunction");
-
-                content.Add(strFileSize, "pFileSize");
-
-                content.Add(byteArrayContent, "File" + i, Uri.EscapeDataString(formFile.FileName));
-
-                var response = await client.PostAsync("Media", content);
-
-                var resultApi = await response.Content.ReadAsStringAsync();
-
-                if (!string.IsNullOrEmpty(resultApi))
+                Directory.CreateDirectory(folder);
+            }
+            foreach (var file in files)
+            {
+                var mineType = fileType.IndexOf(file.ContentType);
+                if (mineType != null)
                 {
-                    var lstOfMediaIntegrationResponse = JsonConvert.DeserializeObject<List<MediaIntegrationResponse>>(resultApi);
-
-                    if (lstOfMediaIntegrationResponse != null && lstOfMediaIntegrationResponse.Any())
-                        listOfMediaResponse.AddRange(lstOfMediaIntegrationResponse.Select(x => new MediaResponse(x.FileName, x.DuongDan, x.DungLuong)));
+                    var data = new MediaResponse(file.FileName, patch, file.Length);
+                    string filepath = Path.Combine(folder, file.FileName);
+                    using (var stream = new FileStream(filepath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    listOfMediaResponse.Add(data);
                 }
-                i++;
+                    
             }
             return listOfMediaResponse;
         }

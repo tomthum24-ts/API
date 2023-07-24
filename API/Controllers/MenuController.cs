@@ -38,11 +38,11 @@ namespace API.Controllers
         [SQLInjectionCheckOperation()]
         [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         //[AllowAnonymous]
-        public async Task<ActionResult> GetListMenuAsync(MenuRequestViewModel request)
+        public async Task<ActionResult> GetListMenuAsync()
         {
-            var methodResult = new MethodResult<IEnumerable<MenuCapMotDTO>>();
-            var param = _mapper.Map<MenuFilterParam>(request);
-            var queryResult = await _menuServices.GetListMenuTestAsync(param).ConfigureAwait(false);
+            var methodResult = new MethodResult<IEnumerable<MenuDTO>>();
+            //var param = _mapper.Map<MenuFilterParam>(request);
+            var queryResult = await _menuServices.GetListMenuAsync().ConfigureAwait(false);
             methodResult.Result = queryResult;
             return Ok(methodResult);
         }

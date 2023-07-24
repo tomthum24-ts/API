@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -76,8 +77,18 @@ namespace API.Controllers
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [AllowAnonymous]
         [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
-        public async Task<IActionResult> UploadFileAsync(IEnumerable<IFormFile> formFiles, [FromQuery] UploadFileViewModel uploadFileViewModel)
+        public async Task<IActionResult> UploadFileAsync(List<IFormFile> formFiles, [FromQuery] UploadFileViewModel uploadFileViewModel)
         {
+            if (formFiles.Any(x => x.Length > _configuration.GetValue<long>("UploadFilePublicSizeLimit"))|| formFiles == null || !formFiles.Any())
+            {
+                ErrorResult errorResult;
+                errorResult = new ErrorResult
+                {
+                    ErrorCode = CommonErrors.APIInValidFileSize,
+                    ErrorMessage = ErrorHelpers.GetCommonErrorMessage(CommonErrors.APIInValidFileSize)
+                };
+                return Ok(errorResult);
+            }
             var uploadResult = await _mediaService.UploadFileAsync(formFiles, uploadFileViewModel).ConfigureAwait(false);
             List<FileDTO> createAttachmentFileCommands = new List<FileDTO>();
             foreach (var item in uploadResult)

@@ -5,7 +5,7 @@ namespace API.DOMAIN
     {
         public const string USER_TABLENAME = "DA_Users";
         public const string PRỌJECT_TABLENAME = "DA_Project";
-        public const string AttachmentFile_TABLENAME = "AttachmentFile";
+        public const string AttachmentFile_TABLENAME = "Media_AttachmentFiles";
         public const string Province_TABLENAME = "LC_Province";
         public const string District_TABLENAME = "LC_District";
         public const string Village_TABLENAME = "LC_Village";

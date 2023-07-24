@@ -6,8 +6,10 @@ using API.APPLICATION.Queries.Menu;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface;
 using API.INFRASTRUCTURE.Interface.Location;
+using API.INFRASTRUCTURE.Interface.Media;
 using API.INFRASTRUCTURE.Interface.RefreshToken;
 using API.INFRASTRUCTURE.Repositories;
+using API.INFRASTRUCTURE.Repositories.FileAttach;
 using API.INFRASTRUCTURE.Repositories.Permission;
 using API.INFRASTRUCTURE.Repositories.User;
 using BaseCommon.Authorization;
@@ -47,6 +49,8 @@ namespace API.Dependency
             //Credetial
             services.AddScoped<ICredentialRepository, CredentialRepository>();
             services.AddScoped<IJWTManagerRepository, JWTManagerRepository>();
+            //FileAttach
+            services.AddScoped<IAttachmentFileRepository, AttachmentFileRepository>();
         }
     }
 }

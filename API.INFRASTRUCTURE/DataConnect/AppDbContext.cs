@@ -5,6 +5,7 @@ using API.INFRASTRUCTURE.EFConfigs.Location;
 using API.DOMAIN;
 using Microsoft.AspNetCore.Hosting;
 using API.INFRASTRUCTURE.EFConfigs.Permission;
+using API.INFRASTRUCTURE.EFConfigs.Media;
 
 namespace API.INFRASTRUCTURE.DataConnect
 {
@@ -75,6 +76,13 @@ namespace API.INFRASTRUCTURE.DataConnect
                 entity.ToTable(TableConstants.CREDENTIAL_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new CredentialConfiguration());
+
+            modelBuilder.Entity<AttachmentFile>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.AttachmentFile_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new AttachmentFileConfiguration());
         }
         public DbSet<User> User { get; set; }
         public DbSet<Project> Project { get; set; }

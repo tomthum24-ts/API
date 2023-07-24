@@ -9,6 +9,6 @@ namespace API.APPLICATION.ViewModels
     public class UploadFileViewModel
     {
         public string FolderFunction { get; set; }
-        public int FileSize { get; set; }
+        //public int FileSize { get; set; }
     }
 }

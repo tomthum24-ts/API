@@ -1,7 +1,11 @@
-﻿using API.APPLICATION.ViewModels.Media;
+﻿
+
+using API.APPLICATION.ViewModels.Media;
 using API.DOMAIN;
 using API.INFRASTRUCTURE.Interface.Media;
 using AutoMapper;
+using BaseCommon.Authorization;
+using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.UnitOfWork;
 using MediatR;
@@ -10,19 +14,25 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace API.APPLICATION.Commands.Media
+namespace API.APPLICATION.Commands.AttachmentFiles
 {
+   
     public class CreateAttachmentFileCommandHandler : IRequestHandler<CreateAttachmentFileCommand, MethodResult<CreateAttachmentFileResponse>>
     {
         private readonly IAttachmentFileRepository _attachmentFileRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public CreateAttachmentFileCommandHandler(IAttachmentFileRepository attachmentFileRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IUserSessionInfo _userSessionInfo;
+        private readonly IPermissionChecker _permissionChecker;
+        public CreateAttachmentFileCommandHandler(IMapper mapper, IAttachmentFileRepository attachmentFileRepository, IUnitOfWork unitOfWork, IUserSessionInfo userSessionInfo, IPermissionChecker permissionChecker)
         {
+            _mapper = mapper;
             _attachmentFileRepository = attachmentFileRepository;
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _userSessionInfo = userSessionInfo;
+            _permissionChecker = permissionChecker;
         }
+
         public async Task<MethodResult<CreateAttachmentFileResponse>> Handle(CreateAttachmentFileCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<CreateAttachmentFileResponse>();

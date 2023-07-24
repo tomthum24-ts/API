@@ -3,5 +3,6 @@
   "EB02": "Không tìm thấy dữ liệu trong hệ thống",
   "EB03": "Mật khẩu yếu",
   "EB04": "Hết hạn phiên đăng nhập",
-  "EB05": "Hết phiên đăng nhập vui lòng đăng nhập lại"
+  "EB05": "Hết phiên đăng nhập vui lòng đăng nhập lại",
+  "ERR_COM_INVALID_FILE_SIZE": "Dung lượng file quá giới hạn"
 }
