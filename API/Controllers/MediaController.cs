@@ -3,6 +3,7 @@ using API.APPLICATION.Queries.Media;
 using API.APPLICATION.ViewModels;
 using API.APPLICATION.ViewModels.Media;
 using BaseCommon.Attributes;
+using BaseCommon.Common.AttachFile;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Model;
 using MediatR;
@@ -31,6 +32,7 @@ namespace API.Controllers
         private readonly IMediaService _mediaService;
         private readonly IConfiguration _configuration;
         private readonly IMediator _mediator;
+
         public MediaController(IWebHostEnvironment webHostEnvironment, IMediaService mediaService, IConfiguration configuration, IMediator mediator)
         {
             _webHostEnvironment = webHostEnvironment;
@@ -38,7 +40,6 @@ namespace API.Controllers
             _configuration = configuration;
             _mediator = mediator;
         }
-
 
         /// <summary>
         /// Get token - (Author: son)
@@ -66,6 +67,7 @@ namespace API.Controllers
             result = dictionaryPath;
             return Ok(result);
         }
+
         /// <summary>
         /// Upload files.
         /// </summary>
@@ -79,7 +81,7 @@ namespace API.Controllers
         [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> UploadFileAsync(List<IFormFile> formFiles, [FromQuery] UploadFileViewModel uploadFileViewModel)
         {
-            if (formFiles.Any(x => x.Length > _configuration.GetValue<long>("UploadFilePublicSizeLimit"))|| formFiles == null || !formFiles.Any())
+            if (formFiles == null && !formFiles.Any() || formFiles.Any(x => x.Length > _configuration.GetValue<long>("UploadFilePublicSizeLimit")))
             {
                 ErrorResult errorResult;
                 errorResult = new ErrorResult
@@ -89,9 +91,34 @@ namespace API.Controllers
                 };
                 return Ok(errorResult);
             }
-            var uploadResult = await _mediaService.UploadFileAsync(formFiles, uploadFileViewModel).ConfigureAwait(false);
+            //Check FileType
+            List<MediaResponse> uploadList = new List<MediaResponse>(); 
+            var fileType = new MineTypeModel();
+            foreach (var item in formFiles)
+            {
+                var mineType = fileType.IndexOf(item.ContentType);
+                if (mineType != null)
+                {
+                    var uploadfile = await _mediaService.UploadFileAsync(item, uploadFileViewModel).ConfigureAwait(false);
+                    uploadList.Add(uploadfile);
+                }
+                else
+                {
+                    List<string> errorLst = new List<string>();
+                    errorLst.Add(item.FileName);
+                    ErrorResult errorResult;
+                    errorResult = new ErrorResult
+                    {
+                        ErrorCode = CommonErrors.APIInValidFileExtension,
+                        ErrorMessage = ErrorHelpers.GetCommonErrorMessage(CommonErrors.APIInValidFileExtension) ,
+                        ErrorValues= new List<string>(errorLst)
+                    };
+                    return Ok(errorResult);
+                }
+            }
+            // insert DataBase
             List<FileDTO> createAttachmentFileCommands = new List<FileDTO>();
-            foreach (var item in uploadResult)
+            foreach (var item in uploadList)
             {
                 createAttachmentFileCommands.Add(new FileDTO
                 {
