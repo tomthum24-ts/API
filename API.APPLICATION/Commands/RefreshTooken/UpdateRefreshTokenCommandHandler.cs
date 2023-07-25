@@ -43,7 +43,8 @@ namespace API.APPLICATION.Commands.RefreshToken
                     });
                 return methodResult;
             }
-            if(existingRefresh.Expires < DateTime.UtcNow.AddHours(7))
+           
+            if (existingRefresh.Expires < DateTime.UtcNow)
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB04), new[]
                    {

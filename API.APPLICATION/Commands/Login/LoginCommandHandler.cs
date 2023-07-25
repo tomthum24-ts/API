@@ -60,7 +60,21 @@ namespace API.APPLICATION.Commands.Login
                     });
                 return methodResult;
             }
-            var deviceModel = _httpContextAccessor.HttpContext.Request.GetDeviceInformation(_browserDetector.Browser);
+            #region LogDevice
+            try
+            {
+                var deviceModel = _httpContextAccessor.HttpContext.Request.GetDeviceInformation(_browserDetector.Browser);
+
+            }
+            catch (Exception)
+            {
+
+               
+            }
+            
+
+            #endregion
+
             var ip = _getInfoHelpers?.IpAddress();
             var paramUser = new Users();
             paramUser.UserName = request.UserName;
