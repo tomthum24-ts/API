@@ -1,27 +1,23 @@
-﻿using API.DOMAIN.DTOs.User;
+﻿using API.DOMAIN;
+using API.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE;
+using API.INFRASTRUCTURE.Interface.RefreshToken;
 using AutoMapper;
+using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.EnCrypt;
+using BaseCommon.Common.HttpDetection;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
+using BaseCommon.UnitOfWork;
+using BaseCommon.Utilities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Shyjus.BrowserDetection;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using API.DOMAIN;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Security.Cryptography;
-using API.INFRASTRUCTURE.Interface.RefreshToken;
-using BaseCommon.Common.ClaimUser;
-using Microsoft.Extensions.Configuration;
-using BaseCommon.Utilities;
-using Shyjus.BrowserDetection;
-using BaseCommon.Common.HttpDetection;
-using BaseCommon.UnitOfWork;
-using BaseCommon.Common.Notification.Model;
-using System.Collections.Generic;
-using BaseCommon.Common.Notification;
 
 namespace API.APPLICATION.Commands.Login
 {
@@ -37,6 +33,7 @@ namespace API.APPLICATION.Commands.Login
         private readonly IConfiguration _iconfiguration;
         private readonly GetInfoHelpers _getInfoHelpers;
         private readonly IBrowserDetector _browserDetector;
+
         public LoginCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserRepository userRepository, IJWTManagerRepository jWTManagerRepository, IHttpContextAccessor httpContextAccessor, IRefreshTokenRepository refreshTokenRepository, IUserSessionInfo userSessionInfo, IConfiguration iconfiguration, GetInfoHelpers getInfoHelpers, IBrowserDetector browserDetector)
         {
             _unitOfWork = unitOfWork;
@@ -53,21 +50,6 @@ namespace API.APPLICATION.Commands.Login
 
         public async Task<MethodResult<LoginCommandResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            #region Pushnotification
-            var newNotificationCreatedIntegrationEvents = new List<NotificationCreatedIntegrationEvent>();
-            var newNotificationCreatedIntegrationEvent = new NotificationCreatedIntegrationEvent(
-              1,
-              1,
-              NotificationHelpers.GetNotificationMessage(nameof(EMessageCode.TNS_NoiDung)),
-              "Noi Dung",
-              ENotificationType.Loai1,
-              _userSessionInfo.ID.GetValueOrDefault(),
-              metaData: new { LoaiDon = 1});
-
-            newNotificationCreatedIntegrationEvents.Add(newNotificationCreatedIntegrationEvent);
-            _unitOfWork.PublishNotification(newNotificationCreatedIntegrationEvents);
-            #endregion
-
             var methodResult = new MethodResult<LoginCommandResponse>();
             var existingUser = await _userRepository.Get(x => x.UserName == request.UserName.ToLower() && x.PassWord == CommonBase.ToMD5(request.Password)).FirstOrDefaultAsync(cancellationToken);
             if (existingUser == null)
@@ -86,16 +68,19 @@ namespace API.APPLICATION.Commands.Login
             var genToken = await _jWTManagerRepository.GenerateJWTTokens(paramUser, cancellationToken);
 
             #region Refresh Token
+
             var createUser = GenerateRefreshToken(ip, request.UserName);
             _refreshTokenRepository.Add(createUser);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            #endregion
+
+            #endregion Refresh Token
+
             genToken.RefreshToken = createUser.IdRefreshToken;
             methodResult.Result = _mapper.Map<LoginCommandResponse>(genToken);
             return methodResult;
         }
-      
-        public UserRefreshToken GenerateRefreshToken(string ipAddress,string userName)
+
+        public UserRefreshToken GenerateRefreshToken(string ipAddress, string userName)
         {
             var randomBytes = CMSEncryption.RandomBytes();
             var refreshToken = new UserRefreshToken(
@@ -110,7 +95,5 @@ namespace API.APPLICATION.Commands.Login
                 );
             return refreshToken;
         }
-
     }
-
 }
