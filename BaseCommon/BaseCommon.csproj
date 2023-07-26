@@ -15,9 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspose.Words" Version="23.7.0" />
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="DotNetCore.CAP" Version="5.2.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.50" />
     <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
     <PackageReference Include="MaxMind.GeoIP2" Version="5.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.8" />
@@ -29,11 +31,34 @@
     <PackageReference Include="Shyjus.BrowserDetector" Version="2.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.2" />
+    <PackageReference Include="Syncfusion.DocIO.Net.Core" Version="22.1.39" />
+    <PackageReference Include="Syncfusion.DocIORenderer.Net.Core" Version="22.1.39" />
+    <PackageReference Include="Syncfusion.Pdf.Imaging.Net.Core" Version="22.1.39" />
+    <PackageReference Include="Syncfusion.Pdf.Net.Core" Version="22.1.39" />
+    <PackageReference Include="Syncfusion.XlsIO.Net.Core" Version="22.1.39" />
+    <PackageReference Include="Syncfusion.XlsIORenderer.Net.Core" Version="22.1.39" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Authorization\Model\" />
+    <Folder Include="Infrastructures\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Common.Report\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Common.Report\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

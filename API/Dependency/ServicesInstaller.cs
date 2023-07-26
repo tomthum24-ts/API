@@ -1,4 +1,5 @@
 ﻿using API.APPLICATION;
+using API.APPLICATION.Queries;
 using API.APPLICATION.Queries.GenDTO;
 using API.APPLICATION.Queries.Location;
 using API.APPLICATION.Queries.Media;
@@ -14,6 +15,8 @@ using API.INFRASTRUCTURE.Repositories.Permission;
 using API.INFRASTRUCTURE.Repositories.User;
 using BaseCommon.Authorization;
 using BaseCommon.Common.ClaimUser;
+using BaseCommon.Common.Report.Infrastructures;
+using BaseCommon.Common.Report.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +26,7 @@ namespace API.Dependency
     {
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NGaF5cXmdCdkx0WmFZfV1gcF9DaFZUQ2YuP1ZhSXxQdkJhX39adXxQQWRVWEc=");
             services.AddSingleton<IGenDTORepoQueries, GenDTORepoQueries>();
             services.AddScoped<IMediaService, MediaService>();
             services.AddScoped<IUserSessionInfo, UserSessionInfo>();
@@ -51,6 +55,12 @@ namespace API.Dependency
             services.AddScoped<IJWTManagerRepository, JWTManagerRepository>();
             //FileAttach
             services.AddScoped<IAttachmentFileRepository, AttachmentFileRepository>();
+            //Report
+            services.AddScoped<IReportQueries, ReportQueries>();
+            services.AddScoped<IExportService, ExportService>();
+            services.AddScoped<ISYSBieuMauQueries, SYSBieuMauQueries>();
+
+
         }
     }
 }

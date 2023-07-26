@@ -31,7 +31,7 @@ namespace API.Controllers
         private const string GetById = nameof(GetById);
         private const string ChangePassword = nameof(ChangePassword); 
         private const string Login = nameof(Login);
-     
+        private const string Report = nameof(Report);
 
         private readonly IUserServices _iUserQueries;
         private readonly IMapper _mapper;
@@ -135,6 +135,21 @@ namespace API.Controllers
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);
         }
+        /// <summary>
+        /// Report test
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.AuthorizedUsers)]
+        [HttpPost(Report)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExportThongTinAsync(RequestByIdViewModel request)
+        {
 
+            var result = await _iUserQueries.ExportWorkThongTinAsync(request).ConfigureAwait(false);
+
+            return File(result.OutputStream, result.ContentType, result.TenBieuMau);
+        }
     }
 }

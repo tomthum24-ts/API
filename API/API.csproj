@@ -49,4 +49,10 @@
     <Folder Include="Models\ACL\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Syncfusion.Licensing">
+      <HintPath>..\BaseCommon\External DLL\Syncfusion.Licensing.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

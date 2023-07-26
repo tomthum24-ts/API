@@ -6,11 +6,8 @@
 
   <ItemGroup>
     <Compile Remove="DTOs\**" />
-    <Compile Remove="Services\**" />
     <EmbeddedResource Remove="DTOs\**" />
-    <EmbeddedResource Remove="Services\**" />
     <None Remove="DTOs\**" />
-    <None Remove="Services\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +35,7 @@
   <ItemGroup>
     <Folder Include="Commands\Menu\" />
     <Folder Include="Mappings\Project\" />
+    <Folder Include="Services\" />
     <Folder Include="Parameters\project\" />
   </ItemGroup>
 

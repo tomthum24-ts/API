@@ -1,11 +1,6 @@
-﻿using BaseCommon.Infrastructures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BaseCommon.Common.Report.Infrastructures;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace API.APPLICATION.ViewModels.ByIdViewModel
 {
@@ -44,4 +39,3 @@ namespace API.APPLICATION.ViewModels.ByIdViewModel
         public string ObjValue { get; set; }
     }
 }
-

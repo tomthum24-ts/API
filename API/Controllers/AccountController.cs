@@ -76,7 +76,7 @@ namespace API.Controllers
 
         }
         /// <summary>
-        /// Revoke token  - (Author: son)
+        /// Revoketoken  - (Author: son)
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
