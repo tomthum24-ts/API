@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace API.APPLICATION
 {
-    public interface IPermissionServices
+    public interface IRolePermissionServices
     {
         Task<IEnumerable<PermissionDTO>> GetAllPermissionNotPaging(PermissionFilterParam param);
     }
-    public class PermissionServices : IPermissionServices
+    public class RolePermissionServices : IRolePermissionServices
     {
         public readonly DapperContext _context;
 
 
-        public PermissionServices(DapperContext context)
+        public RolePermissionServices(DapperContext context)
         {
             _context = context;
         }

@@ -81,7 +81,8 @@ namespace API.Controllers
         [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> UploadFileAsync(List<IFormFile> formFiles, [FromQuery] UploadFileViewModel uploadFileViewModel)
         {
-            if (formFiles == null && !formFiles.Any() || formFiles.Any(x => x.Length > _configuration.GetValue<long>("UploadFilePublicSizeLimit")))
+           
+            if (formFiles == null && !formFiles.Any() )
             {
                 ErrorResult errorResult;
                 errorResult = new ErrorResult
@@ -93,11 +94,14 @@ namespace API.Controllers
             }
             //Check FileType
             List<MediaResponse> uploadList = new List<MediaResponse>(); 
-            var fileType = new MineTypeModel();
+            var sizeLimit = _configuration.GetValue<long>("MediaConfig:SizeLimit");
+            var typeLimit = _configuration.GetSection("MediaConfig:PermittedExtensions").Get<string[]>();
+            var fileType = new FileType();
             foreach (var item in formFiles)
             {
-                var mineType = fileType.IndexOf(item.ContentType);
-                if (mineType != null)
+                var fileTypeVerifyResult = await fileType.ProcessFormFile(item, typeLimit, sizeLimit);
+              
+                if (fileTypeVerifyResult.IsSucceed == true)
                 {
                     var uploadfile = await _mediaService.UploadFileAsync(item, uploadFileViewModel).ConfigureAwait(false);
                     uploadList.Add(uploadfile);

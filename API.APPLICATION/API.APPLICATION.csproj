@@ -35,7 +35,6 @@
   <ItemGroup>
     <Folder Include="Commands\Menu\" />
     <Folder Include="Mappings\Project\" />
-    <Folder Include="Services\" />
     <Folder Include="Parameters\project\" />
   </ItemGroup>
 

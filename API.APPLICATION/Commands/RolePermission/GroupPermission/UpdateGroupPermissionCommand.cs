@@ -10,7 +10,10 @@ namespace API.APPLICATION.Commands.GroupPermission
 {
     public class UpdateGroupPermissionCommand : IRequest<MethodResult<UpdateGroupPermissionCommandResponse>>
     {
-        public List<int> Ids { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Note { get; set; }
+        public bool Status { get; set; }
     }
     public class UpdateGroupPermissionCommandResponse : UpdateGroupPermissionCommand
     {

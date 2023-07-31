@@ -8,7 +8,7 @@ namespace API.INFRASTRUCTURE.EFConfigs.Location
     {
         public void Configure(EntityTypeBuilder<District> builder)
         {
-            builder.ToTable(TableConstants.District_TABLENAME);
+            builder.ToTable(TableConstants.DISTRICT_TABLENAME);
             builder.Property(x => x.DistrictCode).HasField("_districtCode").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.DistrictName).HasField("_districtName").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.CodeName).HasField("_codeName").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);

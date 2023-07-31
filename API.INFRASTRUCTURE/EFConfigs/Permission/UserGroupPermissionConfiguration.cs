@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace API.INFRASTRUCTURE.EFConfigs.Permission
 {
-    public class UserGroupPermissionConfiguration : IEntityTypeConfiguration<UserGroupPermission>
+    public class UserGroupPermissionConfiguration : IEntityTypeConfiguration<UserGroupPermissions>
     {
-        public void Configure(EntityTypeBuilder<UserGroupPermission> builder)
+        public void Configure(EntityTypeBuilder<UserGroupPermissions> builder)
         {
             builder.ToTable(TableConstants.USERPERMISSION_TABLENAME);
             builder.Property(x => x.Name).HasField("_name").HasMaxLength(500).UsePropertyAccessMode(PropertyAccessMode.Field);

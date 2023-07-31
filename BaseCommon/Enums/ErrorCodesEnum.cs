@@ -22,4 +22,16 @@ namespace BaseCommon.Enums
         [Description("Kiểm tra lại file upload")]
         EB06
     }
+    public enum ESysBieuMauErrorCode
+    {
+        SBMC01,
+        SBMC02,
+        SBMC03,
+        SBMC04,
+        SBMC05,
+        SBMC06,
+        SBMC07,
+        SBMC08,
+        SBMC09,
+    }
 }

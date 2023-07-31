@@ -9,7 +9,7 @@ namespace API.INFRASTRUCTURE.EFConfigs.Location
     {
         public void Configure(EntityTypeBuilder<Village> builder)
         {
-            builder.ToTable(TableConstants.Village_TABLENAME);
+            builder.ToTable(TableConstants.VILLAGE_TABLENAME);
             builder.Property(x => x.VillageCode).HasField("_villageCode").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.VillageName).HasField("_villageName").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.CodeName).HasField("_codeName").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);

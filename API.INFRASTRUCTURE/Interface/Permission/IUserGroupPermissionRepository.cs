@@ -2,7 +2,7 @@
 
 namespace API.INFRASTRUCTURE
 {
-    public interface IUserGroupPermissionRepository : IRepositoryBase<UserGroupPermission>
+    public interface IUserGroupPermissionRepository : IRepositoryBase<UserGroupPermissions>
     {
     }
 }

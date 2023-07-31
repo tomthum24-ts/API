@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace API.INFRASTRUCTURE.EFConfigs.Permission
 {
-    public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermission>
+    public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissions>
     {
-        public void Configure(EntityTypeBuilder<RolePermission> builder)
+        public void Configure(EntityTypeBuilder<RolePermissions> builder)
         {
             builder.ToTable(TableConstants.ROLEPERMISSION_TABLENAME);
             builder.Property(x => x.NameController).HasField("_nameController").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);

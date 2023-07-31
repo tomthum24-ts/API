@@ -1,18 +1,21 @@
 ﻿using BaseCommon.Common.MethodResult;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace API.APPLICATION.Commands.GroupPermission
 {
     public class DeleteGroupPermissionCommand : IRequest<MethodResult<DeleteGroupPermissionCommandResponse>>
     {
+        public List<int> Ids { get; set; }
     }
+
     public class DeleteGroupPermissionCommandResponse : DeleteGroupPermissionCommand
     {
+        public DeleteGroupPermissionCommandResponse(List<DeleteGroupPermissionCommand> datas)
+        {
+            Datas = datas;
+        }
 
+        public List<DeleteGroupPermissionCommand> Datas { get; }
     }
 }

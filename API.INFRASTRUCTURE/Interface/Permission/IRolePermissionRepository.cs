@@ -4,7 +4,7 @@ using API.DOMAIN.DomainObjects.Permission;
 
 namespace API.INFRASTRUCTURE
 {
-    public interface IRolePermissionRepository : IRepositoryBase<RolePermission>
+    public interface IRolePermissionRepository : IRepositoryBase<RolePermissions>
     { 
 
     }

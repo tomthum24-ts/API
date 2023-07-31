@@ -38,7 +38,7 @@ namespace API.APPLICATION.Commands.Project
             }
             _projectRepository.DeleteRange(existingUser);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            //methodResult.Result = _mapper.Map<DeleteUserCommandResponse>(existingUser);
+            //methodResult.Result = _mapper.Map<DeleteProjectCommandResponse>(existingUser);
             return methodResult;
         }
     }

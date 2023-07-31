@@ -6,6 +6,8 @@ using API.DOMAIN;
 using Microsoft.AspNetCore.Hosting;
 using API.INFRASTRUCTURE.EFConfigs.Permission;
 using API.INFRASTRUCTURE.EFConfigs.Media;
+using API.DOMAIN.DomainObjects.BieuMau;
+using API.INFRASTRUCTURE.EFConfigs.BieuMau;
 
 namespace API.INFRASTRUCTURE.DataConnect
 {
@@ -43,21 +45,21 @@ namespace API.INFRASTRUCTURE.DataConnect
             modelBuilder.Entity<Province>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.ToTable(TableConstants.Province_TABLENAME);
+                entity.ToTable(TableConstants.PROVINCE_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new ProvinceConfiguration());
 
             modelBuilder.Entity<District>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.ToTable(TableConstants.District_TABLENAME);
+                entity.ToTable(TableConstants.DISTRICT_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new DistrictConfiguration());
 
             modelBuilder.Entity<Village>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.ToTable(TableConstants.Village_TABLENAME);
+                entity.ToTable(TableConstants.VILLAGE_TABLENAME);
             });
             
             modelBuilder.ApplyConfiguration(new VillageConfiguration());
@@ -83,6 +85,13 @@ namespace API.INFRASTRUCTURE.DataConnect
                 entity.ToTable(TableConstants.AttachmentFile_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new AttachmentFileConfiguration());
+
+            modelBuilder.Entity<SysBieuMau>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.SYSBIEUMAU_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new SysBieuMauConfiguration());
         }
         public DbSet<User> User { get; set; }
         public DbSet<Project> Project { get; set; }
@@ -91,6 +100,8 @@ namespace API.INFRASTRUCTURE.DataConnect
         public DbSet<Village> Village { get; set; }
         public DbSet<UserRefreshToken> UserRefreshToken { get; set; }
         public DbSet<PM_Credential> Credential { get; set; }
+        public DbSet<AttachmentFile> AttachmentFile { get; set; }
+        public DbSet<SysBieuMau> SysBieuMau { get; set; }
 
     }
 }
