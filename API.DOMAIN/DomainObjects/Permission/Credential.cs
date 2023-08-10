@@ -16,12 +16,11 @@ namespace API.DOMAIN
         private PM_Credential()
         {
         }
-        public PM_Credential(int userGroupId, int roleId,string note, bool? status)
+        public PM_Credential(int userGroupId, int roleId)
         {
             _userGroupId = userGroupId;
             _roleId = roleId;
-            _note = note;
-            _status = status;
+
         }
 
         #endregion Constructors

@@ -25,7 +25,7 @@ namespace API.Controllers
     {
         private const string GetList = nameof(GetList);
         private const string GetById = nameof(GetById);
-
+        
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IRolePermissonServices _rolePermissonServices;
@@ -125,5 +125,6 @@ namespace API.Controllers
             methodResult.Result = _mapper.Map<RolePermissionResponseViewModel>(queryResult.Items.FirstOrDefault());
             return Ok(methodResult);
         }
+   
     }
 }

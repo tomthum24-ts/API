@@ -1,9 +1,10 @@
-﻿using API.APPLICATION.Commands.RolePermission.Credential;
-using AutoMapper;
+﻿using API.APPLICATION;
+using API.APPLICATION.Commands.RolePermission.Credential;
+using API.APPLICATION.Parameters.Permission;
+using API.APPLICATION.ViewModels.Permission;
 using API.DOMAIN;
 using API.DOMAIN.DTOs.Permission;
-using API.APPLICATION.ViewModels.Permission;
-using API.APPLICATION;
+using AutoMapper;
 
 namespace API.Mapper
 {
@@ -16,6 +17,9 @@ namespace API.Mapper
             CreateMap<PM_Credential, UpdateCredentialCommandResponse>();
             CreateMap<CredentialDTO, CredentialResponseViewModel>();
             CreateMap<CredentialRequestViewModel, DanhMucFilterParam>();
+            CreateMap<AllPermissionDTO, AllCredentialResponseViewModel>();
+            CreateMap<PermissionByIdRequestViewModel, PermissionByIdFilterParam>();
+            CreateMap<PermissionByIdDTO, PermissionByIdResponseViewModel>();
         }
     }
 }

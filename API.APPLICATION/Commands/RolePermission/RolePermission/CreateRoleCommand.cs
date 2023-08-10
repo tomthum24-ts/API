@@ -1,5 +1,6 @@
 ﻿using BaseCommon.Common.MethodResult;
 using MediatR;
+using System.Collections.Generic;
 
 namespace API.APPLICATION.Commands.RolePermission.Role
 {
@@ -10,6 +11,7 @@ namespace API.APPLICATION.Commands.RolePermission.Role
         public string Note { get; set; }
         public bool Status { get; set; }
     }
+
 
     public class CreateRolePermissionCommandResponse : CreateRolePermissionCommand
     {

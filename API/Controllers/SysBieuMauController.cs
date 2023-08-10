@@ -15,9 +15,6 @@ namespace API.Controllers
     [Route("[controller]")]
     public class SysBieuMauController : ControllerBase
     {
-        private const string UploadFile = nameof(UploadFile);
-        private const string UploadFileV2 = nameof(UploadFileV2);
-
         private readonly IMediator _mediator;
 
         public SysBieuMauController(IMediator mediator)

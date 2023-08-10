@@ -58,7 +58,7 @@ namespace API.Controllers
         {
             var methodResult = new MethodResult<PagingItems<UserResponseViewModel>>();
             var userFilterParam = _mapper.Map<UserFilterParam>(request);
-            var queryResult = await _iUserQueries.GetAllUserPaging(userFilterParam).ConfigureAwait(false);
+            var queryResult = await _iUserQueries.GetUserPagingAsync(userFilterParam).ConfigureAwait(false);
             methodResult.Result = new PagingItems<UserResponseViewModel>
             {
                 PagingInfo = queryResult.PagingInfo,
@@ -147,7 +147,7 @@ namespace API.Controllers
         public async Task<IActionResult> ExportThongTinAsync(RequestByIdViewModel request)
         {
 
-            var result = await _iUserQueries.ExportWorkThongTinAsync(request).ConfigureAwait(false);
+            var result = await _iUserQueries.ExportWordThongTinAsync(request).ConfigureAwait(false);
 
             return File(result.OutputStream, result.ContentType, result.TenBieuMau);
         }

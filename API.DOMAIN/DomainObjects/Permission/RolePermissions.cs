@@ -22,6 +22,7 @@
             _nameController = nameController;
             _actionName = actionName;
             _note = note;
+            _status = status;
         }
 
         #endregion Constructors

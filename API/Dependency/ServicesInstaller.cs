@@ -5,6 +5,7 @@ using API.APPLICATION.Queries.GroupPermission;
 using API.APPLICATION.Queries.Location;
 using API.APPLICATION.Queries.Media;
 using API.APPLICATION.Queries.Menu;
+using API.APPLICATION.Queries.Permission.RolePermission;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface;
 using API.INFRASTRUCTURE.Interface.BieuMau;
@@ -72,7 +73,8 @@ namespace API.Dependency
             //Permission
             services.AddScoped<IUserGroupPermissionServices, UserGroupPermissionServices>();
             services.AddScoped<IUserGroupPermissionRepository, UserGroupPermissionRepository>();
-            services.AddScoped<IRolePermissionServices, RolePermissionServices>();
+            services.AddScoped<IRolePermissonServices, RolePermissonServices>();
+            services.AddScoped<IRolePermissionQueries, RolePermissionQueries>();
             services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
             services.AddScoped<ICredentialServices, CredentialServices>();
             services.AddScoped<ICredentialRepository, CredentialRepository>();

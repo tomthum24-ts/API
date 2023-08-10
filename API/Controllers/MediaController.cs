@@ -46,10 +46,9 @@ namespace API.Controllers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [AllowAnonymous]
         [HttpPost]
         [Route(UploadFile)]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.Everyone)]
         public IActionResult UploadFileAsyn(List<IFormFile> files)
         {
             var result = "";
@@ -77,8 +76,7 @@ namespace API.Controllers
         [HttpPost(UploadFileV2)]
         [ProducesResponseType(typeof(MethodResult<List<MediaResponse>>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        [AllowAnonymous]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.Everyone)]
         public async Task<IActionResult> UploadFileAsync(List<IFormFile> formFiles, [FromQuery] UploadFileViewModel uploadFileViewModel)
         {
            

@@ -8,26 +8,41 @@ using System.Threading.Tasks;
 
 namespace API.APPLICATION
 {
-    public interface IRolePermissionServices
+    public interface IRolePermissionQueries
     {
-        Task<IEnumerable<PermissionDTO>> GetAllPermissionNotPaging(PermissionFilterParam param);
+        Task<IEnumerable<PermissionDTO>> GetAllPermissionNotPagingAsync(PermissionFilterParam param);
+        Task<IEnumerable<AllPermissionDTO>> GetAllPermissionAsync();
+        Task<IEnumerable<PermissionByIdDTO>> GetPermissionByIdAsync(PermissionByIdFilterParam param);
     }
-    public class RolePermissionServices : IRolePermissionServices
+    public class RolePermissionQueries : IRolePermissionQueries
     {
         public readonly DapperContext _context;
 
 
-        public RolePermissionServices(DapperContext context)
+        public RolePermissionQueries(DapperContext context)
         {
             _context = context;
         }
-        public async Task<IEnumerable<PermissionDTO>> GetAllPermissionNotPaging(PermissionFilterParam param)
+        public async Task<IEnumerable<PermissionDTO>> GetAllPermissionNotPagingAsync(PermissionFilterParam param)
         {
             var conn = _context.CreateConnection();
             using var rs = await conn.QueryMultipleAsync("SP_PM_GetListPermission", param, commandType: CommandType.StoredProcedure);
             var result = await rs.ReadAsync<PermissionDTO>().ConfigureAwait(false);
             return result;
         }
-
+        public async Task<IEnumerable<AllPermissionDTO>> GetAllPermissionAsync()
+        {
+            var conn = _context.CreateConnection();
+            using var rs = await conn.QueryMultipleAsync("SP_PhanQuyen_GetAllQuyen", null , commandType: CommandType.StoredProcedure);
+            var result = await rs.ReadAsync<AllPermissionDTO>().ConfigureAwait(false);
+            return result;
+        }
+        public async Task<IEnumerable<PermissionByIdDTO>> GetPermissionByIdAsync(PermissionByIdFilterParam param )
+        {
+            var conn = _context.CreateConnection();
+            using var rs = await conn.QueryMultipleAsync("SP_PhanQuyen_GetPhanQuyenById", param, commandType: CommandType.StoredProcedure);
+            var result = await rs.ReadAsync<PermissionByIdDTO>().ConfigureAwait(false);
+            return result;
+        }
     }
 }

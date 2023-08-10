@@ -6,43 +6,30 @@ using BaseCommon.Enums;
 using BaseCommon.UnitOfWork;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace API.APPLICATION.Commands.RolePermission.Credential
 {
-    public class UpdateCredentialCommandHandler : IRequestHandler<UpdateCredentialCommand, MethodResult<UpdateCredentialCommandResponse>>
+    public class UpdateCredentialCommandHandler : IRequestHandler<UpdateCredentialCommand, MethodResult<IEnumerable<UpdateCredentialCommandResponse>>>
     {
-        private readonly ICredentialRepository _projectRepository;
+        private readonly ICredentialRepository _credentialRepository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateCredentialCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ICredentialRepository projectRepository)
+        public UpdateCredentialCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ICredentialRepository credentialRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _projectRepository = projectRepository;
+            _credentialRepository = credentialRepository;
         }
 
-        public async Task<MethodResult<UpdateCredentialCommandResponse>> Handle(UpdateCredentialCommand request, CancellationToken cancellationToken)
+        public async Task<MethodResult<IEnumerable<UpdateCredentialCommandResponse>>> Handle(UpdateCredentialCommand request, CancellationToken cancellationToken)
         {
-            var methodResult = new MethodResult<UpdateCredentialCommandResponse>();
-            var isExistData = await _projectRepository.Get(x => x.Id == request.Id).FirstOrDefaultAsync(cancellationToken);
-            if (isExistData == null || isExistData.Id < 0)
-            {
-                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB02), new[]
-                    {
-                        ErrorHelpers.GenerateErrorResult(nameof(User), request.Id)
-                    });
-                return methodResult;
-            }
-            isExistData.SetRoleId(request.RoleId);
-            isExistData.SetUserGroupId(request.UserGroupId);
-            isExistData.SetNote(request.Note); ;
-            isExistData.SetStatus(request.Status);
-            _projectRepository.Update(isExistData);
-            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            methodResult.Result = _mapper.Map<UpdateCredentialCommandResponse>(isExistData);
+            var methodResult = new MethodResult<IEnumerable<UpdateCredentialCommandResponse>>();
+       
             return methodResult;
         }
     }

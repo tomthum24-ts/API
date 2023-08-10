@@ -1,5 +1,6 @@
 using API.APPLICATION;
 using API.APPLICATION.Commands.RolePermission.Credential;
+using API.APPLICATION.Parameters.Permission;
 using API.APPLICATION.Queries;
 using API.APPLICATION.ViewModels.Permission;
 using API.DOMAIN;
@@ -25,15 +26,19 @@ namespace API.Credential
     {
         private const string GetById = nameof(GetById);
         private const string GetList = nameof(GetList);
+        private const string GetAll = nameof(GetAll);
+        private const string GetPermissionById = nameof(GetPermissionById);
         private readonly ICredentialServices _credentialServices;
+        private readonly IRolePermissionQueries _rolePermissionQueries;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public CredentialController(IMediator mediator, IMapper mapper, ICredentialServices credentialServices)
+        public CredentialController(IMediator mediator, IMapper mapper, ICredentialServices credentialServices, IRolePermissionQueries rolePermissionQueries)
         {
             _mediator = mediator;
             _mapper = mapper;
             _credentialServices = credentialServices;
+            _rolePermissionQueries = rolePermissionQueries;
         }
 
         /// <summary>
@@ -44,7 +49,8 @@ namespace API.Credential
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateCredentialCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AllowAnonymous]
         public async Task<IActionResult> CreateCredentialAsync(CreateCredentialCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -59,7 +65,8 @@ namespace API.Credential
         [HttpPut]
         [ProducesResponseType(typeof(MethodResult<UpdateCredentialCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateCredentialAsync(UpdateCredentialCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -122,6 +129,40 @@ namespace API.Credential
             var methodResult = new MethodResult<CredentialResponseViewModel>();
             var queryResult = await _credentialServices.GetDanhMucByIdAsync(request.Id, TableConstants.CREDENTIAL_TABLENAME).ConfigureAwait(false);
             methodResult.Result = _mapper.Map<CredentialResponseViewModel>(queryResult.Items.FirstOrDefault());
+            return Ok(methodResult);
+        }
+        /// <summary>
+        /// GetList GroupPermission - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(GetAll)]
+        [SQLInjectionCheckOperation]
+        //[AllowAnonymous]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        public async Task<ActionResult> GetAllDanhSachQuyenAsync()
+        {
+            var methodResult = new MethodResult<IEnumerable< AllCredentialResponseViewModel>>();
+            var queryResult = await _rolePermissionQueries.GetAllPermissionAsync().ConfigureAwait(false);
+            methodResult.Result = _mapper.Map<IEnumerable<AllCredentialResponseViewModel>>(queryResult); 
+            return Ok(methodResult);
+        }    /// <summary>
+        /// GetList GroupPermission - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(GetPermissionById)]
+        [SQLInjectionCheckOperation]
+        //[AllowAnonymous]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        public async Task<ActionResult> GetDanhSachQuyenByIdAsync(PermissionByIdRequestViewModel request)
+        {
+            var methodResult = new MethodResult<IEnumerable<PermissionByIdResponseViewModel>>();
+            var userFilterParam = _mapper.Map<PermissionByIdFilterParam>(request);
+            var queryResult = await _rolePermissionQueries.GetPermissionByIdAsync(userFilterParam).ConfigureAwait(false);
+            methodResult.Result = _mapper.Map<IEnumerable<PermissionByIdResponseViewModel>>(queryResult); 
             return Ok(methodResult);
         }
     }

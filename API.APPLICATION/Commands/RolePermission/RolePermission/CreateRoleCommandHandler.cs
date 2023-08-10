@@ -5,6 +5,8 @@ using AutoMapper;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.UnitOfWork;
 using MediatR;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,12 +28,13 @@ namespace API.APPLICATION.Commands.RolePermission
         public async Task<MethodResult<CreateRolePermissionCommandResponse>> Handle(CreateRolePermissionCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<CreateRolePermissionCommandResponse>();
+        
             var createRole = new RolePermissions(
-                 request.NameController,
-                 request.ActionName,
-                 request.Note,
-                 request.Status
-                );
+                      request.NameController,
+                      request.ActionName,
+                      request.Note,
+                      request.Status
+                     );
             _rolePermissionRepository.Add(createRole);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             methodResult.Result = _mapper.Map<CreateRolePermissionCommandResponse>(createRole);

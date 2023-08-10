@@ -86,6 +86,13 @@ namespace API.INFRASTRUCTURE.DataConnect
             });
             modelBuilder.ApplyConfiguration(new AttachmentFileConfiguration());
 
+            modelBuilder.Entity<RolePermissions>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.ROLEPERMISSION_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new RolePermissionConfiguration());
+
             modelBuilder.Entity<SysBieuMau>(entity =>
             {
                 entity.HasKey(e => e.Id);

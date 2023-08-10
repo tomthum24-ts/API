@@ -4,12 +4,14 @@ using API.APPLICATION.Queries;
 using API.APPLICATION.ViewModels.BieuMau;
 using API.APPLICATION.ViewModels.ByIdViewModel;
 using API.DOMAIN;
+using API.DOMAIN.DTOs;
 using API.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE.DataConnect;
 using AutoMapper;
 using BaseCommon.Common.Report;
 using BaseCommon.Common.Report.Infrastructures;
 using BaseCommon.Common.Report.Interfaces;
+using BaseCommon.Common.Report.Models;
 using BaseCommon.Common.Response;
 using Dapper;
 using System.Collections.Generic;
@@ -26,9 +28,9 @@ namespace API.INFRASTRUCTURE
 
         Task<IEnumerable<ResponseByIdViewModel>> GetInfoUserByID(RequestByIdViewModel param);
 
-        Task<PagingItems<UserDTO>> GetAllUserPaging(UserFilterParam param);
+        Task<PagingItems<UserDTO>> GetUserPagingAsync(UserFilterParam param);
 
-        Task<BieuMauInfoResponseViewModel> ExportWorkThongTinAsync(RequestByIdViewModel request);
+        Task<BieuMauInfoResponseViewModel> ExportWordThongTinAsync(RequestByIdViewModel request);
     }
 
     public class UserServices : IUserServices
@@ -55,7 +57,7 @@ namespace API.INFRASTRUCTURE
             return result;
         }
 
-        public async Task<PagingItems<UserDTO>> GetAllUserPaging(UserFilterParam param)
+        public async Task<PagingItems<UserDTO>> GetUserPagingAsync(UserFilterParam param)
         {
             var result = new PagingItems<UserDTO>
             {
@@ -80,21 +82,13 @@ namespace API.INFRASTRUCTURE
             return result;
         }
 
-        public async Task<BieuMauInfoResponseViewModel> ExportWorkThongTinAsync(RequestByIdViewModel request)
+        public async Task<BieuMauInfoResponseViewModel> ExportWordThongTinAsync(RequestByIdViewModel request)
         {
             //var param = _mapper.Map<ThongTinLyLichNhanSuFilterParam>(request);
             var queryResult = await GetAllUser().ConfigureAwait(false);
-
-            //var quaTrinhDaoTaos = BaseReportCommon.CheckDataEmpty(_mapper.Map<IEnumerable<QuaTrinhDaoTaoReportDTO>>(queryResult.ToList));
-
             HashSet<string> columKeywordQuaTrinhDaoTao = BaseReportCommon.GetPropertiesOfClass<UserDTO>();
-
-            // Get Value Replace MailMerge HardCode
-
             Dictionary<string, string> replaceSameValues = new Dictionary<string, string>();
             replaceSameValues.Add("NguoiXuatBan","Hahaha");
-
-
             List<WordTemplateTable> wordTemplateTables = new List<WordTemplateTable>();
             wordTemplateTables.Add(new WordTemplateTable { ColumnKeyWord = columKeywordQuaTrinhDaoTao, DataTable = queryResult.OfType<object>().ToList(), Prefix = "#" });
 
@@ -119,5 +113,6 @@ namespace API.INFRASTRUCTURE
             //await _bieuMauLogger.LogAsync(bieuMauResponse.TenBieuMau, HRMExcelConstants.LyLichKhoaHoc_V10028, bieuMauResponse.ContentType, bieuMauResponse.OutputStream.ToArray());
             return bieuMauResponse;
         }
+
     }
 }
