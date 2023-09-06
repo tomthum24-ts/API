@@ -1,6 +1,7 @@
 ﻿using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
 using API.INFRASTRUCTURE.Repositories.UnitOfWork;
+using BaseCommon.Chat;
 using BaseCommon.UnitOfWork;
 using BaseCommon.Utilities;
 using MediatR;
@@ -15,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using Shyjus.BrowserDetection;
 using Swashbuckle.AspNetCore.Filters;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -96,6 +98,8 @@ namespace API.Dependency
 
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddMediatR(typeof(IUserServices).Assembly);
+            services.AddSignalR();
+            services.AddSingleton<IDictionary<string, UserConnection>>(opts => new Dictionary<string, UserConnection>());
         }
     }
 }
