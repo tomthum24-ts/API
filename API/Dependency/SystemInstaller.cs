@@ -66,9 +66,10 @@ namespace API.Dependency
             {
                 options.AddPolicy("EnableCORS", builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    builder.WithOrigins(configuration.GetSection("PolicyCORS").Get<string[]>())
                         .AllowAnyHeader()
-                        .AllowAnyMethod();
+                        .AllowAnyMethod()
+                        .AllowCredentials();
                 });
             });
             services.AddDbContext<IDbContext>(otp => otp.UseInMemoryDatabase("InMem"));
