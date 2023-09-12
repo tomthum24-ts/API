@@ -44,6 +44,7 @@
 
   <ItemGroup>
     <Folder Include="Authorization\Model\" />
+    <Folder Include="Chat\" />
     <Folder Include="Infrastructures\" />
   </ItemGroup>
 

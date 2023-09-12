@@ -1,4 +1,4 @@
-﻿namespace BaseCommon.Chat
+﻿namespace API.DOMAIN.DTOs.Chat
 {
     public class UserConnection
     {

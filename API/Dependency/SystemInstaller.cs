@@ -1,7 +1,7 @@
-﻿using API.INFRASTRUCTURE;
+﻿using API.DOMAIN.DTOs.Chat;
+using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.DataConnect;
 using API.INFRASTRUCTURE.Repositories.UnitOfWork;
-using BaseCommon.Chat;
 using BaseCommon.UnitOfWork;
 using BaseCommon.Utilities;
 using MediatR;
@@ -48,14 +48,40 @@ namespace API.Dependency
                 };
                 o.Events = new JwtBearerEvents
                 {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+
+                        // If the request is for our hub...
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            (path.StartsWithSegments("/chat")))
+                        {
+                            // Read the token out of the query string
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+                o.Events = new JwtBearerEvents
+                {
                     OnAuthenticationFailed = context =>
                     {
                         if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
                         {
                             context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
                         }
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            (path.StartsWithSegments("/hubs/chat")))
+                        {
+                            // Read the token out of the query string
+                           
+                        }
                         return Task.CompletedTask;
                     }
+
                 };
             });
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
