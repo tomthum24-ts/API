@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using BaseCommon.Utilities;
 
 namespace API.APPLICATION.Commands.RefreshToken
 {
@@ -21,14 +22,15 @@ namespace API.APPLICATION.Commands.RefreshToken
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IJWTManagerRepository _jWTManagerRepository;
         private readonly IUserRepository _userRepository;
-
-        public UpdateRefreshTokenCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IRefreshTokenRepository refreshTokenRepository, IJWTManagerRepository jWTManagerRepository, IUserRepository userRepository)
+        private readonly GetInfoHelpers _getInfoHelpers;
+        public UpdateRefreshTokenCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IRefreshTokenRepository refreshTokenRepository, IJWTManagerRepository jWTManagerRepository, IUserRepository userRepository, GetInfoHelpers getInfoHelpers)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _refreshTokenRepository = refreshTokenRepository;
             _jWTManagerRepository = jWTManagerRepository;
             _userRepository = userRepository;
+            _getInfoHelpers = getInfoHelpers;
         }
 
         public async Task<MethodResult<UpdateRefreshTokenCommandResponse>> Handle(UpdateRefreshTokenCommand request, CancellationToken cancellationToken)
@@ -65,7 +67,14 @@ namespace API.APPLICATION.Commands.RefreshToken
             var paramUser = new Users();
             paramUser.UserName = existingUser.UserName;
             paramUser.Password = existingUser.PassWord;
+            var ip = _getInfoHelpers?.IpAddress();
             var genToken = await _jWTManagerRepository.GenerateJWTTokens(paramUser, cancellationToken);
+            //Gen refreshToken
+            var createUser = _jWTManagerRepository.GenerateRefreshToken(ip, existingUser.UserName);
+            _refreshTokenRepository.Add(createUser);
+            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+            genToken.RefreshToken = createUser.IdRefreshToken;
             methodResult.Result = _mapper.Map<UpdateRefreshTokenCommandResponse>(genToken);
             return methodResult;
         }

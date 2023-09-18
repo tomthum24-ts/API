@@ -16,7 +16,15 @@ namespace API.DOMAIN
         private bool? _isRevoked;
         private bool? _isActive;
         private DateTime? _timeLogout;
-
+        private string _userAgent;
+        private string _type;
+        private string _oSName;
+        private string _oSVersion;
+        private string _deviceHash;
+        private string _brownName;
+        private string _brownVersion;
+        private string _timeZone;
+        private bool? _isLogout;
         #endregion Fields
 
         #region Constructors
@@ -25,7 +33,10 @@ namespace API.DOMAIN
         {
         }
 
-        public UserRefreshToken(string idrefreshToken, DateTime? expires, string ipAddress,string userLogin,DateTime? revoked,string revokedByIp, bool? isRevoked, bool? isActive)
+        public UserRefreshToken(string idrefreshToken, DateTime? expires, string ipAddress,string userLogin,DateTime? revoked,
+            string revokedByIp, bool? isRevoked, bool? isActive, string userAgent, string type, string osName, string osVerrsion,
+            string deviceHash, string brownName, string brownVersion, string timeZone
+)
         {
 
             _idRefreshToken = idrefreshToken;
@@ -36,6 +47,14 @@ namespace API.DOMAIN
             _revokedByIp=revokedByIp;
             _isRevoked=isRevoked;
             _isActive=isActive;
+            _userAgent=userAgent;
+            _type=type;
+            _oSName=osName;
+            _oSVersion=osVerrsion;
+            _deviceHash=deviceHash;
+            _brownName=brownName;
+            _brownVersion=brownVersion;
+            _timeZone=timeZone;
         }
         #endregion Constructors
 
@@ -51,7 +70,15 @@ namespace API.DOMAIN
         public bool? IsRevoked { get => _isRevoked; }
         public bool? IsActive { get => _isActive; }
         public DateTime? TimeLogout { get => _revoked; }
-
+        public string UserAgent { get => _userAgent; }
+        public string Type { get => _type; }
+        public string OSName { get => _oSName; }
+        public string OSVersion { get => _oSVersion; }
+        public string DeviceHash { get => _deviceHash; }
+        public string BrownName { get => _brownName; }
+        public string BrownVersion { get => _brownVersion; }
+        public string TimeZone { get => _timeZone; }
+        public bool? IsLogout { get => _isLogout; }
         #endregion Properties
 
         #region Behaviours
@@ -66,7 +93,15 @@ namespace API.DOMAIN
         public void SetIsRevoked(bool? isRevoked) => _isRevoked = isRevoked;
         public void SetIsActive(bool? isActive) => _isActive = isActive;
         public void SetTimeLogout(DateTime? timeLogout) => _timeLogout = timeLogout;
-
+        public void SetUserAgent(string userAgent) => _userAgent = userAgent;
+        public void SetType(string type) => _type = type;
+        public void SetOSName(string oSName) => _oSName = oSName;
+        public void SetOSVersion(string oSVersion) => _oSVersion = oSVersion;
+        public void SetDeviceHash(string deviceHash) => _deviceHash = deviceHash;
+        public void SetBrownName(string brownName) => _brownName = brownName;
+        public void SetBrownVersion(string brownVersion) => _brownVersion = brownVersion;
+        public void SetTimeZone(string timeZone) => _timeZone = timeZone;
+        public void SetIsLogout(bool? isLogout) => _isLogout = isLogout;
         #endregion Behaviours
     }
 }

@@ -29,24 +29,9 @@ namespace API.APPLICATION
             _userRepository = userRepository;
         }
 
-        public async Task<MethodResult<CreateRefreshTokenCommandResponse>> Handle(CreateRefreshTokenCommand request, CancellationToken cancellationToken)
+        public Task<MethodResult<CreateRefreshTokenCommandResponse>> Handle(CreateRefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            var userName = _userSessionInfo.UserName;
-            var methodResult = new MethodResult<CreateRefreshTokenCommandResponse>();
-            var createUser = new UserRefreshToken(
-                request.RefreshToken,
-                request.Expires,
-                request.IpAddress,
-                userName,
-                null,
-                null,
-                null,
-                true
-               );
-            _refreshTokenRepository.Add(createUser);
-            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            methodResult.Result = _mapper.Map<CreateRefreshTokenCommandResponse>(createUser);
-            return methodResult;
+            throw new System.NotImplementedException();
         }
     }
 }

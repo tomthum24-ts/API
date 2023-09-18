@@ -1,11 +1,8 @@
 ﻿using API.DOMAIN;
-using API.DOMAIN.DTOs.User;
-using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface.RefreshToken;
-using BaseCommon.UnitOfWork;
-using AutoMapper;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
+using BaseCommon.UnitOfWork;
 using BaseCommon.Utilities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +17,6 @@ namespace API.APPLICATION.Commands.RefreshToken
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly GetInfoHelpers _getInfoHelpers;
-
 
         public RevokeTokenCommandHandler(IRefreshTokenRepository refreshTokenRepository, IUnitOfWork unitOfWork, GetInfoHelpers getInfoHelpers)
         {
@@ -47,6 +43,7 @@ namespace API.APPLICATION.Commands.RefreshToken
             if (request.IsLogout == true)
             {
                 existingRevoke.SetTimeLogout(DateTime.UtcNow);
+                existingRevoke.SetIsLogout(true);
             }
             _refreshTokenRepository.Update(existingRevoke);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);

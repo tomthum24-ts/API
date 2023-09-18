@@ -1,13 +1,18 @@
-﻿using API.DOMAIN.DTOs.Permission;
+﻿using API.DOMAIN;
+using API.DOMAIN.DTOs.Permission;
 using API.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE.DataConnect;
+using BaseCommon.Common.EnCrypt;
 using BaseCommon.Common.Enum;
+using BaseCommon.Common.HttpDetection;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Shyjus.BrowserDetection;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,18 +28,21 @@ namespace API.INFRASTRUCTURE.Repositories.User
 {
 	public class JWTManagerRepository : IJWTManagerRepository
 	{
-
+		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly IConfiguration _iconfiguration;
 		private readonly IUserRepository _userRepository;
 		private readonly DapperContext _context;
 		//private readonly IDistributedCached<UserItemCache> _distributedCache;
 		private readonly IMemoryCache _memoryCache;
-		public JWTManagerRepository(IConfiguration iconfiguration, DapperContext context, IUserRepository userRepository, IMemoryCache memoryCache)
+		private readonly IBrowserDetector _browserDetector;
+        public JWTManagerRepository(IConfiguration iconfiguration, DapperContext context, IUserRepository userRepository, IMemoryCache memoryCache, IHttpContextAccessor httpContextAccessor, IBrowserDetector browserDetector)
         {
             _iconfiguration = iconfiguration;
             _context = context;
             _userRepository = userRepository;
-			_memoryCache = memoryCache;
+            _memoryCache = memoryCache;
+            _httpContextAccessor = httpContextAccessor;
+            _browserDetector = browserDetector;
         }
         public async Task<Tokens> GenerateJWTTokens(Users users, CancellationToken cancellationToken)
 		{
@@ -81,6 +89,33 @@ namespace API.INFRASTRUCTURE.Repositories.User
 		//	var result = await rs.ReadAsync<UserDTO>().ConfigureAwait(false);
 		//	return result;
 		//}
+
+		public UserRefreshToken GenerateRefreshToken(string ipAddress, string userName)
+		{
+			var randomBytes = CMSEncryption.RandomBytes();
+			#region LogDevice
+			var deviceModel = _httpContextAccessor.HttpContext.Request.GetDeviceInformation(_browserDetector.Browser);
+			#endregion
+			var refreshToken = new UserRefreshToken(
+				 Convert.ToBase64String(randomBytes),
+				 DateTime.UtcNow.AddMinutes(int.Parse(_iconfiguration["JWT:TimeRefresh"])),
+				 ipAddress,
+				 userName,
+				 null,
+				 null,
+				 null,
+				 true,
+				 deviceModel.UserAgent,
+				 deviceModel.Type,
+				 deviceModel.OsName,
+				 deviceModel.OsVersion,
+				 deviceModel.DeviceHash,
+				 deviceModel.BrowserName,
+				 deviceModel.BrowserVersion,
+				 deviceModel.TimeZone
+				);
+			return refreshToken;
+		}
 		public async Task<Tokens> GenerateToken(Users userName, CancellationToken cancellationToken)
 		{
 			return await  GenerateJWTTokens(userName, cancellationToken);

@@ -60,20 +60,7 @@ namespace API.APPLICATION.Commands.Login
                     });
                 return methodResult;
             }
-            #region LogDevice
-            try
-            {
-                var deviceModel = _httpContextAccessor.HttpContext.Request.GetDeviceInformation(_browserDetector.Browser);
-
-            }
-            catch (Exception)
-            {
-
-               
-            }
             
-
-            #endregion
 
             var ip = _getInfoHelpers?.IpAddress();
             var paramUser = new Users();
@@ -83,7 +70,7 @@ namespace API.APPLICATION.Commands.Login
 
             #region Refresh Token
 
-            var createUser = GenerateRefreshToken(ip, request.UserName);
+            var createUser = _jWTManagerRepository.GenerateRefreshToken(ip, request.UserName);
             _refreshTokenRepository.Add(createUser);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
@@ -94,20 +81,5 @@ namespace API.APPLICATION.Commands.Login
             return methodResult;
         }
 
-        public UserRefreshToken GenerateRefreshToken(string ipAddress, string userName)
-        {
-            var randomBytes = CMSEncryption.RandomBytes();
-            var refreshToken = new UserRefreshToken(
-                 Convert.ToBase64String(randomBytes),
-                 DateTime.UtcNow.AddMinutes(int.Parse(_iconfiguration["JWT:TimeRefresh"])),
-                 ipAddress,
-                 userName,
-                 null,
-                 null,
-                 null,
-                 true
-                );
-            return refreshToken;
-        }
     }
 }

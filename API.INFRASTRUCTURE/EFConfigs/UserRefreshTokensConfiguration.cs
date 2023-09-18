@@ -20,6 +20,15 @@ namespace API.INFRASTRUCTURE
             builder.Property(x => x.IsRevoked).HasField("_isRevoked").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.IsActive).HasField("_isActive").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.TimeLogout).HasField("_timeLogout").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.UserAgent).HasField("_userAgent").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.Type).HasField("_type").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.OSName).HasField("_oSName").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.OSVersion).HasField("_oSVersion").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.DeviceHash).HasField("_deviceHash").HasMaxLength(500).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.BrownName).HasField("_brownName").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.BrownVersion).HasField("_brownVersion").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.TimeZone).HasField("_timeZone").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.IsLogout).HasField("_isLogout").UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }
