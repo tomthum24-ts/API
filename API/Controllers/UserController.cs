@@ -29,6 +29,7 @@ namespace API.Controllers
     {
         private const string GetListUser = nameof(GetListUser);
         private const string GetById = nameof(GetById);
+        private const string GetPersionInfo = nameof(GetPersionInfo);
         private const string ChangePassword = nameof(ChangePassword); 
         private const string Login = nameof(Login);
         private const string Report = nameof(Report);
@@ -71,17 +72,28 @@ namespace API.Controllers
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
-        public async Task<ActionResult> GetUserByIdAsync(RequestByIdViewModel param, CancellationToken cancellationToken)
+        [AuthorizeGroupCheckOperation(EAuthorizeType.Everyone)]
+        public async Task<ActionResult> GetUserByIdAsync(UserRequestByIdModel param)
         {
-            var methodResult = new MethodResult<Dictionary<string, string>>();
-            var query = await _iUserQueries.GetInfoUserByID(param).ConfigureAwait(false);
-            //methodResult.Result = _mapper.Map<UserViewModel>(query);
-            Dictionary<string,string> data= query.ToDictionary(x => x.ObjKey, x => StringHelpers.Normalization(x.ObjValue));
-            methodResult.Result = data;
+            var methodResult = new MethodResult<UserResponseByIdModel>();
+            var userFilterParam = _mapper.Map<GetUserByIdParam>(param);
+            var query = await _iUserQueries.GetInfoUserByIdAsync(userFilterParam).ConfigureAwait(false);
+            methodResult.Result = _mapper.Map<UserResponseByIdModel>(query);
             return Ok(methodResult);
         }
-
+        [HttpPost]
+        [Route(GetPersionInfo)]
+        [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [SQLInjectionCheckOperation]
+        [AuthorizeGroupCheckOperation(EAuthorizeType.Everyone)]
+        public async Task<ActionResult> GetInfoPersionalByIdAsync()
+        {
+            var methodResult = new MethodResult<UserResponseByIdModel>();
+            var query = await _iUserQueries.GetInfoPersionalById().ConfigureAwait(false);
+            methodResult.Result = _mapper.Map<UserResponseByIdModel>(query);
+            return Ok(methodResult);
+        }
 
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateUserCommand>), (int)HttpStatusCode.OK)]

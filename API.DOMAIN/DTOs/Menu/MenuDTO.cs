@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 
 namespace API.DOMAIN.DTOs.Menu
 {
@@ -16,5 +17,14 @@ namespace API.DOMAIN.DTOs.Menu
         public string Image { get; set; }
         public string Note { get; set; }
         public bool? Status { get; set; }
+        public bool HasChildren
+        {
+            get
+            {
+                return Children.Any();
+            }
+        }
+
+        public IEnumerable<MenuDTO> Children { get; set; } = new List<MenuDTO>();
     }
 }

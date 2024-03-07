@@ -1,5 +1,6 @@
-﻿using API.APPLICATION;
+﻿    using API.APPLICATION;
 using API.APPLICATION.Queries;
+using API.APPLICATION.Queries.Customer;
 using API.APPLICATION.Queries.GenDTO;
 using API.APPLICATION.Queries.GroupPermission;
 using API.APPLICATION.Queries.Location;
@@ -70,6 +71,9 @@ namespace API.Dependency
             services.AddScoped<ISysBieuMauRepository, SysBieuMauRepository>();
             services.AddScoped<ISYSBieuMauQueries, SYSBieuMauQueries>();
 
+            //Customer
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<ICustomerServices, CustomerServices>();
             //Permission
             services.AddScoped<IUserGroupPermissionServices, UserGroupPermissionServices>();
             services.AddScoped<IUserGroupPermissionRepository, UserGroupPermissionRepository>();

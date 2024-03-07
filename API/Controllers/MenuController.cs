@@ -19,6 +19,7 @@ namespace API.Controllers
     public class MenuController : ControllerBase
     {
         private const string GetList = nameof(GetList);
+        private const string GetMenu = nameof(GetMenu);
         private readonly IMapper _mapper;
         private readonly IMenuServices _menuServices;
 
@@ -43,6 +44,24 @@ namespace API.Controllers
             var methodResult = new MethodResult<IEnumerable<MenuDTO>>();
             //var param = _mapper.Map<MenuFilterParam>(request);
             var queryResult = await _menuServices.GetListMenuAsync().ConfigureAwait(false);
+            methodResult.Result = queryResult;
+            return Ok(methodResult);
+        }
+        /// <summary>
+        /// GetListMenu - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(GetMenu)]
+        [SQLInjectionCheckOperation()]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetMenuAsync()
+        {
+            var methodResult = new MethodResult<IEnumerable<MenuDTO>>();
+            //var param = _mapper.Map<MenuFilterParam>(request);
+            var queryResult = await _menuServices.GetListMenuTestAsync().ConfigureAwait(false);
             methodResult.Result = queryResult;
             return Ok(methodResult);
         }

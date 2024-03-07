@@ -8,6 +8,7 @@ using API.DOMAIN.DTOs;
 using API.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE.DataConnect;
 using AutoMapper;
+using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.Report;
 using BaseCommon.Common.Report.Infrastructures;
 using BaseCommon.Common.Report.Interfaces;
@@ -18,6 +19,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace API.INFRASTRUCTURE
@@ -31,6 +33,8 @@ namespace API.INFRASTRUCTURE
         Task<PagingItems<UserDTO>> GetUserPagingAsync(UserFilterParam param);
 
         Task<BieuMauInfoResponseViewModel> ExportWordThongTinAsync(RequestByIdViewModel request);
+        Task<UserByIdDTO> GetInfoPersionalById();
+        Task<UserByIdDTO> GetInfoUserByIdAsync(GetUserByIdParam param);
     }
 
     public class UserServices : IUserServices
@@ -40,13 +44,15 @@ namespace API.INFRASTRUCTURE
         private readonly IMapper _mapper;
         protected readonly IReportQueries _reportQueries;
         private readonly IExportService _exportService;
+        private IUserSessionInfo _userSessionInfo;
 
-        public UserServices(DapperContext context, ISYSBieuMauQueries sysBieuMauQueries, IMapper mapper, IExportService exportService)
+        public UserServices(DapperContext context, ISYSBieuMauQueries sysBieuMauQueries, IMapper mapper, IExportService exportService, IUserSessionInfo userSessionInfo)
         {
             _context = context;
             _sysBieuMauQueries = sysBieuMauQueries;
             _mapper = mapper;
             _exportService = exportService;
+            _userSessionInfo = userSessionInfo;
         }
 
         public async Task<IEnumerable<UserDTO>> GetAllUser()
@@ -54,6 +60,25 @@ namespace API.INFRASTRUCTURE
             var conn = _context.CreateConnection();
             using var rs = await conn.QueryMultipleAsync("GetAllUser", new { }, commandType: CommandType.StoredProcedure);
             var result = await rs.ReadAsync<UserDTO>().ConfigureAwait(false);
+            return result;
+        }
+        public async Task<UserByIdDTO> GetInfoUserById(GetUserByIdParam param)
+        {
+            var result = await GetInfoUserByIdAsync(param);
+            return result;
+        }
+        public async Task<UserByIdDTO> GetInfoPersionalById()
+        {
+            var param = new GetUserByIdParam();
+            param.id = _userSessionInfo.ID ?? 0;
+            var result = await GetInfoUserByIdAsync(param);
+            return result;
+        }
+        public async Task<UserByIdDTO> GetInfoUserByIdAsync(GetUserByIdParam param  )
+        {
+            var conn = _context.CreateConnection();
+            using var rs = await conn.QueryMultipleAsync("SP_DA_GetInfoUserById", param, commandType: CommandType.StoredProcedure);
+            var result = await rs.ReadFirstOrDefaultAsync<UserByIdDTO>().ConfigureAwait(false);
             return result;
         }
 

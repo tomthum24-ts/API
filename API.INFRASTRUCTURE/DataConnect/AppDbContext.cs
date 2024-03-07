@@ -28,34 +28,35 @@ namespace API.INFRASTRUCTURE.DataConnect
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //User
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.ToTable(TableConstants.USER_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-
+            //Project
             modelBuilder.Entity<Project>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.ToTable(TableConstants.PRỌJECT_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new ProjectConfiguration());
-
+            //Province
             modelBuilder.Entity<Province>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.ToTable(TableConstants.PROVINCE_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new ProvinceConfiguration());
-
+            //Distrist
             modelBuilder.Entity<District>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.ToTable(TableConstants.DISTRICT_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new DistrictConfiguration());
-
+            //Village
             modelBuilder.Entity<Village>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -63,7 +64,7 @@ namespace API.INFRASTRUCTURE.DataConnect
             });
             
             modelBuilder.ApplyConfiguration(new VillageConfiguration());
-
+            //Refresh token
 
             modelBuilder.Entity<UserRefreshToken>(entity =>
             {
@@ -71,34 +72,41 @@ namespace API.INFRASTRUCTURE.DataConnect
                 entity.ToTable(TableConstants.REFRESHTOKEN_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new UserRefreshTokenConfiguration());
-
+            //Credential
             modelBuilder.Entity<PM_Credential>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.ToTable(TableConstants.CREDENTIAL_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new CredentialConfiguration());
-
+            //File Attach
             modelBuilder.Entity<AttachmentFile>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.ToTable(TableConstants.AttachmentFile_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new AttachmentFileConfiguration());
-
+            //Role permision
             modelBuilder.Entity<RolePermissions>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.ToTable(TableConstants.ROLEPERMISSION_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new RolePermissionConfiguration());
-
+            //Report
             modelBuilder.Entity<SysBieuMau>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.ToTable(TableConstants.SYSBIEUMAU_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new SysBieuMauConfiguration());
+            //Customer
+            modelBuilder.Entity<Customer>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.CUSTOMER_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new CustomerConfiguration());
         }
         public DbSet<User> User { get; set; }
         public DbSet<Project> Project { get; set; }
@@ -109,6 +117,7 @@ namespace API.INFRASTRUCTURE.DataConnect
         public DbSet<PM_Credential> Credential { get; set; }
         public DbSet<AttachmentFile> AttachmentFile { get; set; }
         public DbSet<SysBieuMau> SysBieuMau { get; set; }
+        public DbSet<Customer> Customer { get; set; }
 
     }
 }

@@ -16,5 +16,6 @@ namespace API.DOMAIN
         public const string CREDENTIAL_TABLENAME = "PM_Credential";
         public const string MENU_TABLENAME = "DA_Menu";
         public const string SYSBIEUMAU_TABLENAME = "SYS_BieuMau";
+        public const string CUSTOMER_TABLENAME = "DA_Customer";
     }
 }

@@ -5,6 +5,7 @@ using API.INFRASTRUCTURE.DataConnect;
 using BaseCommon.Common.EnCrypt;
 using BaseCommon.Common.Enum;
 using BaseCommon.Common.HttpDetection;
+using BaseCommon.Common.MethodResult;
 using Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -78,8 +79,8 @@ namespace API.INFRASTRUCTURE.Repositories.User
 				
 			};
 			var token = tokenHandler.CreateToken(tokenDescriptor);
-
-			return new Tokens { Token = tokenHandler.WriteToken(token), ExpiresIn= token.ValidTo };
+            long unixTime = ((DateTimeOffset)token.ValidTo).ToUnixTimeSeconds();
+            return new Tokens { Token = tokenHandler.WriteToken(token), ExpiresIn= unixTime };
 
 		}
 		//public async Task<IEnumerable<UserDTO>> GetAll(Users users)

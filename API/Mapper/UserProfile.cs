@@ -1,6 +1,7 @@
 ﻿using API.APPLICATION.Commands.Login;
 using API.APPLICATION.Commands.User;
 using API.APPLICATION.Parameters.User;
+using API.APPLICATION.ViewModels.ByIdViewModel;
 using API.APPLICATION.ViewModels.User;
 using API.DOMAIN;
 using API.DOMAIN.DTOs.User;
@@ -24,9 +25,9 @@ namespace API.Mapper
             CreateMap<Tokens, LoginCommandResponse>().ForMember(x=>x.AccessToken,o=>o.MapFrom(y=>y.Token));
 
             #endregion
-            //CreateMap<UpdateUserCommand, UpdateUserCommandResponse>();
-
-
+            CreateMap<UserRequestByIdModel, GetUserByIdParam>();
+            CreateMap<UserByIdDTO,  UserResponseByIdModel> ();
+            CreateMap<UserByIdDTO, UserResponseViewModel>();
 
         }
     }

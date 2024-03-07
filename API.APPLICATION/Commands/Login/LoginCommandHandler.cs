@@ -5,7 +5,6 @@ using API.INFRASTRUCTURE.Interface.RefreshToken;
 using AutoMapper;
 using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.EnCrypt;
-using BaseCommon.Common.HttpDetection;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
 using BaseCommon.UnitOfWork;
@@ -60,7 +59,6 @@ namespace API.APPLICATION.Commands.Login
                     });
                 return methodResult;
             }
-            
 
             var ip = _getInfoHelpers?.IpAddress();
             var paramUser = new Users();
@@ -78,8 +76,8 @@ namespace API.APPLICATION.Commands.Login
 
             genToken.RefreshToken = createUser.IdRefreshToken;
             methodResult.Result = _mapper.Map<LoginCommandResponse>(genToken);
+         
             return methodResult;
         }
-
     }
 }

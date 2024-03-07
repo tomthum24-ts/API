@@ -147,6 +147,7 @@ namespace BaseCommon.Common.MethodResult
 
         public static string GetFromResources(string resourceName, Assembly resourceAssembly)
         {
+            var name = resourceAssembly.GetName().Name + '.' + resourceName;
             using Stream stream = resourceAssembly.GetManifestResourceStream(resourceAssembly.GetName().Name + '.' + resourceName);
 
             using var reader = new StreamReader(stream);
