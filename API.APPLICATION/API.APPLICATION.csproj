@@ -35,8 +35,19 @@
 
   <ItemGroup>
     <Folder Include="Commands\Menu\" />
+    <Folder Include="Commands\WareHouseOutDetail\" />
+    <Folder Include="Commands\WareHouseOut\" />
+    <Folder Include="Commands\WareHouseInDetail\" />
     <Folder Include="Mappings\Project\" />
     <Folder Include="Parameters\project\" />
+    <Folder Include="Queries\WareHouseOutDetail\" />
+    <Folder Include="Queries\WareHouseOut\" />
+    <Folder Include="Queries\WareHouseInDetail\" />
+    <Folder Include="Queries\WareHouseIn\" />
+    <Folder Include="ViewModels\WareHouseOutDetail\" />
+    <Folder Include="ViewModels\WareHouseOut\" />
+    <Folder Include="ViewModels\WareHouseInDetail\" />
+    <Folder Include="ViewModels\WareHouseIn\" />
   </ItemGroup>
 
 </Project>

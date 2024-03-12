@@ -1,13 +1,15 @@
-﻿using API.INFRASTRUCTURE.EFConfigs;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using API.INFRASTRUCTURE.EFConfigs.Location;
-using API.DOMAIN;
-using Microsoft.AspNetCore.Hosting;
-using API.INFRASTRUCTURE.EFConfigs.Permission;
-using API.INFRASTRUCTURE.EFConfigs.Media;
+﻿using API.DOMAIN;
 using API.DOMAIN.DomainObjects.BieuMau;
+using API.DOMAIN.DomainObjects.WareHouseIn;
+using API.DOMAIN.DomainObjects.WareHouseInDetail;
+using API.DOMAIN.DomainObjects.WareHouseOut;
+using API.DOMAIN.DomainObjects.WareHouseOutDetail;
+using API.INFRASTRUCTURE.EFConfigs;
 using API.INFRASTRUCTURE.EFConfigs.BieuMau;
+using API.INFRASTRUCTURE.EFConfigs.Location;
+using API.INFRASTRUCTURE.EFConfigs.Media;
+using API.INFRASTRUCTURE.EFConfigs.Permission;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.INFRASTRUCTURE.DataConnect
 {
@@ -20,12 +22,12 @@ namespace API.INFRASTRUCTURE.DataConnect
             _getConnectString = getConnectString;
         }
 
-
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             // connect to sql server with connection string from app settings
             options.UseSqlServer(_getConnectString.GetConnect());
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //User
@@ -62,7 +64,7 @@ namespace API.INFRASTRUCTURE.DataConnect
                 entity.HasKey(e => e.Id);
                 entity.ToTable(TableConstants.VILLAGE_TABLENAME);
             });
-            
+
             modelBuilder.ApplyConfiguration(new VillageConfiguration());
             //Refresh token
 
@@ -107,7 +109,36 @@ namespace API.INFRASTRUCTURE.DataConnect
                 entity.ToTable(TableConstants.CUSTOMER_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+            //WareHouseIn
+            modelBuilder.Entity<WareHouseIn>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.WAREHOUSEIN_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new WareHouseInConfiguration());
+            //WareHouseIn_Detail
+            modelBuilder.Entity<WareHouseInDetail>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.WAREHOUSEINDETAIL_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new WareHouseInDetailConfiguration());
+            //WareHouseOut
+            modelBuilder.Entity<WareHouseOut>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.WAREHOUSEOUT_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new WareHouseOutConfiguration());
+            //WareHouseOut_Detail
+            modelBuilder.Entity<WareHouseOutDetail>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.WAREHOUSEOUTDETAIL_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new WareHouseOutDetailConfiguration());
         }
+
         public DbSet<User> User { get; set; }
         public DbSet<Project> Project { get; set; }
         public DbSet<Province> Province { get; set; }
@@ -118,6 +149,9 @@ namespace API.INFRASTRUCTURE.DataConnect
         public DbSet<AttachmentFile> AttachmentFile { get; set; }
         public DbSet<SysBieuMau> SysBieuMau { get; set; }
         public DbSet<Customer> Customer { get; set; }
-
+        public DbSet<WareHouseIn> WareHouseIn { get; set; }
+        public DbSet<WareHouseInDetail> WareHouseInDetail { get; set; }
+        public DbSet<WareHouseOut> WareHouseOut { get; set; }
+        public DbSet<WareHouseOutDetail> WareHouseOutDetail { get; set; }
     }
 }

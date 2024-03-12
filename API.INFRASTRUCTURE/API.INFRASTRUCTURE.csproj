@@ -42,4 +42,13 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interface\WareHouseOutDetail\" />
+    <Folder Include="Interface\RefreshTooken\WareHouseOut\" />
+    <Folder Include="Repositories\WareHouseOutDetail\" />
+    <Folder Include="Repositories\WareHouseOut\" />
+    <Folder Include="Repositories\WareHouseInDetail\" />
+    <Folder Include="Repositories\WareHouseIn\" />
+  </ItemGroup>
+
 </Project>

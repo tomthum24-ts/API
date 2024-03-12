@@ -17,5 +17,9 @@ namespace API.DOMAIN
         public const string MENU_TABLENAME = "DA_Menu";
         public const string SYSBIEUMAU_TABLENAME = "SYS_BieuMau";
         public const string CUSTOMER_TABLENAME = "DA_Customer";
+        public const string WAREHOUSEIN_TABLENAME = "K_WareHouseIn";
+        public const string WAREHOUSEOUT_TABLENAME = "K_WareHouseOut";
+        public const string WAREHOUSEINDETAIL_TABLENAME = "K_WareHouseIn_Detail";
+        public const string WAREHOUSEOUTDETAIL_TABLENAME = "K_WareHouseOut_Detail";
     }
 }
