@@ -1,5 +1,4 @@
-﻿using Aspose.Words;
-using System;
+﻿using System;
 
 namespace API.DOMAIN
 {
@@ -20,7 +19,8 @@ namespace API.DOMAIN
         #endregion Fields
 
         #region Constructors
-        public WareHouseIn( string code, DateTime? dateCode, int? customerID, string representative, DateTime? intendTime,int? wareHouse,string note,string ortherNote,int? fileAttach)
+
+        public WareHouseIn(string code, DateTime? dateCode, int? customerID, string representative, DateTime? intendTime, int? wareHouse, string note, string ortherNote, int? fileAttach)
         {
             _code = code;
             _dateCode = dateCode;
@@ -32,6 +32,7 @@ namespace API.DOMAIN
             _ortherNote = ortherNote;
             _fileAttach = fileAttach;
         }
+
         private WareHouseIn()
         {
         }

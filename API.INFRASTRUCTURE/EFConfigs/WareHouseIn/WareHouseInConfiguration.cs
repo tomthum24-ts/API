@@ -1,5 +1,4 @@
 ﻿using API.DOMAIN;
-using API.DOMAIN.DomainObjects.WareHouseIn;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,6 +9,7 @@ namespace API.INFRASTRUCTURE.EFConfigs
         public void Configure(EntityTypeBuilder<WareHouseIn> builder)
         {
             builder.ToTable(TableConstants.WAREHOUSEIN_TABLENAME);
+
             builder.Property(x => x.Code).HasField("_code").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.DateCode).HasField("_dateCode").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.CustomerID).HasField("_customerID").UsePropertyAccessMode(PropertyAccessMode.Field);

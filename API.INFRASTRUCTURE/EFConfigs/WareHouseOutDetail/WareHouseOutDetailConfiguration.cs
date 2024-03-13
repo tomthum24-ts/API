@@ -16,7 +16,7 @@ namespace API.INFRASTRUCTURE.EFConfigs
         public void Configure(EntityTypeBuilder<WareHouseOutDetail> builder)
         {
             builder.ToTable(TableConstants.WAREHOUSEOUTDETAIL_TABLENAME);
-            builder.Property(x => x.IdWareHouseOut).HasField("_idWareHouseIn").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.IdWareHouseOut).HasField("_idWareHouseOut").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.RangeOfVehicle).HasField("_rangeOfVehicle").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.QuantityVehicle).HasField("_quantityVehicle").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.ProductId).HasField("_productId").UsePropertyAccessMode(PropertyAccessMode.Field);

@@ -29,8 +29,8 @@ namespace API.APPLICATION
         public async Task<MethodResult<CreateCustomerCommandResponse>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<CreateCustomerCommandResponse>();
-            bool existingUser = await _customerRepository.Get(x => x.Phone == request.Phone).AnyAsync(cancellationToken);
-            if (existingUser)
+            bool existingPhone = await _customerRepository.Get(x => x.Phone == request.Phone).AnyAsync(cancellationToken);
+            if (existingPhone)
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB01), new[]
                     {

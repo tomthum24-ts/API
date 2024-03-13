@@ -1,5 +1,4 @@
 ﻿using API.DOMAIN;
-using API.DOMAIN.DomainObjects.WareHouseIn;
 using API.DOMAIN.DomainObjects.WareHouseInDetail;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

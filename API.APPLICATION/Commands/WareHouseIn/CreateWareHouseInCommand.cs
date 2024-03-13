@@ -20,17 +20,18 @@ namespace API.APPLICATION.Commands.WareHouseIn
         public string Note { get; set; }
         public string OrtherNote { get; set; }
         public int? FileAttach { get; set; }
+        public List<CreateWareHouseInDetailCommandDTO> WareHouseInDetail { get; set; }
     }
     public class CreateWareHouseInDetailCommandDTO
     {
-        public int IdWareHouseIn { get; set; }
-        public int RangeOfVehicle { get; set; }
-        public decimal QuantityVehicle { get; set; }
-        public int ProductId { get; set; }
-        public decimal QuantityProduct { get; set; }
-        public int Unit { get; set; }
-        public decimal Size { get; set; }
-        public decimal Weight { get; set; }
+        public int? IdWareHouseIn { get; set; }
+        public int? RangeOfVehicle { get; set; }
+        public decimal? QuantityVehicle { get; set; }
+        public int? ProductId { get; set; }
+        public decimal? QuantityProduct { get; set; }
+        public int? Unit { get; set; }
+        public decimal? Size { get; set; }
+        public decimal? Weight { get; set; }
     }
     public class CreateWareHouseInCommandResponse : CreateWareHouseInCommand
     {

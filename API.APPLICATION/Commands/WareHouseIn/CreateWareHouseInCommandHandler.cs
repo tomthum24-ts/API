@@ -31,8 +31,8 @@ namespace API.APPLICATION
         public async Task<MethodResult<CreateWareHouseInCommandResponse>> Handle(CreateWareHouseInCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<CreateWareHouseInCommandResponse>();
-            bool existingUser = await _wareHouseInRepository.Get(x => x.Code == request.Code).AnyAsync(cancellationToken);
-            if (existingUser)
+            bool existingCode = await _wareHouseInRepository.Get(x => x.Code == request.Code).AnyAsync(cancellationToken);
+            if (existingCode)
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB01), new[]
                     {

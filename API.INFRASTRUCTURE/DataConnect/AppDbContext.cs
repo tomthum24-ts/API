@@ -1,6 +1,5 @@
 ﻿using API.DOMAIN;
 using API.DOMAIN.DomainObjects.BieuMau;
-using API.DOMAIN.DomainObjects.WareHouseIn;
 using API.DOMAIN.DomainObjects.WareHouseInDetail;
 using API.DOMAIN.DomainObjects.WareHouseOut;
 using API.DOMAIN.DomainObjects.WareHouseOutDetail;

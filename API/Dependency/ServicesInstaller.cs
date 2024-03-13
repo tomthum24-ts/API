@@ -13,11 +13,13 @@ using API.INFRASTRUCTURE.Interface.BieuMau;
 using API.INFRASTRUCTURE.Interface.Location;
 using API.INFRASTRUCTURE.Interface.Media;
 using API.INFRASTRUCTURE.Interface.RefreshToken;
+using API.INFRASTRUCTURE.Interface.WareHouseOutDetail;
 using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.BieuMau;
 using API.INFRASTRUCTURE.Repositories.FileAttach;
 using API.INFRASTRUCTURE.Repositories.Permission;
 using API.INFRASTRUCTURE.Repositories.User;
+using API.INFRASTRUCTUREm;
 using BaseCommon.Authorization;
 using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.Report.Infrastructures;
@@ -74,6 +76,12 @@ namespace API.Dependency
             //Customer
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ICustomerServices, CustomerServices>();
+            //WareHouse
+            services.AddScoped<IWareHouseInRepository, WareHouseInRepository>();
+            services.AddScoped<IWareHouseInDetailRepository, WareHouseInDetailRepository>();
+            services.AddScoped<IWareHouseOutRepository, WareHouseOutRepository>();
+            services.AddScoped<IWareHouseOutDetailRepository, WareHouseOutDetailRepository>();
+            //services.AddScoped<ICustomerServices, CustomerServices>();
             //Permission
             services.AddScoped<IUserGroupPermissionServices, UserGroupPermissionServices>();
             services.AddScoped<IUserGroupPermissionRepository, UserGroupPermissionRepository>();
