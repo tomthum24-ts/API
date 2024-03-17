@@ -7,6 +7,10 @@ using API.APPLICATION.Queries.Location;
 using API.APPLICATION.Queries.Media;
 using API.APPLICATION.Queries.Menu;
 using API.APPLICATION.Queries.Permission.RolePermission;
+using API.APPLICATION.Queries.Product;
+using API.APPLICATION.Queries.Unit;
+using API.APPLICATION.Queries.Vehicle;
+using API.APPLICATION.Queries.WareHouseIn;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface;
 using API.INFRASTRUCTURE.Interface.BieuMau;
@@ -81,7 +85,14 @@ namespace API.Dependency
             services.AddScoped<IWareHouseInDetailRepository, WareHouseInDetailRepository>();
             services.AddScoped<IWareHouseOutRepository, WareHouseOutRepository>();
             services.AddScoped<IWareHouseOutDetailRepository, WareHouseOutDetailRepository>();
+            services.AddScoped<IWareHouseInServices, WareHouseInServices>();
             //services.AddScoped<ICustomerServices, CustomerServices>();
+            //Unit
+            services.AddScoped<IUnitServices, UnitServices>();
+            //Product
+            services.AddScoped<IProductServices, ProductServices>();
+            // Vehicle
+            services.AddScoped<IVehicleServices, VehicleServices>();
             //Permission
             services.AddScoped<IUserGroupPermissionServices, UserGroupPermissionServices>();
             services.AddScoped<IUserGroupPermissionRepository, UserGroupPermissionRepository>();

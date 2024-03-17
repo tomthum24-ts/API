@@ -48,7 +48,6 @@
     <Folder Include="DTOs\WareHouseOutDetail\" />
     <Folder Include="DTOs\WareHouseOut\" />
     <Folder Include="DTOs\WareHouseInDetail\" />
-    <Folder Include="DTOs\WareHouseIn\" />
   </ItemGroup>
 
 </Project>

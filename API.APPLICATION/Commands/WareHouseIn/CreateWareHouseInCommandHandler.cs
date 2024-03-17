@@ -1,13 +1,12 @@
-﻿using API.APPLICATION.Commands.Customer;
-using API.APPLICATION.Commands.WareHouseIn;
+﻿using API.APPLICATION.Commands.WareHouseIn;
 using API.DOMAIN;
+using API.DOMAIN.DomainObjects.WareHouseInDetail;
 using API.INFRASTRUCTURE;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
-using BaseCommon.Enums;
 using BaseCommon.UnitOfWork;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,17 +30,16 @@ namespace API.APPLICATION
         public async Task<MethodResult<CreateWareHouseInCommandResponse>> Handle(CreateWareHouseInCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<CreateWareHouseInCommandResponse>();
-            bool existingCode = await _wareHouseInRepository.Get(x => x.Code == request.Code).AnyAsync(cancellationToken);
-            if (existingCode)
-            {
-                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB01), new[]
-                    {
-                        ErrorHelpers.GenerateErrorResult(nameof(request.Code), request.Code)
-                    });
-                return methodResult;
-            }
-            var createCustomer = new WareHouseIn(
-                request.Code,
+            //bool existingCode = await _wareHouseInRepository.Get(x => x.Code == request.Code).AnyAsync(cancellationToken);
+            //if (existingCode)
+            //{
+            //    methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB01), new[]
+            //        {
+            //            ErrorHelpers.GenerateErrorResult(nameof(request.Code), request.Code)
+            //        });
+            //    return methodResult;
+            //}
+            var createWareHouse = new WareHouseIn(
                 request.DateCode,
                 request.CustomerID,
                 request.Representative,
@@ -51,9 +49,26 @@ namespace API.APPLICATION
                 request.OrtherNote,
                 request.FileAttach
                 );
-            _wareHouseInRepository.Add(createCustomer);
+            _wareHouseInRepository.Add(createWareHouse);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            methodResult.Result = _mapper.Map<CreateWareHouseInCommandResponse>(createCustomer);
+            List<WareHouseInDetail> lstDetail = new List<WareHouseInDetail>();
+            foreach (var item in request.WareHouseInDetail)
+            {
+                var createDetail = new WareHouseInDetail(
+                                createWareHouse.Id,
+                                item.RangeOfVehicle,
+                                item.QuantityVehicle,
+                                item.ProductId,
+                                item.QuantityProduct,
+                                item.Unit,
+                                item.Size,
+                                item.Weight
+                            );
+                lstDetail.Add(createDetail);
+            }
+            _wareHouseInDetailRepository.AddRange(lstDetail);
+            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            methodResult.Result = _mapper.Map<CreateWareHouseInCommandResponse>(request);
             return methodResult;
         }
     }

@@ -1,32 +1,31 @@
-﻿using API.APPLICATION.Commands.Customer;
-using BaseCommon.Common.MethodResult;
-using MediatR;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace API.APPLICATION.Commands.WareHouseIn
+namespace API.APPLICATION.ViewModels.WareHouseInDetail
 {
-    public class CreateWareHouseInCommand : IRequest<MethodResult<CreateWareHouseInCommandResponse>>
+    public class WareHouseInDetailResponseViewModel
     {
-        [JsonIgnore]
+        public int Id { get; set; }
         public string Code { get; set; }
         public DateTime? DateCode { get; set; }
-        public int? CustomerID { get; set; }
+        public string Code1 { get; set; }
+        public string CustomerName { get; set; }
         public string Representative { get; set; }
         public DateTime? IntendTime { get; set; }
-        public int? WareHouse { get; set; }
+        public string WareHouseName { get; set; }
         public string Note { get; set; }
         public string OrtherNote { get; set; }
         public int? FileAttach { get; set; }
-        public List<CreateWareHouseInDetailCommandDTO> WareHouseInDetail { get; set; }
+        public int? CreatedById { get; set; }
+        public string CreateUser { get; set; }
+        public IEnumerable<WareHouseInDetailResponseDTO> WareHouseInDetailResponseDTOs { get; set; }
     }
-    public class CreateWareHouseInDetailCommandDTO
+    public class WareHouseInDetailResponseDTO
     {
-        [JsonIgnore]
+        public int Id { get; set; }
         public int? IdWareHouseIn { get; set; }
         public int? RangeOfVehicle { get; set; }
         public decimal? QuantityVehicle { get; set; }
@@ -35,9 +34,5 @@ namespace API.APPLICATION.Commands.WareHouseIn
         public int? Unit { get; set; }
         public decimal? Size { get; set; }
         public decimal? Weight { get; set; }
-    }
-    public class CreateWareHouseInCommandResponse : CreateWareHouseInCommand
-    {
-
     }
 }

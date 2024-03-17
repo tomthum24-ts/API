@@ -15,9 +15,21 @@
         #endregion Fields
 
         #region Constructors
-
-        private WareHouseInDetail()
+        public WareHouseInDetail()
         {
+
+        }
+
+        public WareHouseInDetail(int? idWareHouseIn,int? rangeOfVehicle, decimal? quantityVehicle, int? productId, decimal? quantityProduct, int? unit, decimal? size, decimal? weight)
+        {
+            _idWareHouseIn = idWareHouseIn;
+            _rangeOfVehicle = rangeOfVehicle;
+            _quantityVehicle = quantityVehicle;
+            _productId = productId;
+            _quantityProduct = quantityProduct;
+            _unit = unit;
+            _size = size;
+            _weight = weight;
         }
 
         #endregion Constructors
@@ -37,7 +49,7 @@
 
         #region Behaviours
 
-        public void SetIdWareHouseOut(int? idWareHouseIn) => _idWareHouseIn = idWareHouseIn;
+        public void SetIdWareHouseIn(int? idWareHouseIn) => _idWareHouseIn = idWareHouseIn;
         public void SetRangeOfVehicle(int? rangeOfVehicle) => _rangeOfVehicle = rangeOfVehicle;
         public void SetQuantityVehicle(decimal? quantityVehicle) => _quantityVehicle = quantityVehicle;
         public void SetProductId(int? productId) => _productId = productId;

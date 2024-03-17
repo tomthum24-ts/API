@@ -43,11 +43,8 @@
     <Folder Include="Queries\WareHouseOutDetail\" />
     <Folder Include="Queries\WareHouseOut\" />
     <Folder Include="Queries\WareHouseInDetail\" />
-    <Folder Include="Queries\WareHouseIn\" />
     <Folder Include="ViewModels\WareHouseOutDetail\" />
     <Folder Include="ViewModels\WareHouseOut\" />
-    <Folder Include="ViewModels\WareHouseInDetail\" />
-    <Folder Include="ViewModels\WareHouseIn\" />
   </ItemGroup>
 
 </Project>

@@ -49,7 +49,7 @@ namespace API.INFRASTRUCTURE.Repositories
         #region DeleteItem
         public void Delete(T entity, bool isPhysicalDelete = false)
         {
-            Delete(entity, isPhysicalDelete);
+            Remove(entity, isPhysicalDelete);
         }
         public void DeleteRange(IEnumerable<T> entities, bool isPhysicalDelete = false)
         {

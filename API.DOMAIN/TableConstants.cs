@@ -21,5 +21,8 @@ namespace API.DOMAIN
         public const string WAREHOUSEOUT_TABLENAME = "K_WareHouseOut";
         public const string WAREHOUSEINDETAIL_TABLENAME = "K_WareHouseIn_Detail";
         public const string WAREHOUSEOUTDETAIL_TABLENAME = "K_WareHouseOut_Detail";
+        public const string UNIT_TABLENAME = "Unit";
+        public const string PRODUCT_TABLENAME = "Product";
+        public const string VEHICLE_TABLENAME = "Vehicle";
     }
 }

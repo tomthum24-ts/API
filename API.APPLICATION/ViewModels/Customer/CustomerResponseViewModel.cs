@@ -28,7 +28,7 @@ namespace API.APPLICATION.ViewModels.Customer
         public string Path { get; set; }
         public bool? IsEnterprise { get; set; }
         public string Representative { get; set; }
-        public string Poisition { get; set; }
+        public string Position { get; set; }
         public string RegistrationNumber { get; set; }
         public DateTime? RegistrationDate { get; set; }
         public string RegistrationAddress { get; set; }

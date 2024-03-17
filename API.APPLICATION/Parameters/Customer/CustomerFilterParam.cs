@@ -4,8 +4,8 @@
     {
         public string Ids { get; set; }
         public string Provinces { get; set; }
-        public string Distrist { get; set; }
-        public string Village { get; set; }
-        public string MemberGroup { get; set; }
+        public string Districts { get; set; }
+        public string Villages { get; set; }
+        public string MemberGroups { get; set; }
     }
 }
