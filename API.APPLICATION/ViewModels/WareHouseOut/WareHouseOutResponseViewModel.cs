@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace API.APPLICATION.ViewModels.WareHouseIn
+namespace API.APPLICATION.ViewModels.WareHouseOut
 {
-    public class WareHouseInResponseViewModel
+    public class WareHouseOutResponseViewModel
     {
         public int Id { get; set; }
         public string Code { get; set; }

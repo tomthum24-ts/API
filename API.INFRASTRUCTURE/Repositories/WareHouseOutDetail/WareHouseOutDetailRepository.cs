@@ -1,6 +1,5 @@
 ﻿using API.DOMAIN.DomainObjects.WareHouseOutDetail;
 using API.INFRASTRUCTURE.DataConnect;
-using API.INFRASTRUCTURE.Interface.WareHouseOutDetail;
 using API.INFRASTRUCTURE.Repositories;
 
 namespace API.INFRASTRUCTURE

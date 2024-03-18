@@ -1,6 +1,8 @@
-﻿namespace API.INFRASTRUCTURE.Interface.WareHouseOutDetail
+﻿using API.DOMAIN.DomainObjects.WareHouseOutDetail;
+
+namespace API.INFRASTRUCTURE
 {
-    public interface IWareHouseOutDetailRepository
+    public interface IWareHouseOutDetailRepository : IRepositoryBase<WareHouseOutDetail>
     {
     }
 }

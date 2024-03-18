@@ -23,7 +23,18 @@ namespace API.DOMAIN.DomainObjects.WareHouseOut
         private WareHouseOut()
         {
         }
+        public WareHouseOut(DateTime? dateCode, int? customerID, string representative, DateTime? intendTime, int? wareHouse, string note, string ortherNote, int? fileAttach)
+        {
 
+            _dateCode = dateCode;
+            _customerID = customerID;
+            _representative = representative;
+            _intendTime = intendTime;
+            _wareHouse = wareHouse;
+            _note = note;
+            _ortherNote = ortherNote;
+            _fileAttach = fileAttach;
+        }
         #endregion Constructors
 
         #region Properties

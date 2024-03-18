@@ -40,7 +40,7 @@ namespace API.APPLICATION.Queries.WareHouseIn
             };
             param.IdUser= _userSessionInfo?.ID.Value ?? 0;
             var conn = _context.CreateConnection();
-            using var rs = await conn.QueryMultipleAsync("SP_DM_LC_GetListWareHouse_SelectWithPaging", param, commandType: CommandType.StoredProcedure);
+            using var rs = await conn.QueryMultipleAsync("SP_DM_LC_GetListWareHouseIn_SelectWithPaging", param, commandType: CommandType.StoredProcedure);
             result.Items = await rs.ReadAsync<WareHouseInDTO>().ConfigureAwait(false);
             result.PagingInfo.TotalItems = await rs.ReadSingleAsync<int>().ConfigureAwait(false);
             return result;

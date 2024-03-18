@@ -40,7 +40,7 @@ namespace API.INFRASTRUCTURE.DataConnect
             modelBuilder.Entity<Project>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.ToTable(TableConstants.PRỌJECT_TABLENAME);
+                entity.ToTable(TableConstants.PROJECT_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new ProjectConfiguration());
             //Province

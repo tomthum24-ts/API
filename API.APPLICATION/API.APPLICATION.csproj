@@ -6,8 +6,11 @@
 
   <ItemGroup>
     <Compile Remove="DTOs\**" />
+    <Compile Remove="Parameters\project\**" />
     <EmbeddedResource Remove="DTOs\**" />
+    <EmbeddedResource Remove="Parameters\project\**" />
     <None Remove="DTOs\**" />
+    <None Remove="Parameters\project\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,15 +39,10 @@
   <ItemGroup>
     <Folder Include="Commands\Menu\" />
     <Folder Include="Commands\WareHouseOutDetail\" />
-    <Folder Include="Commands\WareHouseOut\" />
     <Folder Include="Commands\WareHouseInDetail\" />
     <Folder Include="Mappings\Project\" />
-    <Folder Include="Parameters\project\" />
     <Folder Include="Queries\WareHouseOutDetail\" />
-    <Folder Include="Queries\WareHouseOut\" />
     <Folder Include="Queries\WareHouseInDetail\" />
-    <Folder Include="ViewModels\WareHouseOutDetail\" />
-    <Folder Include="ViewModels\WareHouseOut\" />
   </ItemGroup>
 
 </Project>

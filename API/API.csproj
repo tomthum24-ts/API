@@ -5,12 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\**" />
     <Compile Remove="Queries\**" />
     <Compile Remove="Resources\**" />
+    <Content Remove="Models\**" />
     <Content Remove="Queries\**" />
     <Content Remove="Resources\**" />
+    <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="Queries\**" />
     <EmbeddedResource Remove="Resources\**" />
+    <None Remove="Models\**" />
     <None Remove="Queries\**" />
     <None Remove="Resources\**" />
   </ItemGroup>
@@ -44,10 +48,6 @@
     <ProjectReference Include="..\API.APPLICATION\API.APPLICATION.csproj" />
     <ProjectReference Include="..\API.INFRASTRUCTURE\API.INFRASTRUCTURE.csproj" />
     <ProjectReference Include="..\BaseCommon\BaseCommon.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\ACL\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -24,6 +24,7 @@ namespace API.INFRASTRUCTURE.EFConfigs
             builder.Property(x => x.Note).HasField("_note").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.OrtherNote).HasField("_ortherNote").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.FileAttach).HasField("_fileAttach").UsePropertyAccessMode(PropertyAccessMode.Field);
+            
         }
     }
 }

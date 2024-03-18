@@ -11,6 +11,7 @@
         private int? _unit;
         private decimal? _size;
         private decimal? _weight;
+        
 
         #endregion Fields
 
@@ -30,6 +31,7 @@
             _unit = unit;
             _size = size;
             _weight = weight;
+          
         }
 
         #endregion Constructors
@@ -44,6 +46,7 @@
         public int? Unit { get => _unit; }
         public decimal? Size { get => _size; }
         public decimal? Weight { get => _weight; }
+       
 
         #endregion Properties
 
@@ -57,6 +60,7 @@
         public void SetUnit(int? unit) => _unit = unit;
         public void SetSize(decimal? size) => _size = size;
         public void SetWeight(decimal? weight) => _weight = weight;
+        
 
         #endregion Behaviours
     }

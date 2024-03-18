@@ -1,8 +1,8 @@
-﻿using API.APPLICATION.Commands.WareHouseIn;
-using API.APPLICATION.Parameters.WareHouseIn;
-using API.APPLICATION.Queries.WareHouseIn;
-using API.APPLICATION.ViewModels.WareHouseIn;
-using API.APPLICATION.ViewModels.WareHouseInDetail;
+﻿using API.APPLICATION.Commands.WareHouseOut;
+using API.APPLICATION.Parameters.WareHouseOut;
+using API.APPLICATION.Queries.WareHouseOut;
+using API.APPLICATION.ViewModels.WareHouseOut;
+using API.APPLICATION.ViewModels.WareHouseOutDetail;
 using AutoMapper;
 using BaseCommon.Attributes;
 using BaseCommon.Common.MethodResult;
@@ -19,102 +19,102 @@ namespace API.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class WareHouseInController : ControllerBase
+    public class WareHouseOutController : ControllerBase
     {
         private const string GetList = nameof(GetList);
         private const string GetById = nameof(GetById);
-        private readonly IWareHouseInServices _wareHouseInServices;
+        private readonly IWareHouseOutServices _WareHouseOutServices;
 
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public WareHouseInController(IMediator mediator, IMapper mapper, IWareHouseInServices wareHouseInServices)
+        public WareHouseOutController(IMediator mediator, IMapper mapper, IWareHouseOutServices WareHouseOutServices)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _wareHouseInServices = wareHouseInServices;
+            _WareHouseOutServices = WareHouseOutServices;
         }
 
         /// <summary>
-        /// GetListWareHouseIn - (Author: son)
+        /// GetListWareHouseOut - (Author: son)
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPost]
         [Route(GetList)]
         [SQLInjectionCheckOperation]
-        public async Task<ActionResult> GetDanhSachWareHouseInAsync(WareHouseInRequestViewModel request)
+        public async Task<ActionResult> GetDanhSachWareHouseOutAsync(WareHouseOutRequestViewModel request)
         {
-            var methodResult = new MethodResult<PagingItems<WareHouseInResponseViewModel>>();
-            var userFilterParam = _mapper.Map<WareHouseInFilterParam>(request);
+            var methodResult = new MethodResult<PagingItems<WareHouseOutResponseViewModel>>();
+            var userFilterParam = _mapper.Map<WareHouseOutFilterParam>(request);
 
-            var queryResult = await _wareHouseInServices.GetWareHouseInPagingAsync(userFilterParam).ConfigureAwait(false);
-            methodResult.Result = new PagingItems<WareHouseInResponseViewModel>
+            var queryResult = await _WareHouseOutServices.GetWareHouseOutPagingAsync(userFilterParam).ConfigureAwait(false);
+            methodResult.Result = new PagingItems<WareHouseOutResponseViewModel>
             {
                 PagingInfo = queryResult.PagingInfo,
-                Items = _mapper.Map<IEnumerable<WareHouseInResponseViewModel>>(queryResult.Items)
+                Items = _mapper.Map<IEnumerable<WareHouseOutResponseViewModel>>(queryResult.Items)
             };
 
             return Ok(methodResult);
         }
 
         /// <summary>
-        /// Get List of GetWareHouseInById.
+        /// Get List of GetWareHouseOutById.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost(GetById)]
-        [ProducesResponseType(typeof(MethodResult<WareHouseInDetailResponseViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(MethodResult<WareHouseOutDetailResponseViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
         //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         //[AllowAnonymous]
-        public async Task<IActionResult> GetWareHouseInByIdAsync(WareHouseInByIdViewModel request)
+        public async Task<IActionResult> GetWareHouseOutByIdAsync(WareHouseOutByIdViewModel request)
         {
-            var methodResult = new MethodResult<WareHouseInDetailResponseViewModel>();
-            var userFilterParam = _mapper.Map<WareHouseInByIdParam>(request);
-            methodResult.Result = await _wareHouseInServices.GetWareHouseInByIdAsync(userFilterParam).ConfigureAwait(false);
+            var methodResult = new MethodResult<WareHouseOutDetailResponseViewModel>();
+            var userFilterParam = _mapper.Map<WareHouseOutByIdParam>(request);
+            methodResult.Result = await _WareHouseOutServices.GetWareHouseOutByIdAsync(userFilterParam).ConfigureAwait(false);
             return Ok(methodResult);
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(MethodResult<CreateWareHouseInCommand>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(MethodResult<CreateWareHouseOutCommand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         //[AllowAnonymous]
-        public async Task<IActionResult> CreateWareHouseInAsync(CreateWareHouseInCommand command)
+        public async Task<IActionResult> CreateWareHouseOutAsync(CreateWareHouseOutCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);
         }
 
         /// <summary>
-        /// Delete WareHouseIn - (Author: son)
+        /// Delete WareHouseOut - (Author: son)
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpDelete]
-        [ProducesResponseType(typeof(MethodResult<DeleteWareHouseInCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(MethodResult<DeleteWareHouseOutCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         //[AllowAnonymous]
-        public async Task<IActionResult> DeleteWareHouseInAsync(DeleteWareHouseInCommand command)
+        public async Task<IActionResult> DeleteWareHouseOutAsync(DeleteWareHouseOutCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);
         }
 
         /// <summary>
-        /// Update WareHouseIn- (Author: son)
+        /// Update WareHouseOut- (Author: son)
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPut]
-        [ProducesResponseType(typeof(MethodResult<UpdateWareHouseInCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(MethodResult<UpdateWareHouseOutCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         //[AllowAnonymous]
-        public async Task<IActionResult> UpdateWareHouseInAsync(UpdateWareHouseInCommand command)
+        public async Task<IActionResult> UpdateWareHouseOutAsync(UpdateWareHouseOutCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);

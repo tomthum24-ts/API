@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace API.APPLICATION.ViewModels.WareHouseIn
+namespace API.DOMAIN.DTOs.WareHouseOut
 {
-    public class WareHouseInResponseViewModel
+    public class WareHouseOutDTO
     {
         public int Id { get; set; }
         public string Code { get; set; }

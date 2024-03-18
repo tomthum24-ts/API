@@ -4,7 +4,8 @@ namespace API.DOMAIN
     public class TableConstants
     {
         public const string USER_TABLENAME = "DA_Users";
-        public const string PRỌJECT_TABLENAME = "DA_Project";
+        public const string PROJECT_TABLENAME = "DA_Project";
+        public const string GROUP_TABLENAME = "DA_Group";
         public const string AttachmentFile_TABLENAME = "Media_AttachmentFiles";
         public const string PROVINCE_TABLENAME = "LC_Province";
         public const string DISTRICT_TABLENAME = "LC_District";

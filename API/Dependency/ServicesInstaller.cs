@@ -1,6 +1,7 @@
-﻿    using API.APPLICATION;
+﻿using API.APPLICATION;
 using API.APPLICATION.Queries;
 using API.APPLICATION.Queries.Customer;
+using API.APPLICATION.Queries.CustomerGroup;
 using API.APPLICATION.Queries.GenDTO;
 using API.APPLICATION.Queries.GroupPermission;
 using API.APPLICATION.Queries.Location;
@@ -11,13 +12,13 @@ using API.APPLICATION.Queries.Product;
 using API.APPLICATION.Queries.Unit;
 using API.APPLICATION.Queries.Vehicle;
 using API.APPLICATION.Queries.WareHouseIn;
+using API.APPLICATION.Queries.WareHouseOut;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface;
 using API.INFRASTRUCTURE.Interface.BieuMau;
 using API.INFRASTRUCTURE.Interface.Location;
 using API.INFRASTRUCTURE.Interface.Media;
 using API.INFRASTRUCTURE.Interface.RefreshToken;
-using API.INFRASTRUCTURE.Interface.WareHouseOutDetail;
 using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.BieuMau;
 using API.INFRASTRUCTURE.Repositories.FileAttach;
@@ -86,6 +87,7 @@ namespace API.Dependency
             services.AddScoped<IWareHouseOutRepository, WareHouseOutRepository>();
             services.AddScoped<IWareHouseOutDetailRepository, WareHouseOutDetailRepository>();
             services.AddScoped<IWareHouseInServices, WareHouseInServices>();
+            services.AddScoped<IWareHouseOutServices, WareHouseOutServices>();
             //services.AddScoped<ICustomerServices, CustomerServices>();
             //Unit
             services.AddScoped<IUnitServices, UnitServices>();
@@ -93,6 +95,8 @@ namespace API.Dependency
             services.AddScoped<IProductServices, ProductServices>();
             // Vehicle
             services.AddScoped<IVehicleServices, VehicleServices>();
+            // CustomerGroup
+            services.AddScoped<ICustomerGroupServices, CustomerGroupServices>();
             //Permission
             services.AddScoped<IUserGroupPermissionServices, UserGroupPermissionServices>();
             services.AddScoped<IUserGroupPermissionRepository, UserGroupPermissionRepository>();

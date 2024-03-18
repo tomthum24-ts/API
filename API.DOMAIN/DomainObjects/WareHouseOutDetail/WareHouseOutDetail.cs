@@ -12,6 +12,7 @@
         private int? _unit;
         private decimal? _size;
         private decimal? _weight;
+        private string _rONumber;
 
         #endregion Fields
 
@@ -20,7 +21,18 @@
         private WareHouseOutDetail()
         {
         }
-
+        public WareHouseOutDetail(int? idWareHouseOut, int? rangeOfVehicle, decimal? quantityVehicle, int? productId, decimal? quantityProduct, int? unit, decimal? size, decimal? weight, string rONumber)
+        {
+            _idWareHouseOut = idWareHouseOut;
+            _rangeOfVehicle = rangeOfVehicle;
+            _quantityVehicle = quantityVehicle;
+            _productId = productId;
+            _quantityProduct = quantityProduct;
+            _unit = unit;
+            _size = size;
+            _weight = weight;
+            _rONumber = rONumber;
+        }
         #endregion Constructors
 
         #region Properties
@@ -33,7 +45,7 @@
         public int? Unit { get => _unit; }
         public decimal? Size { get => _size; }
         public decimal? Weight { get => _weight; }
-
+        public string RONumber { get => _rONumber; }
         #endregion Properties
 
         #region Behaviours
@@ -53,6 +65,7 @@
         public void SetSize(decimal? size) => _size = size;
 
         public void SetWeight(decimal? weight) => _weight = weight;
+        public void SetRONumber(string rONumber) => _rONumber = rONumber;
 
         #endregion Behaviours
     }

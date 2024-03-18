@@ -52,7 +52,7 @@ namespace API.Controllers
 
             DanhMucFilterParam danhMucFilterParam = new DanhMucFilterParam();
             danhMucFilterParam = _mapper.Map<DanhMucFilterParam>(request);
-            danhMucFilterParam.TableName = TableConstants.PRỌJECT_TABLENAME;
+            danhMucFilterParam.TableName = TableConstants.PROJECT_TABLENAME;
 
             var queryResult = await _projectServices.GetDanhMucByListIdAsync(danhMucFilterParam).ConfigureAwait(false);
             methodResult.Result = new PagingItems<ProjectResponseViewModel>
@@ -76,7 +76,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetProjectByIdAsync(ProjectByIdRequestViewModel request)
         {
             var methodResult = new MethodResult<ProjectResponseViewModel>();
-            var queryResult = await _projectServices.GetDanhMucByIdAsync(request.Id, TableConstants.PRỌJECT_TABLENAME).ConfigureAwait(false);
+            var queryResult = await _projectServices.GetDanhMucByIdAsync(request.Id, TableConstants.PROJECT_TABLENAME).ConfigureAwait(false);
             methodResult.Result = _mapper.Map<ProjectResponseViewModel>(queryResult.Items.FirstOrDefault());
             return Ok(methodResult);
         }
