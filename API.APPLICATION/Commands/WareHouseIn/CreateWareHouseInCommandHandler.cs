@@ -4,6 +4,7 @@ using API.DOMAIN.DomainObjects.WareHouseInDetail;
 using API.INFRASTRUCTURE;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
+using BaseCommon.Enums;
 using BaseCommon.UnitOfWork;
 using MediatR;
 using System.Collections.Generic;
@@ -40,31 +41,59 @@ namespace API.APPLICATION
             //    return methodResult;
             //}
             var createWareHouse = new WareHouseIn(
-                request.DateCode,
-                request.CustomerID,
-                request.Representative,
-                request.IntendTime,
-                request.WareHouse,
-                request.Note,
-                request.OrtherNote,
-                request.FileAttach
+                    request.Code,
+                    request.DateCode,
+                    request.CustomerID,
+                    request.Representative,
+                    request.IntendTime,
+                    request.WareHouse,
+                    request.CustomerName,
+                    request.FilePath,
+                    request.FileName,
+                    request.Seal,
+                    request.Temp,
+                    request.CarNumber,
+                    request.Container,
+                    request.Door,
+                    request.Deliver,
+                    request.Veterinary,
+                    request.Cont,
+                    request.Note,
+                    request.OrtherNote,
+                    request.FileAttach,
+                    request.NumberCode,
+                    request.InvoiceNumber,
+                    request.TimeStart,
+                    request.TimeEnd
                 );
             _wareHouseInRepository.Add(createWareHouse);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             List<WareHouseInDetail> lstDetail = new List<WareHouseInDetail>();
+            if (request.WareHouseInDetail.Count < 1)
+            {
+                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB07), new[]
+                    {
+                        ErrorHelpers.GenerateErrorResult(nameof(request.Code), request.Code)
+                    });
+                return methodResult;
+            }
             foreach (var item in request.WareHouseInDetail)
             {
-                var createDetail = new WareHouseInDetail(
+                foreach (var item2 in item.VehicleDetails)
+                {
+                    var createDetail = new WareHouseInDetail(
                                 createWareHouse.Id,
                                 item.RangeOfVehicle,
-                                item.QuantityVehicle,
-                                item.ProductId,
-                                item.QuantityProduct,
-                                item.Unit,
-                                item.Size,
-                                item.Weight
+                                null,
+                                item2.ProductId,
+                                item2.QuantityProduct,
+                                item2.Unit,
+                                item2.Size,
+                                item2.Weight,
+                                item.GuildId
                             );
-                lstDetail.Add(createDetail);
+                    lstDetail.Add(createDetail);
+                }
             }
             _wareHouseInDetailRepository.AddRange(lstDetail);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);

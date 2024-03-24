@@ -23,7 +23,8 @@ namespace API.INFRASTRUCTURE.EFConfigs
             builder.Property(x => x.Unit).HasField("_unit").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Size).HasField("_size").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Weight).HasField("_weight").UsePropertyAccessMode(PropertyAccessMode.Field);
-            
+            builder.Property(x => x.GuildId).HasField("_guildId").HasMaxLength(100).UsePropertyAccessMode(PropertyAccessMode.Field);
+
         }
     }
 }

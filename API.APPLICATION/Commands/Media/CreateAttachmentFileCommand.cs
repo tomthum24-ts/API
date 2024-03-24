@@ -12,6 +12,7 @@ namespace API.APPLICATION.Commands.Media
 
     public class FileDTO
     {
+        public int FileId { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public long Size { get; set; }

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace API.APPLICATION.ViewModels.WareHouseInDetail
 {
-    public class WareHouseInDetailResponseViewModel
+    public class WareHouseInDetailViewModel
     {
         public int Id { get; set; }
         public string Code { get; set; }
@@ -31,28 +28,29 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
         public string Deliver { get; set; }
         public string Veterinary { get; set; }
         public decimal? Cont { get; set; }
-        public string Note1 { get; set; }
-        public string OrtherNote1 { get; set; }
-        public int? FileAttach1 { get; set; }
+
         public string NumberCode { get; set; }
         public string InvoiceNumber { get; set; }
         public DateTime? TimeStart { get; set; }
         public DateTime? TimeEnd { get; set; }
-
-        public IEnumerable<WareHouseInDetailResponseDTO> WareHouseInDetailResponseDTOs { get; set; }
+        public IEnumerable<WareHouseInDetailModel> WareHouseInDetailModels { get; set; }
     }
 
-    public class WareHouseInDetailResponseDTO
+    public class WareHouseInDetailModel
     {
         public int Id { get; set; }
-        public int? IdWareHouseIn { get; set; }
+        //public int? IdWareHouseIn { get; set; }
         public int? RangeOfVehicle { get; set; }
-        public decimal? QuantityVehicle { get; set; }
+        public string GuildId { get; set; }
+        public IEnumerable<VehicleDetaiModel> VehicleDetaiModels { get; set; }
+    }
+    public class VehicleDetaiModel
+    {
+        //public decimal? QuantityVehicle { get; set; }
         public int? ProductId { get; set; }
         public decimal? QuantityProduct { get; set; }
         public int? Unit { get; set; }
         public decimal? Size { get; set; }
         public decimal? Weight { get; set; }
-        public string GuildId { get; set; }
     }
 }

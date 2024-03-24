@@ -64,14 +64,14 @@ namespace API.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost(GetById)]
-        [ProducesResponseType(typeof(MethodResult<WareHouseInDetailResponseViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(MethodResult<WareHouseInDetailViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
         //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         //[AllowAnonymous]
         public async Task<IActionResult> GetWareHouseInByIdAsync(WareHouseInByIdViewModel request)
         {
-            var methodResult = new MethodResult<WareHouseInDetailResponseViewModel>();
+            var methodResult = new MethodResult<WareHouseInDetailViewModel>();
             var userFilterParam = _mapper.Map<WareHouseInByIdParam>(request);
             methodResult.Result = await _wareHouseInServices.GetWareHouseInByIdAsync(userFilterParam).ConfigureAwait(false);
             return Ok(methodResult);

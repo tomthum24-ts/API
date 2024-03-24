@@ -11,6 +11,7 @@
         private int? _unit;
         private decimal? _size;
         private decimal? _weight;
+        private string _guildId;
         
 
         #endregion Fields
@@ -21,7 +22,7 @@
 
         }
 
-        public WareHouseInDetail(int? idWareHouseIn,int? rangeOfVehicle, decimal? quantityVehicle, int? productId, decimal? quantityProduct, int? unit, decimal? size, decimal? weight)
+        public WareHouseInDetail(int? idWareHouseIn,int? rangeOfVehicle, decimal? quantityVehicle, int? productId, decimal? quantityProduct, int? unit, decimal? size, decimal? weight, string guildId)
         {
             _idWareHouseIn = idWareHouseIn;
             _rangeOfVehicle = rangeOfVehicle;
@@ -31,6 +32,7 @@
             _unit = unit;
             _size = size;
             _weight = weight;
+            _guildId = guildId;
           
         }
 
@@ -46,7 +48,7 @@
         public int? Unit { get => _unit; }
         public decimal? Size { get => _size; }
         public decimal? Weight { get => _weight; }
-       
+        public string GuildId { get; set; }
 
         #endregion Properties
 
@@ -60,7 +62,7 @@
         public void SetUnit(int? unit) => _unit = unit;
         public void SetSize(decimal? size) => _size = size;
         public void SetWeight(decimal? weight) => _weight = weight;
-        
+        public void SetGuildId(string guildId) => _guildId = guildId;
 
         #endregion Behaviours
     }

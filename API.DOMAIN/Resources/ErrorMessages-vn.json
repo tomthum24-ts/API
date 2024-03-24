@@ -4,5 +4,6 @@
   "EB03": "Mật khẩu yếu",
   "EB04": "Hết hạn phiên đăng nhập",
   "EB05": "Hết phiên đăng nhập vui lòng đăng nhập lại",
+  "EB07": "Không được để trống chi tiết",
   "ERR_COM_INVALID_FILE_SIZE": "Dung lượng file quá giới hạn"
 }

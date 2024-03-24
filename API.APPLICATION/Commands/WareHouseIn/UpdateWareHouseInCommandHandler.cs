@@ -7,6 +7,7 @@ using BaseCommon.Enums;
 using BaseCommon.UnitOfWork;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -46,48 +47,52 @@ namespace API.APPLICATION.Commands.WareHouseIn
             isExistData.SetRepresentative(request.Representative);
             isExistData.SetIntendTime(request.IntendTime);
             isExistData.SetWareHouse(request.WareHouse);
+            isExistData.SetCustomerName(request.CustomerName);
+            isExistData.SetFilePath(request.FilePath);
+            isExistData.SetFileName(request.FileName);
+            isExistData.SetSeal(request.Seal);
+            isExistData.SetTemp(request.Temp);
+            isExistData.SetCarNumber(request.CarNumber);
+            isExistData.SetContainer(request.Container);
+            isExistData.SetDoor(request.Door);
+            isExistData.SetDeliver(request.Deliver);
+            isExistData.SetVeterinary(request.Veterinary);
+            isExistData.SetCont(request.Cont);
             isExistData.SetNote(request.Note);
             isExistData.SetOrtherNote(request.OrtherNote);
             isExistData.SetFileAttach(request.FileAttach);
+            isExistData.SetNumberCode(request.NumberCode);
+            isExistData.SetInvoiceNumber(request.InvoiceNumber);
+            isExistData.SetTimeStart(request.TimeStart);
+            isExistData.SetTimeEnd(request.TimeEnd);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-
-            foreach (var item in request.UpdateWareHouseIns)
-            {
-                if (item.Id == 0 && !item.IsDelete)
+            if(request.UpdateWareHouseIns.Count > 0) {
+                var existingDetail = await _wareHouseInDetailRepository.Get(x => x.IdWareHouseIn==request.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
+                _wareHouseInDetailRepository.DeleteRange(existingDetail);
+                await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                List<WareHouseInDetail> lstDetail = new List<WareHouseInDetail>();
+                foreach (var item in request.UpdateWareHouseIns)
                 {
-                    var createDetail = new WareHouseInDetail(
-                              isExistData.Id,
-                              item.RangeOfVehicle,
-                              item.QuantityVehicle,
-                              item.ProductId,
-                              item.QuantityProduct,
-                              item.Unit,
-                              item.Size,
-                              item.Weight
-                          );
-                    _wareHouseInDetailRepository.Add(createDetail);
-                    await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                    foreach (var item2 in item.VehicleDetails)
+                    {
+                        var createDetail = new WareHouseInDetail(
+                             isExistData.Id,
+                             item.RangeOfVehicle,
+                             null,
+                             item2.ProductId,
+                             item2.QuantityProduct,
+                             item2.Unit,
+                             item2.Size,
+                             item2.Weight,
+                             item2.GuildId
+                         );
+                        lstDetail.Add(createDetail);
+                    }
                 }
-                else if (item.IsDelete)
-                {
-                    var existingUser = await _wareHouseInDetailRepository.Get(x => x.Id == item.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
-                    _wareHouseInDetailRepository.Delete(existingUser);
-                    await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-                }
-                else
-                {
-                    var existingDetail = await _wareHouseInDetailRepository.Get(x => x.Id == item.Id).FirstOrDefaultAsync(cancellationToken);
-                    existingDetail.SetIdWareHouseIn(isExistData.Id);
-                    existingDetail.SetRangeOfVehicle(item.RangeOfVehicle);
-                    existingDetail.SetQuantityVehicle(item.QuantityVehicle);
-                    existingDetail.SetProductId(item.ProductId);
-                    existingDetail.SetQuantityProduct(item.QuantityProduct);
-                    existingDetail.SetUnit(item.Unit);
-                    existingDetail.SetSize(item.Size);
-                    existingDetail.SetWeight(item.Weight);
-                    await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-                }
+                _wareHouseInDetailRepository.AddRange(lstDetail);
+                await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
+            
             methodResult.Result = _mapper.Map<UpdateWareHouseInCommandResponse>(request);
             return methodResult;
         }

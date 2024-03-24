@@ -131,6 +131,7 @@ namespace API.Controllers
             }
             var createAttachmentFileCommand = new CreateAttachmentFileCommand() { Files = createAttachmentFileCommands };
             var result = await _mediator.Send(createAttachmentFileCommand).ConfigureAwait(false);
+
             return Ok(result);
         }
     }

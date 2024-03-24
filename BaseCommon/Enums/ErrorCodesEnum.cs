@@ -20,7 +20,9 @@ namespace BaseCommon.Enums
         EB05,
 
         [Description("Kiểm tra lại file upload")]
-        EB06
+        EB06,
+        [Description("Không được để trống chi tiết")]
+        EB07
     }
     public enum ESysBieuMauErrorCode
     {
