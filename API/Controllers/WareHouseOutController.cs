@@ -1,6 +1,9 @@
 ﻿using API.APPLICATION.Commands.WareHouseOut;
+using API.APPLICATION.Parameters.WareHouseIn;
 using API.APPLICATION.Parameters.WareHouseOut;
 using API.APPLICATION.Queries.WareHouseOut;
+using API.APPLICATION.ViewModels.WareHouseIn;
+using API.APPLICATION.ViewModels.WareHouseInDetail;
 using API.APPLICATION.ViewModels.WareHouseOut;
 using API.APPLICATION.ViewModels.WareHouseOutDetail;
 using AutoMapper;
@@ -71,7 +74,7 @@ namespace API.Controllers
         //[AllowAnonymous]
         public async Task<IActionResult> GetWareHouseOutByIdAsync(WareHouseOutByIdViewModel request)
         {
-            var methodResult = new MethodResult<WareHouseOutDetailResponseViewModel>();
+            var methodResult = new MethodResult<WareHouseOutDetailViewModel>();
             var userFilterParam = _mapper.Map<WareHouseOutByIdParam>(request);
             methodResult.Result = await _WareHouseOutServices.GetWareHouseOutByIdAsync(userFilterParam).ConfigureAwait(false);
             return Ok(methodResult);
