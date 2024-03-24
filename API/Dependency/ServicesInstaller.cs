@@ -13,6 +13,8 @@ using API.APPLICATION.Queries.Unit;
 using API.APPLICATION.Queries.Vehicle;
 using API.APPLICATION.Queries.WareHouseIn;
 using API.APPLICATION.Queries.WareHouseOut;
+using API.APPLICATION.Services.Notifications;
+using API.APPLICATION.ViewModels.Notification;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface;
 using API.INFRASTRUCTURE.Interface.BieuMau;
@@ -29,6 +31,8 @@ using BaseCommon.Authorization;
 using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.Report.Infrastructures;
 using BaseCommon.Common.Report.Interfaces;
+using CorePush.Apple;
+using CorePush.Google;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -105,6 +109,14 @@ namespace API.Dependency
             services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
             services.AddScoped<ICredentialServices, CredentialServices>();
             services.AddScoped<ICredentialRepository, CredentialRepository>();
+            // Notifications 
+            services.AddTransient<INotificationService, NotificationService>();
+            services.AddHttpClient<FcmSender>();
+            services.AddHttpClient<ApnSender>();
+
+            // Configure strongly typed settings objects
+            //var appSettingsSection = Configuration.GetSection("FcmNotification");
+            //services.Configure<FcmNotificationSetting>(appSettingsSection);
         }
     }
 }

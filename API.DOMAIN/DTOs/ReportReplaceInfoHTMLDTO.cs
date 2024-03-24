@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace API.DOMAIN
 {
-    public class ReplaceInfoHTMLDTO
+    public class ReportReplaceInfoHTMLDTO
     {
         private string _objValue = string.Empty;
         public int Id { get; set; }

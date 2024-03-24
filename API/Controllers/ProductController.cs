@@ -19,7 +19,7 @@ namespace API.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class ProductController : Controller
+    public class ProductController : ControllerBase
     {
         private const string GetList = nameof(GetList);
         private const string GetById = nameof(GetById);

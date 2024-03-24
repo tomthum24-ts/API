@@ -1,13 +1,27 @@
-﻿using API.APPLICATION.Parameters.WareHouseIn;
+﻿using API.APPLICATION.Parameters;
+using API.APPLICATION.Parameters.WareHouseIn;
+using API.APPLICATION.ViewModels.BieuMau;
+using API.APPLICATION.ViewModels.ByIdViewModel;
 using API.APPLICATION.ViewModels.WareHouseInDetail;
+using API.DOMAIN.DTOs.User;
+using API.DOMAIN;
 using API.DOMAIN.DTOs.WareHouseIn;
 using API.INFRASTRUCTURE.DataConnect;
 using BaseCommon.Common.ClaimUser;
+using BaseCommon.Common.Report.Infrastructures;
+using BaseCommon.Common.Report;
 using BaseCommon.Common.Response;
 using Dapper;
+using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using BaseCommon.Common.Report.Interfaces;
+using BaseCommon.Utilities;
+using Microsoft.AspNetCore.Connections;
+using API.APPLICATION.ViewModels.WareHouseIn;
 
 namespace API.APPLICATION.Queries.WareHouseIn
 {
@@ -16,17 +30,25 @@ namespace API.APPLICATION.Queries.WareHouseIn
         Task<PagingItems<WareHouseInDTO>> GetWareHouseInPagingAsync(WareHouseInFilterParam param);
 
         Task<WareHouseInDetailViewModel> GetWareHouseInByIdAsync(WareHouseInByIdParam param);
+        Task<BieuMauInfoResponseViewModel> ExportWordThongTinAsync(ReportWareHouseInByIdReplaceViewModel request);
     }
 
     public class WareHouseInServices : IWareHouseInServices
     {
         public readonly DapperContext _context;
         private IUserSessionInfo _userSessionInfo;
-
-        public WareHouseInServices(DapperContext context, IUserSessionInfo userSessionInfo)
+        protected readonly ISYSBieuMauQueries _sysBieuMauQueries;
+        protected readonly IReportQueries _reportQueries;
+        private readonly IMapper _mapper;
+        private readonly IExportService _exportService;
+        public WareHouseInServices(DapperContext context, IUserSessionInfo userSessionInfo, ISYSBieuMauQueries sysBieuMauQueries, IReportQueries reportQueries, IMapper mapper, IExportService exportService)
         {
             _context = context;
             _userSessionInfo = userSessionInfo;
+            _sysBieuMauQueries = sysBieuMauQueries;
+            _reportQueries = reportQueries;
+            _mapper = mapper;
+            _exportService = exportService;
         }
 
         public async Task<PagingItems<WareHouseInDTO>> GetWareHouseInPagingAsync(WareHouseInFilterParam param)
@@ -113,6 +135,46 @@ namespace API.APPLICATION.Queries.WareHouseIn
                                                    });
 
             return result;
+        }
+        public async Task<IEnumerable<ReportReplaceInfoHTMLDTO>> GetDataWareHouseInReplaceThongTin(ReportReplaceWareHouseInParam param)
+        {
+            var conn = _context.CreateConnection();
+            using var rs = await conn.QueryMultipleAsync("SP_WareHouse_GetThongTinWareHouseInByIdReplace", param, commandType: System.Data.CommandType.StoredProcedure);
+            var result = await rs.ReadAsync<ReportReplaceInfoHTMLDTO>().ConfigureAwait(false);
+            return result;
+        }
+        public async Task<BieuMauInfoResponseViewModel> ExportWordThongTinAsync(ReportWareHouseInByIdReplaceViewModel request)
+        {
+            var param = _mapper.Map<WareHouseInByIdParam>(request);
+            var queryResult = await GetDataWareHouseInByIdAsync(param).ConfigureAwait(false);
+            HashSet<string> columKeywordQuaTrinhDaoTao = BaseReportCommon.GetPropertiesOfClass<WareHouseInDetailResponseDTO>();
+
+            var dicMailMerge = await GetDataWareHouseInReplaceThongTin(new ReportReplaceWareHouseInParam { IdWareHouse = request.Id });
+            Dictionary<string, string> replaceSameValues = dicMailMerge.ToDictionary(x => x.ObjKey, x => StringHelpers.Normalization(x.ObjValue));
+            replaceSameValues.Add("NguoiXuatBan", "Hahaha");
+            List<WordTemplateTable> wordTemplateTables = new List<WordTemplateTable>();
+            wordTemplateTables.Add(new WordTemplateTable { ColumnKeyWord = columKeywordQuaTrinhDaoTao, DataTable = queryResult.WareHouseInDetailResponseDTOs.OfType<object>().ToList(), Prefix = "#" });
+   
+            var bieuMau = await _sysBieuMauQueries.GetBieuMauByFilter(new SYSBieuMauFilterParam { MaBieuMau = ReportConstants.WareHouseIn_WHI001 });
+            //ValidateBieuMau(bieuMau);
+
+            MemoryStream outputStream;
+            var isExportPDF = bieuMau.IsExportPDF;
+            if (isExportPDF)
+            {
+                outputStream = _exportService.ExportPdfFromWord(bieuMau.NoiDung, replaceSameValues, wordTemplateTables, null, null);
+            }
+            else
+            {
+                outputStream = _exportService.ExportWordData(bieuMau.NoiDung, replaceSameValues, wordTemplateTables, null, null);
+            }
+
+            BieuMauInfoResponseViewModel bieuMauResponse = new BieuMauInfoResponseViewModel();
+            bieuMauResponse.OutputStream = outputStream;
+            bieuMauResponse.ContentType = isExportPDF ? ReportConstant.ContentTypeForPDF : _exportService.GetContentType(bieuMau.LoaiFile);
+            bieuMauResponse.TenBieuMau = bieuMau.TenBieuMau + _exportService.GetExtensionFile(bieuMauResponse.ContentType);
+            //await _bieuMauLogger.LogAsync(bieuMauResponse.TenBieuMau, HRMExcelConstants.LyLichKhoaHoc_V10028, bieuMauResponse.ContentType, bieuMauResponse.OutputStream.ToArray());
+            return bieuMauResponse;
         }
     }
 }

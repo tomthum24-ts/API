@@ -54,5 +54,8 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
         public decimal? Size { get; set; }
         public decimal? Weight { get; set; }
         public string GuildId { get; set; }
+        public string DonViTinh { get; set; }
+        public string TenLoaiXe { get; set; }
+        public string TenSp { get; set; }
     }
 }
