@@ -25,6 +25,13 @@ namespace API.INFRASTRUCTURE.EFConfigs
             builder.Property(x => x.Size).HasField("_size").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Weight).HasField("_weight").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.RONumber).HasField("_rONumber").HasMaxLength(100).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.GuildId).HasField("_guildId").HasMaxLength(100).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.Note).HasField("_note").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.LotNo).HasField("_lotNo").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.TotalWeighScan).HasField("_totalWeighScan").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.ProductDate).HasField("_productDate").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.ExpiryDate).HasField("_expiryDate").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.MadeIn).HasField("_madeIn").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

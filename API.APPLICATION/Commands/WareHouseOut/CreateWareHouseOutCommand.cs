@@ -24,7 +24,7 @@ namespace API.APPLICATION.Commands.WareHouseOut
         public string Door { get; set; }
         public string Deliver { get; set; }
         public string Veterinary { get; set; }
-        public decimal? Cont { get; set; }
+        public string Cont { get; set; }
         public string Note { get; set; }
         public string OrtherNote { get; set; }
         public int? FileAttach { get; set; }
@@ -32,6 +32,7 @@ namespace API.APPLICATION.Commands.WareHouseOut
         public string InvoiceNumber { get; set; }
         public DateTime? TimeStart { get; set; }
         public DateTime? TimeEnd { get; set; }
+        public string Pallet { get; set; }
         public List<CreateWareHouseOutDetailCommandDTO> WareHouseOutDetail { get; set; }
     }
 
@@ -54,6 +55,14 @@ namespace API.APPLICATION.Commands.WareHouseOut
         public int? Unit { get; set; }
         public decimal? Size { get; set; }
         public decimal? Weight { get; set; }
+        public string Note { get; set; }
+        public string LotNo { get; set; }
+        public string TotalWeighScan { get; set; }
+        public string ProductDate { get; set; }
+        public string ExpiryDate { get; set; }
+        public string MadeIn { get; set; }
+        public string GuildId { get; set; }
+        public string RONumber { get; set; }
     }
 
     public class CreateWareHouseOutCommandResponse : CreateWareHouseOutCommand

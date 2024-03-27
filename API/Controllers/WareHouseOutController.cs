@@ -2,12 +2,14 @@
 using API.APPLICATION.Parameters.WareHouseIn;
 using API.APPLICATION.Parameters.WareHouseOut;
 using API.APPLICATION.Queries.WareHouseOut;
+using API.APPLICATION.ViewModels.Base64;
 using API.APPLICATION.ViewModels.WareHouseIn;
 using API.APPLICATION.ViewModels.WareHouseInDetail;
 using API.APPLICATION.ViewModels.WareHouseOut;
 using API.APPLICATION.ViewModels.WareHouseOutDetail;
 using AutoMapper;
 using BaseCommon.Attributes;
+using BaseCommon.Common.EnCrypt;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Common.Response;
 using MediatR;
@@ -26,7 +28,8 @@ namespace API.Controllers
     {
         private const string GetList = nameof(GetList);
         private const string GetById = nameof(GetById);
-        private readonly IWareHouseOutServices _WareHouseOutServices;
+        private const string Report = nameof(Report);
+        private readonly IWareHouseOutServices _wareHouseOutServices;
 
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
@@ -35,7 +38,7 @@ namespace API.Controllers
         {
             _mediator = mediator;
             _mapper = mapper;
-            _WareHouseOutServices = WareHouseOutServices;
+            _wareHouseOutServices = WareHouseOutServices;
         }
 
         /// <summary>
@@ -51,7 +54,7 @@ namespace API.Controllers
             var methodResult = new MethodResult<PagingItems<WareHouseOutResponseViewModel>>();
             var userFilterParam = _mapper.Map<WareHouseOutFilterParam>(request);
 
-            var queryResult = await _WareHouseOutServices.GetWareHouseOutPagingAsync(userFilterParam).ConfigureAwait(false);
+            var queryResult = await _wareHouseOutServices.GetWareHouseOutPagingAsync(userFilterParam).ConfigureAwait(false);
             methodResult.Result = new PagingItems<WareHouseOutResponseViewModel>
             {
                 PagingInfo = queryResult.PagingInfo,
@@ -76,7 +79,7 @@ namespace API.Controllers
         {
             var methodResult = new MethodResult<WareHouseOutDetailViewModel>();
             var userFilterParam = _mapper.Map<WareHouseOutByIdParam>(request);
-            methodResult.Result = await _WareHouseOutServices.GetWareHouseOutByIdAsync(userFilterParam).ConfigureAwait(false);
+            methodResult.Result = await _wareHouseOutServices.GetWareHouseOutByIdAsync(userFilterParam).ConfigureAwait(false);
             return Ok(methodResult);
         }
 
@@ -121,6 +124,26 @@ namespace API.Controllers
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);
+        }
+        [HttpPost(Report)]
+        [ProducesResponseType(typeof(MethodResult<Base64Model>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExportExcelThongTinAsync(ReportWareHouseOutByIdReplaceViewModel request)
+        {
+            var result = new Base64Model();
+            var data = await _wareHouseOutServices.ExportExcelWareHouseOutAsync(request).ConfigureAwait(false);
+            //    //HardCode cho mobile
+            //request.IsMobile = true;
+            if (request.IsMobile)
+            {
+                var file = File(data.OutputStream, data.ContentType, data.TenBieuMau);
+                result.DataStream = CoverToBase64.ConvertToBase64(file.FileStream);
+                result.ContentType = data.ContentType;
+                result.FileName = data.TenBieuMau;
+                return Ok(result);
+            }
+            return File(data.OutputStream, data.ContentType, data.TenBieuMau);
         }
     }
 }

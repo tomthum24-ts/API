@@ -12,7 +12,12 @@
         private decimal? _size;
         private decimal? _weight;
         private string _guildId;
-        
+        private string _lotNo;
+        private string _totalWeighScan;
+        private string _productDate;
+        private string _expiryDate;
+        private string _note;
+        private string _madeIn;
 
         #endregion Fields
 
@@ -22,7 +27,8 @@
 
         }
 
-        public WareHouseInDetail(int? idWareHouseIn,int? rangeOfVehicle, decimal? quantityVehicle, int? productId, decimal? quantityProduct, int? unit, decimal? size, decimal? weight, string guildId)
+        public WareHouseInDetail(int? idWareHouseIn,int? rangeOfVehicle, decimal? quantityVehicle, int? productId,
+            decimal? quantityProduct, int? unit, decimal? size, decimal? weight, string guildId, string note, string lotNo, string totalWeighScan, string productDate, string expiryDate, string madeIn)
         {
             _idWareHouseIn = idWareHouseIn;
             _rangeOfVehicle = rangeOfVehicle;
@@ -33,7 +39,12 @@
             _size = size;
             _weight = weight;
             _guildId = guildId;
-          
+            _note = note;
+            _lotNo = lotNo;
+            _totalWeighScan = totalWeighScan;
+            _productDate = productDate;
+            _expiryDate = expiryDate;
+            _madeIn = madeIn;
         }
 
         #endregion Constructors
@@ -49,7 +60,12 @@
         public decimal? Size { get => _size; }
         public decimal? Weight { get => _weight; }
         public string GuildId { get; set; }
-
+        public string LotNo { get; set; }
+        public string TotalWeighScan { get; set; }
+        public string ProductDate { get; set; }
+        public string ExpiryDate { get; set; }
+        public string Note { get; set; }
+        public string MadeIn { get; set; }
         #endregion Properties
 
         #region Behaviours
@@ -63,7 +79,12 @@
         public void SetSize(decimal? size) => _size = size;
         public void SetWeight(decimal? weight) => _weight = weight;
         public void SetGuildId(string guildId) => _guildId = guildId;
-
+        public void SetLotNo(string lotNo) => _lotNo = lotNo;
+        public void SetTotalWeighScan(string totalWeighScan) => _totalWeighScan = totalWeighScan;
+        public void SetProductDate(string productDate) => _productDate = productDate;
+        public void SetExpiryDate(string expiryDate) => _expiryDate = expiryDate;
+        public void SetNote(string note) => _note = note;
+        public void SetMadeIn(string madeIn) => _madeIn = madeIn;
         #endregion Behaviours
     }
 }

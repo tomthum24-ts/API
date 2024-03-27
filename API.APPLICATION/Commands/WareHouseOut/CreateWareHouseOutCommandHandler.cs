@@ -67,7 +67,8 @@ namespace API.APPLICATION
                     request.NumberCode,
                     request.InvoiceNumber,
                     request.TimeStart,
-                    request.TimeEnd
+                    request.TimeEnd,
+                    request.Pallet
                 );
             _WareHouseOutRepository.Add(createWareHouse);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
@@ -93,7 +94,15 @@ namespace API.APPLICATION
                                 item2.Unit,
                                 item2.Size,
                                 item2.Weight,
-                                item.GuildId
+                                item2.RONumber,
+                                item.GuildId,
+                                item2.Note,
+                                item2.LotNo,
+                                item2.TotalWeighScan,
+                                item2.ProductDate,
+                                item2.ExpiryDate,
+                                item2.MadeIn
+                                
                             );
                     lstDetail.Add(createDetail);
                 }

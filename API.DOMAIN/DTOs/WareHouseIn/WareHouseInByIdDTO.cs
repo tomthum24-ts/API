@@ -18,6 +18,7 @@ namespace API.DOMAIN.DTOs.WareHouseIn
         public int? FileAttach { get; set; }
         public int? CreatedById { get; set; }
         public string CreateUser { get; set; }
+        public string Pallet { get; set; }
         public IEnumerable<WareHouseInDetailByIdModel> WareHouseInDetailByIdModels { get; set; }
     }
 

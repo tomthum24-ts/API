@@ -22,15 +22,17 @@ using BaseCommon.Common.Report.Interfaces;
 using BaseCommon.Utilities;
 using Microsoft.AspNetCore.Connections;
 using API.APPLICATION.ViewModels.WareHouseIn;
+using Aspose.Words;
+using API.DOMAIN.DTOs.Product;
 
 namespace API.APPLICATION.Queries.WareHouseIn
 {
     public interface IWareHouseInServices
     {
         Task<PagingItems<WareHouseInDTO>> GetWareHouseInPagingAsync(WareHouseInFilterParam param);
-
         Task<WareHouseInDetailViewModel> GetWareHouseInByIdAsync(WareHouseInByIdParam param);
         Task<BieuMauInfoResponseViewModel> ExportWordThongTinAsync(ReportWareHouseInByIdReplaceViewModel request);
+        Task<BieuMauInfoResponseViewModel> ExportExcelWareHouseInAsync(ReportWareHouseInByIdReplaceViewModel request);
     }
 
     public class WareHouseInServices : IWareHouseInServices
@@ -81,7 +83,7 @@ namespace API.APPLICATION.Queries.WareHouseIn
             var result = new WareHouseInDetailResponseViewModel();
             var conn = _context.CreateConnection();
             using var rs = await conn.QueryMultipleAsync("SP_DA_GetInfoWareHouseInById", param, commandType: CommandType.StoredProcedure);
-            result = await rs.ReadFirstOrDefaultAsync<WareHouseInDetailResponseViewModel>().ConfigureAwait(false);
+            result.WareHouseInResponseDTOs = await rs.ReadAsync<WareHouseInResponseDTO>().ConfigureAwait(false);
             result.WareHouseInDetailResponseDTOs = await rs.ReadAsync<WareHouseInDetailResponseDTO>().ConfigureAwait(false);
             return result;
         }
@@ -90,32 +92,38 @@ namespace API.APPLICATION.Queries.WareHouseIn
         {
             var result = new WareHouseInDetailViewModel();
             var data = await GetDataWareHouseInByIdAsync(param);
-            result.Id = data.Id;
-            result.Code = data.Code;
-            result.DateCode = data.DateCode;
-            result.Representative = data.Representative;
-            result.IntendTime = data.IntendTime;
-            result.WareHouseName = data.WareHouseName;
-            result.Note = data.Note;
-            result.OrtherNote = data.OrtherNote;
-            result.FileAttach = data.FileAttach;
-            result.CreatedById = data.CreatedById;
-            result.CreateUser = data.CreateUser;
-            result.CustomerName = data.CustomerName;
-            result.FileName = data.FileName;
-            result.FileId = data.FileId;
-            result.Seal = data.Seal;
-            result.Temp = data.Temp;
-            result.CarNumber=data.CarNumber;
-            result.Container= data.Container;
-            result.Door= data.Door; 
-            result.Deliver= data.Deliver;
-            result.Veterinary= data.Veterinary;
-            result.Cont= data.Cont;
-            result.NumberCode= data.NumberCode;
-            result.InvoiceNumber = data.InvoiceNumber;
-            result.TimeStart= data.TimeStart;
-            result.TimeEnd= data.TimeEnd;
+            var wareHouseIn= data.WareHouseInResponseDTOs?.FirstOrDefault();
+            if(wareHouseIn == null)
+            {
+                return result;
+            }
+            result.Id = wareHouseIn.Id;
+            result.Code = wareHouseIn.Code;
+            result.DateCode = wareHouseIn.DateCode;
+            result.Representative = wareHouseIn.Representative;
+            result.IntendTime = wareHouseIn.IntendTime;
+            result.WareHouseName = wareHouseIn.WareHouseName;
+            result.Note = wareHouseIn.Note;
+            result.OrtherNote = wareHouseIn.OrtherNote;
+            result.FileAttach = wareHouseIn.FileAttach;
+            result.CreatedById = wareHouseIn.CreatedById;
+            result.CreateUser = wareHouseIn.CreateUser;
+            result.CustomerName = wareHouseIn.CustomerName;
+            result.FileName = wareHouseIn.FileName;
+            result.FileId = wareHouseIn.FileId;
+            result.Seal = wareHouseIn.Seal;
+            result.Temp = wareHouseIn.Temp;
+            result.CarNumber= wareHouseIn.CarNumber;
+            result.Container= wareHouseIn.Container;
+            result.Door= wareHouseIn.Door; 
+            result.Deliver= wareHouseIn.Deliver;
+            result.Veterinary= wareHouseIn.Veterinary;
+            result.Cont= wareHouseIn.Cont;
+            result.NumberCode= wareHouseIn.NumberCode;
+            result.InvoiceNumber = wareHouseIn.InvoiceNumber;
+            result.TimeStart= wareHouseIn.TimeStart;
+            result.TimeEnd= wareHouseIn.TimeEnd;
+            result.Pallet = wareHouseIn.Pallet;
             result.WareHouseInDetailModels = data?.WareHouseInDetailResponseDTOs.GroupBy(x => x?.GuildId)?
                                                    .Select(y => new WareHouseInDetailModel
                                                    {
@@ -130,6 +138,11 @@ namespace API.APPLICATION.Queries.WareHouseIn
                                                            Unit = z.First().Unit,
                                                            Size = z.First().Size,
                                                            Weight = z.First().Weight,
+                                                           Note= z.First().Note,
+                                                           LotNo= z.First().LotNo,
+                                                           TotalWeighScan= z.First().TotalWeighScan,
+                                                           ProductDate= z.First().ProductDate,
+                                                           ExpiryDate= z.First().ExpiryDate
                                                        }
                                                        )
                                                    });
@@ -153,7 +166,7 @@ namespace API.APPLICATION.Queries.WareHouseIn
             Dictionary<string, string> replaceSameValues = dicMailMerge.ToDictionary(x => x.ObjKey, x => StringHelpers.Normalization(x.ObjValue));
             replaceSameValues.Add("NguoiXuatBan", "Hahaha");
             List<WordTemplateTable> wordTemplateTables = new List<WordTemplateTable>();
-            wordTemplateTables.Add(new WordTemplateTable { ColumnKeyWord = columKeywordQuaTrinhDaoTao, DataTable = queryResult.WareHouseInDetailResponseDTOs.OfType<object>().ToList(), Prefix = "#" });
+            wordTemplateTables.Add(new WordTemplateTable { ColumnKeyWord = columKeywordQuaTrinhDaoTao, DataTable = queryResult?.WareHouseInDetailResponseDTOs.OfType<object>().ToList(), Prefix = "#" });
    
             var bieuMau = await _sysBieuMauQueries.GetBieuMauByFilter(new SYSBieuMauFilterParam { MaBieuMau = ReportConstants.WareHouseIn_WHI001 });
             //ValidateBieuMau(bieuMau);
@@ -173,8 +186,39 @@ namespace API.APPLICATION.Queries.WareHouseIn
             bieuMauResponse.OutputStream = outputStream;
             bieuMauResponse.ContentType = isExportPDF ? ReportConstant.ContentTypeForPDF : _exportService.GetContentType(bieuMau.LoaiFile);
             bieuMauResponse.TenBieuMau = bieuMau.TenBieuMau + _exportService.GetExtensionFile(bieuMauResponse.ContentType);
-            //await _bieuMauLogger.LogAsync(bieuMauResponse.TenBieuMau, HRMExcelConstants.LyLichKhoaHoc_V10028, bieuMauResponse.ContentType, bieuMauResponse.OutputStream.ToArray());
+
+
             return bieuMauResponse;
         }
+        public async Task<BieuMauInfoResponseViewModel> ExportExcelWareHouseInAsync(ReportWareHouseInByIdReplaceViewModel request)
+        {
+            var param = _mapper.Map<WareHouseInByIdParam>(request);
+            var queryResult = await GetDataWareHouseInByIdAsync(param).ConfigureAwait(false);
+            var dicMailMerge = await GetDataWareHouseInReplaceThongTin(new ReportReplaceWareHouseInParam { IdWareHouse = request.Id });
+            Dictionary<string, string> replaceSameValues = dicMailMerge.ToDictionary(x => x.ObjKey, x => StringHelpers.Normalization(x.ObjValue));
+            replaceSameValues.Add("NguoiXuatBan", "Hahaha");
+            var bieuMau = await _sysBieuMauQueries.GetBieuMauByFilter(new SYSBieuMauFilterParam { MaBieuMau = ReportConstants.WareHouseIn_WHI002 });
+            //ValidateBieuMau(bieuMau);
+
+            MemoryStream outputStream;
+            if (bieuMau.IsExportPDF)
+            {
+                outputStream = _exportService.ExportPdfFromExcel(queryResult.WareHouseInDetailResponseDTOs,
+                    bieuMau.MaBieuMau, bieuMau.NoiDung, bieuMau.TenBieuMau, replaceSameValues);
+            }
+            else
+            {
+                outputStream = _exportService.ExportExcelData(queryResult.WareHouseInDetailResponseDTOs,
+                    bieuMau.MaBieuMau, bieuMau.NoiDung, bieuMau.TenBieuMau, replaceSameValues);
+            }
+
+            BieuMauInfoResponseViewModel bieuMauResponse = new BieuMauInfoResponseViewModel();
+            bieuMauResponse.OutputStream = outputStream;
+            bieuMauResponse.ContentType = bieuMau.IsExportPDF ? ReportConstant.ContentTypeForPDF : _exportService.GetContentType(bieuMau.LoaiFile);
+            bieuMauResponse.TenBieuMau = bieuMau.TenBieuMau + _exportService.GetExtensionFile(bieuMauResponse.ContentType);
+            //await _bieuMauLogger.LogAsync(bieuMauResponse.TenBieuMau, HRMExcelConstants.TongHopKetQuaDanhGiaCongChucVienChuc_V10011, bieuMauResponse.ContentType, bieuMauResponse.OutputStream.ToArray());
+            return bieuMauResponse;
+        }
+
     }
 }

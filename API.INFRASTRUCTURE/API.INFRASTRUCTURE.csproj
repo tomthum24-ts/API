@@ -44,6 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="EFConfigs\WareHouse\" />
     <Folder Include="Interface\RefreshTooken\WareHouseOut\" />
   </ItemGroup>
 

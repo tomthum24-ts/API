@@ -26,7 +26,7 @@ namespace API.APPLICATION.Commands.WareHouseIn
         public string Door { get; set; }
         public string Deliver { get; set; }
         public string Veterinary { get; set; }
-        public decimal? Cont { get; set; }
+        public string Cont { get; set; }
         public string Note { get; set; }
         public string OrtherNote { get; set; }
         public int? FileAttach { get; set; }
@@ -34,6 +34,7 @@ namespace API.APPLICATION.Commands.WareHouseIn
         public string InvoiceNumber { get; set; }
         public DateTime? TimeStart { get; set; }
         public DateTime? TimeEnd { get; set; }
+        public string Pallet { get; set; }
         public List<UpdateWareHouseInCommandDTO> UpdateWareHouseIns { get; set; }
         
     }
@@ -55,7 +56,13 @@ namespace API.APPLICATION.Commands.WareHouseIn
         public int? Unit { get; set; }
         public decimal? Size { get; set; }
         public decimal? Weight { get; set; }
-        public string GuildId { get; set; }
+        //public string GuildId { get; set; }
+        public string LotNo { get; set; }
+        public string TotalWeighScan { get; set; }
+        public string ProductDate { get; set; }
+        public string ExpiryDate { get; set; }
+        public string Note { get; set; }
+        public string MadeIn { get; set; }
     }
     public class UpdateWareHouseInCommandResponse : UpdateWareHouseInCommand
     {

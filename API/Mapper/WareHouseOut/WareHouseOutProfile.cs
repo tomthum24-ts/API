@@ -1,5 +1,7 @@
 ﻿using API.APPLICATION.Commands.WareHouseOut;
+using API.APPLICATION.Parameters.WareHouseIn;
 using API.APPLICATION.Parameters.WareHouseOut;
+using API.APPLICATION.ViewModels.WareHouseIn;
 using API.APPLICATION.ViewModels.WareHouseOut;
 using API.DOMAIN.DTOs.WareHouseOut;
 using AutoMapper;
@@ -17,6 +19,7 @@ namespace API.Mapper.WareHouseOut
             CreateMap<WareHouseOutByIdViewModel, WareHouseOutByIdParam>();
             CreateMap<WareHouseOutResponseViewModel, WareHouseOutByIdDTO>();
             CreateMap< UpdateWareHouseOutCommand, UpdateWareHouseOutCommandResponse> ();
+            CreateMap<ReportWareHouseOutByIdReplaceViewModel, WareHouseOutByIdParam>();
         }
     }
 }

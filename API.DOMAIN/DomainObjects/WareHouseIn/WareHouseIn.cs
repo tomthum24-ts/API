@@ -23,7 +23,7 @@ namespace API.DOMAIN
         private string _door;
         private string _deliver;
         private string _veterinary;
-        private decimal? _cont;
+        private string _cont;
         private string _note;
         private string _ortherNote;
         private int? _fileAttach;
@@ -31,6 +31,7 @@ namespace API.DOMAIN
         private string _invoiceNumber;
         private DateTime? _timeStart;
         private DateTime? _timeEnd;
+        private string _pallet;
 
         #endregion Fields
 
@@ -38,8 +39,8 @@ namespace API.DOMAIN
 
         public WareHouseIn(string code,DateTime? dateCode, int? customerID, string representative, DateTime? intendTime,int? wareHouse, string customerName,
             string filePath, string fileName, string seal, string temp, string carNumber, string container, string door, string deliver, string veterinary,
-            decimal? cont, string note, string ortherNote, int? fileAttach, 
-            string numberCode, string invoiceNumber, DateTime? timeStart, DateTime? timeEnd)
+            string cont, string note, string ortherNote, int? fileAttach, 
+            string numberCode, string invoiceNumber, DateTime? timeStart, DateTime? timeEnd,string pallet)
         {
             _code = code;
             _dateCode = dateCode;
@@ -65,6 +66,7 @@ namespace API.DOMAIN
             _invoiceNumber = invoiceNumber;
             _timeStart = timeStart;
             _timeEnd = timeEnd;
+            _pallet = pallet;
         }
 
         private WareHouseIn()
@@ -94,11 +96,12 @@ namespace API.DOMAIN
         public string Door { get => _door; }
         public string Deliver { get => _deliver; }
         public string Veterinary { get => _veterinary; }
-        public decimal? Cont { get => _cont; }
+        public string Cont { get => _cont; }
         public string NumberCode { get => _numberCode; }
         public string InvoiceNumber { get => _invoiceNumber; }
         public DateTime? TimeStart { get => _timeStart; }
         public DateTime? TimeEnd { get => _timeEnd; }
+        public string Pallet { get => _pallet; }
 
         #endregion Properties
 
@@ -142,7 +145,7 @@ namespace API.DOMAIN
 
         public void SetVeterinary(string veterinary) => _veterinary = veterinary;
 
-        public void SetCont(decimal? cont) => _cont = cont;
+        public void SetCont(string cont) => _cont = cont;
 
         public void SetNumberCode(string numberCode) => _numberCode = numberCode;
 
@@ -151,6 +154,7 @@ namespace API.DOMAIN
         public void SetTimeStart(DateTime? timeStart) => _timeStart = timeStart;
 
         public void SetTimeEnd(DateTime? timeEnd) => _timeEnd = timeEnd;
+        public void SetPallet(string pallet)=> _pallet = pallet;
 
         #endregion Behaviours
     }

@@ -11,6 +11,7 @@ using API.APPLICATION.Queries.Permission.RolePermission;
 using API.APPLICATION.Queries.Product;
 using API.APPLICATION.Queries.Unit;
 using API.APPLICATION.Queries.Vehicle;
+using API.APPLICATION.Queries.WareHouse;
 using API.APPLICATION.Queries.WareHouseIn;
 using API.APPLICATION.Queries.WareHouseOut;
 using API.APPLICATION.Services.Notifications;
@@ -95,6 +96,8 @@ namespace API.Dependency
             //services.AddScoped<ICustomerServices, CustomerServices>();
             //Unit
             services.AddScoped<IUnitServices, UnitServices>();
+            //WareHouse
+            services.AddScoped<IWareHouseServices, WareHouseServices>();
             //Product
             services.AddScoped<IProductServices, ProductServices>();
             // Vehicle
@@ -113,7 +116,6 @@ namespace API.Dependency
             services.AddTransient<INotificationService, NotificationService>();
             services.AddHttpClient<FcmSender>();
             services.AddHttpClient<ApnSender>();
-
             // Configure strongly typed settings objects
             //var appSettingsSection = Configuration.GetSection("FcmNotification");
             //services.Configure<FcmNotificationSetting>(appSettingsSection);

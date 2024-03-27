@@ -67,6 +67,7 @@ namespace API.APPLICATION.Commands.WareHouseOut
             isExistData.SetInvoiceNumber(request.InvoiceNumber);
             isExistData.SetTimeStart(request.TimeStart);
             isExistData.SetTimeEnd(request.TimeEnd);
+            isExistData.SetPallet(request.Pallet);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             if (request.UpdateWareHouseOuts.Count > 0)
             {
@@ -81,13 +82,20 @@ namespace API.APPLICATION.Commands.WareHouseOut
                         var createDetail = new WareHouseOutDetail(
                              isExistData.Id,
                              item.RangeOfVehicle,
-                             null,
-                             item2.ProductId,
-                             item2.QuantityProduct,
-                             item2.Unit,
-                             item2.Size,
-                             item2.Weight,
-                             item2.GuildId
+                                null,
+                                item2.ProductId,
+                                item2.QuantityProduct,
+                                item2.Unit,
+                                item2.Size,
+                                item2.Weight,
+                                item2.RONumber,
+                                item.GuildId,
+                                item2.Note,
+                                item2.LotNo,
+                                item2.TotalWeighScan,
+                                item2.ProductDate,
+                                item2.ExpiryDate,
+                                item2.MadeIn
                          );
                         lstDetail.Add(createDetail);
                     }

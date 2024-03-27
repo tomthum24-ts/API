@@ -38,5 +38,6 @@ namespace API.DOMAIN.DTOs.WareHouseIn
         public string InvoiceNumber { get; set; }
         public DateTime? TimeStart { get; set; }
         public DateTime? TimeEnd { get; set; }
+        public string Pallet { get; set; }
     }
 }

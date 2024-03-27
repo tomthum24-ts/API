@@ -33,6 +33,8 @@ namespace API.INFRASTRUCTURE.EFConfigs
             builder.Property(x => x.InvoiceNumber).HasField("_invoiceNumber").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.TimeStart).HasField("_timeStart").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.TimeEnd).HasField("_timeEnd").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.Pallet).HasField("_pallet").HasMaxLength(20).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.Note).HasField("_note").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

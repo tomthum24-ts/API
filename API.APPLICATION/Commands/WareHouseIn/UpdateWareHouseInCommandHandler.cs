@@ -65,6 +65,7 @@ namespace API.APPLICATION.Commands.WareHouseIn
             isExistData.SetInvoiceNumber(request.InvoiceNumber);
             isExistData.SetTimeStart(request.TimeStart);
             isExistData.SetTimeEnd(request.TimeEnd);
+            isExistData.SetPallet(request.Pallet);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             if(request.UpdateWareHouseIns.Count > 0) {
                 var existingDetail = await _wareHouseInDetailRepository.Get(x => x.IdWareHouseIn==request.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
@@ -84,7 +85,13 @@ namespace API.APPLICATION.Commands.WareHouseIn
                              item2.Unit,
                              item2.Size,
                              item2.Weight,
-                             item2.GuildId
+                             item.GuildId,
+                             item2.LotNo,
+                             item2.TotalWeighScan,
+                             item2.ProductDate,
+                             item2.ExpiryDate,
+                             item2.Note,
+                             item2.MadeIn
                          );
                         lstDetail.Add(createDetail);
                     }

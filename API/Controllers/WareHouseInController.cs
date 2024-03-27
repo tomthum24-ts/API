@@ -1,18 +1,23 @@
 ﻿using API.APPLICATION.Commands.WareHouseIn;
 using API.APPLICATION.Parameters.WareHouseIn;
 using API.APPLICATION.Queries.WareHouseIn;
+using API.APPLICATION.ViewModels.Base64;
 using API.APPLICATION.ViewModels.ByIdViewModel;
 using API.APPLICATION.ViewModels.WareHouseIn;
 using API.APPLICATION.ViewModels.WareHouseInDetail;
 using AutoMapper;
 using BaseCommon.Attributes;
+using BaseCommon.Common.EnCrypt;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Common.Response;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -25,6 +30,7 @@ namespace API.Controllers
         private const string GetList = nameof(GetList);
         private const string GetById = nameof(GetById);
         private const string Report = nameof(Report);
+        private const string ReportExcel = nameof(ReportExcel);
         private readonly IWareHouseInServices _wareHouseInServices;
 
         private readonly IMapper _mapper;
@@ -121,6 +127,32 @@ namespace API.Controllers
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);
         }
+        ///// <summary>
+        ///// Report test
+        ///// </summary>
+        ///// <param name="request"></param>
+        ///// <returns></returns>
+        ////[AuthorizeGroupCheckOperation(EAuthorizeType.AuthorizedUsers)]
+        //[HttpPost(Report)]
+        //[ProducesResponseType(typeof(MethodResult<Base64Model>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> ExportThongTinAsync(ReportWareHouseInByIdReplaceViewModel request)
+        //{
+        //    var result = new Base64Model();
+        //    var data = await _wareHouseInServices.ExportExcelWareHouseInAsync(request).ConfigureAwait(false);
+        //    //HardCode cho mobile
+        //    request.IsMobile = true;
+        //    if (request.IsMobile)
+        //    {
+        //        var file = File(data.OutputStream, data.ContentType, data.TenBieuMau);
+        //        result.DataStream = CoverToBase64.ConvertToBase64(file.FileStream);
+        //        result.ContentType = data.ContentType;
+        //        result.FileName = data.TenBieuMau;
+        //        return Ok(result);
+        //    }
+        //    return File(data.OutputStream, data.ContentType, data.TenBieuMau);
+        //}
         /// <summary>
         /// Report test
         /// </summary>
@@ -128,13 +160,25 @@ namespace API.Controllers
         /// <returns></returns>
         //[AuthorizeGroupCheckOperation(EAuthorizeType.AuthorizedUsers)]
         [HttpPost(Report)]
+        [ProducesResponseType(typeof(MethodResult<Base64Model>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [AllowAnonymous]
-        public async Task<IActionResult> ExportThongTinAsync(ReportWareHouseInByIdReplaceViewModel request)
+        public async Task<IActionResult> ExportExcelThongTinAsync(ReportWareHouseInByIdReplaceViewModel request)
         {
-            var result = await _wareHouseInServices.ExportWordThongTinAsync(request).ConfigureAwait(false);
-
-            return File(result.OutputStream, result.ContentType, result.TenBieuMau);
+            var result = new Base64Model();
+            var data = await _wareHouseInServices.ExportExcelWareHouseInAsync(request).ConfigureAwait(false);
+            //    //HardCode cho mobile
+            //request.IsMobile = true;
+            if (request.IsMobile)
+            {
+                var file = File(data.OutputStream, data.ContentType, data.TenBieuMau);
+                result.DataStream = CoverToBase64.ConvertToBase64(file.FileStream);
+                result.ContentType = data.ContentType;
+                result.FileName = data.TenBieuMau;
+                return Ok(result);
+            }
+            return File(data.OutputStream, data.ContentType, data.TenBieuMau);
         }
+
     }
 }

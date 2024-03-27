@@ -64,7 +64,8 @@ namespace API.APPLICATION
                     request.NumberCode,
                     request.InvoiceNumber,
                     request.TimeStart,
-                    request.TimeEnd
+                    request.TimeEnd,
+                    request.Pallet
                 );
             _wareHouseInRepository.Add(createWareHouse);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
@@ -82,15 +83,21 @@ namespace API.APPLICATION
                 foreach (var item2 in item.VehicleDetails)
                 {
                     var createDetail = new WareHouseInDetail(
-                                createWareHouse.Id,
-                                item.RangeOfVehicle,
-                                null,
-                                item2.ProductId,
-                                item2.QuantityProduct,
-                                item2.Unit,
-                                item2.Size,
-                                item2.Weight,
-                                item.GuildId
+                        createWareHouse.Id,
+                        item.RangeOfVehicle,
+                        null,
+                        item2.ProductId,
+                        item2.QuantityProduct,
+                        item2.Unit,
+                        item2.Size,
+                        item2.Weight,
+                        item.GuildId,
+                        item2.Note,
+                        item2.LotNo,
+                        item2.TotalWeighScan,
+                        item2.ProductDate,
+                        item2.ExpiryDate,
+                        item2.MadeIn
                             );
                     lstDetail.Add(createDetail);
                 }
