@@ -23,7 +23,7 @@ namespace BaseCommon.Enums
         EB06,
         [Description("Không được để trống chi tiết")]
         EB07,
-        [Description("Tài khoản chưa được active. Vui lòng liên hệ bộ phận quản lý")]
+        [Description("Tài khoản chưa được active. Vui lòng kiểm tra email để xác thực tài khoản")]
         EB08,
         [Description("Thông tin không được để trống. Vui lòng kiểm tra lại")]
         EB09,
@@ -31,8 +31,10 @@ namespace BaseCommon.Enums
         EB10,
         [Description("Email đã được đăng ký. Vui lòng chọn email khác")]
         EB11,
-        [Description("Có lỗi xảy ra trong lúc gửi OTP. Vui lòng liên hệ tới bộ phận quản lý")]
+        [Description("Có lỗi xảy ra trong lúc gửi OTP. Vui lòng thử lại sau")]
         EB12,
+        [Description("Password cũ không đúng. Vui lòng kiểm tra lại")]
+        EB13,
     }
     public enum ESysBieuMauErrorCode
     {

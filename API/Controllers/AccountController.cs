@@ -20,6 +20,7 @@ namespace API.Controllers
         private const string Logout = nameof(Logout);
         private const string Active = nameof(Active);
         private const string ResendOtp = nameof(ResendOtp);
+        private const string ForgotPassword = nameof(ForgotPassword);
         private readonly IMediator _mediator;
 
         public AccountController(IMediator mediator)
@@ -126,6 +127,21 @@ namespace API.Controllers
             return Ok(result);
 
         }
+        /// <summary>
+        /// Revoketoken  - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(MethodResult<FogotPasswordCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
+        [Route(ForgotPassword)]
+        public async Task<IActionResult> ForgotPasswordAsync(FogotPasswordCommand command)
+        {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
 
+        }
     }
 }

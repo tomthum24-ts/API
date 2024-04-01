@@ -34,10 +34,9 @@ namespace API.APPLICATION.Commands.User
             var methodResult = new MethodResult<ChangePasswordCommandResponse>();
             var id = _userSessionInfo.ID.GetValueOrDefault();
             var editEntity = await _userRepository.Get(x=>x.Id== id).FirstOrDefaultAsync(cancellationToken);
-            bool item = await _userRepository.Get(x => x.Id == id).AnyAsync(cancellationToken);
+            bool item = await _userRepository.Get(x => x.PassWord == CommonBase.ToMD5(request.OldPassword)).AnyAsync(cancellationToken);
             string errorMessage = "";
-            
-            if (!item)
+            if (editEntity == null)
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB02), new[]
                     {
@@ -45,20 +44,18 @@ namespace API.APPLICATION.Commands.User
                         errorMessage
                     });
                 return methodResult;
-
             }
-            bool strongPass = CommonBase.IsStrongPassword(request.Password, out errorMessage);
-            if (!strongPass)
+            if (item != true)
             {
-                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB03), new[]
+                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB13), new[]
                     {
-                        ErrorHelpers.GenerateErrorResult(nameof(User), id),
-                        errorMessage
+                        ErrorHelpers.GenerateErrorResult(nameof(User), id)
                     });
                 return methodResult;
-
             }
-            editEntity.SetPassWord(CommonBase.ToMD5(request.Password));
+          
+
+            editEntity.SetPassWord(CommonBase.ToMD5(request.NewPassword));
             _userRepository.Update(editEntity);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false); ;
             //methodResult.Result = _mapper.Map<ChangePasswordCommandResponse>(editEntity);

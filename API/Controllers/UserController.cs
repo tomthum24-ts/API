@@ -141,7 +141,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(MethodResult<ChangePasswordCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [Route(ChangePassword)]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);

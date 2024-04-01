@@ -67,12 +67,12 @@ namespace API.INFRASTRUCTURE.Repositories.User
 			{
 				Subject = new ClaimsIdentity(new Claim[]
 			  {
-				 new Claim(AuthorSetting.UserName, users.UserName),
+				 new Claim(AuthorSetting.UserName, users?.UserName),
 				 new Claim(AuthorSetting.ID, user.Id.ToString()),
-				 new Claim(AuthorSetting.LastName,user.LastName.ToString()),
-				 new Claim(AuthorSetting.Email,user.Email.ToString()),
-				 new Claim(AuthorSetting.Project,user.Project.ToString()),
-				 new Claim(AuthorSetting.Permissiongroups,user.UserGroup.ToString())
+				 new Claim(AuthorSetting.Name,user?.Name.ToString()),
+				 new Claim(AuthorSetting.Email,user?.Email.ToString()),
+				 //new Claim(AuthorSetting.Project,user.Project.ToString()),
+				 //new Claim(AuthorSetting.Permissiongroups,user.UserGroup.ToString())
 			  }),
 				Expires = DateTime.UtcNow.AddMinutes(time),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature),
