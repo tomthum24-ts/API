@@ -22,7 +22,17 @@ namespace BaseCommon.Enums
         [Description("Kiểm tra lại file upload")]
         EB06,
         [Description("Không được để trống chi tiết")]
-        EB07
+        EB07,
+        [Description("Tài khoản chưa được active. Vui lòng liên hệ bộ phận quản lý")]
+        EB08,
+        [Description("Thông tin không được để trống. Vui lòng kiểm tra lại")]
+        EB09,
+        [Description("Thông tin không đúng. Vui lòng kiểm tra lại")]
+        EB10,
+        [Description("Email đã được đăng ký. Vui lòng chọn email khác")]
+        EB11,
+        [Description("Có lỗi xảy ra trong lúc gửi OTP. Vui lòng liên hệ tới bộ phận quản lý")]
+        EB12,
     }
     public enum ESysBieuMauErrorCode
     {

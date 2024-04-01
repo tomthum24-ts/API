@@ -11,6 +11,7 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
         public string Representative { get; set; }
         public DateTime? IntendTime { get; set; }
         public string WareHouseName { get; set; }
+        public int? IdWareHouse {  get; set; }
         public string Note { get; set; }
         public string OrtherNote { get; set; }
         public int? FileAttach { get; set; }
@@ -58,6 +59,7 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
         public string TotalWeighScan { get; set; }
         public string ProductDate { get; set; }
         public string ExpiryDate { get; set; }
-        
+        public string MadeIn { get; set; }
+
     }
 }

@@ -5,5 +5,10 @@
   "EB04": "Hết hạn phiên đăng nhập",
   "EB05": "Hết phiên đăng nhập vui lòng đăng nhập lại",
   "EB07": "Không được để trống chi tiết",
-  "ERR_COM_INVALID_FILE_SIZE": "Dung lượng file quá giới hạn"
+  "ERR_COM_INVALID_FILE_SIZE": "Dung lượng file quá giới hạn",
+  "EB08": "Tài khoản chưa được active. Vui lòng liên hệ bộ phận quản lý",
+  "EB09": "Thông tin không được để trống. Vui lòng kiểm tra lại",
+  "EB10": "OTP của bạn không tồn tại. Vui lòng kiểm tra lại",
+  "EB11": "Email đã được đăng ký. Vui lòng chọn email khác"
+
 }

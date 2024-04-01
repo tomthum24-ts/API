@@ -98,7 +98,7 @@ namespace API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(MethodResult<CreateUserCommand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AllowAnonymous]
         public async Task<IActionResult> CreateUserAsync(CreateUserCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);

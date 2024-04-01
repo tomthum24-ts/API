@@ -9,6 +9,7 @@ using BaseCommon.UnitOfWork;
 using BaseCommon.Enums;
 using API.DOMAIN;
 using BaseCommon.UnitOfWork;
+using BaseCommon.Common.EnCrypt;
 
 namespace API.APPLICATION.Commands.User
 {
@@ -37,7 +38,7 @@ namespace API.APPLICATION.Commands.User
                     });
                 return methodResult;
             }
-            bool existingUser = await _userRepository.Get(x => x.UserName == request.UserName && x.Id != request.Id).AnyAsync(cancellationToken);
+            bool existingUser = await _userRepository.Get(x => x.Email == request.Email && x.Id != request.Id).AnyAsync(cancellationToken);
             if (existingUser)
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB01), new[]
@@ -46,7 +47,7 @@ namespace API.APPLICATION.Commands.User
                     });
                 return methodResult;
             }
-            isExistData.SetUserName(request.UserName);
+            isExistData.SetUserName(request.Email);
             isExistData.SetName(request.Name);
             isExistData.SetLastName(request.LastName);
             isExistData.SetEmail(request.Email);
@@ -59,7 +60,7 @@ namespace API.APPLICATION.Commands.User
             isExistData.SetVillage(request.Village);
             isExistData.SetProject(request.Project);
             isExistData.SetNote(request.Note);
-            isExistData.SetStatus(request.Status);
+            
             _userRepository.Update(isExistData);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             methodResult.Result = _mapper.Map<UpdateUserCommandResponse>(isExistData);

@@ -51,6 +51,7 @@ namespace API.APPLICATION.Commands.Login
         {
             var methodResult = new MethodResult<LoginCommandResponse>();
             var existingUser = await _userRepository.Get(x => x.UserName == request.UserName.ToLower() && x.PassWord == CommonBase.ToMD5(request.Password)).FirstOrDefaultAsync(cancellationToken);
+            var pass = CommonBase.ToMD5(request.Password);
             if (existingUser == null)
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB02), new[]
@@ -59,7 +60,15 @@ namespace API.APPLICATION.Commands.Login
                     });
                 return methodResult;
             }
-
+            if (existingUser.Status != true)
+            {
+                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB08), new[]
+                      {
+                        ErrorHelpers.GenerateErrorResult(nameof(User), request.UserName),
+                    });
+                return methodResult;
+            }
+           
             var ip = _getInfoHelpers?.IpAddress();
             var paramUser = new Users();
             paramUser.UserName = request.UserName;

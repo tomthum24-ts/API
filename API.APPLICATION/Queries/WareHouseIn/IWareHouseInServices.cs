@@ -103,6 +103,7 @@ namespace API.APPLICATION.Queries.WareHouseIn
             result.Representative = wareHouseIn.Representative;
             result.IntendTime = wareHouseIn.IntendTime;
             result.WareHouseName = wareHouseIn.WareHouseName;
+            result.IdWareHouse = wareHouseIn.WareHouse;
             result.Note = wareHouseIn.Note;
             result.OrtherNote = wareHouseIn.OrtherNote;
             result.FileAttach = wareHouseIn.FileAttach;
@@ -142,7 +143,8 @@ namespace API.APPLICATION.Queries.WareHouseIn
                                                            LotNo= z.First().LotNo,
                                                            TotalWeighScan= z.First().TotalWeighScan,
                                                            ProductDate= z.First().ProductDate,
-                                                           ExpiryDate= z.First().ExpiryDate
+                                                           ExpiryDate= z.First().ExpiryDate,
+                                                           MadeIn= z.First().MadeIn,
                                                        }
                                                        )
                                                    });

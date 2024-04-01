@@ -24,6 +24,7 @@ namespace API.DOMAIN
         private int? _userGroup;
 
         private bool? _status;
+        private string _oTP;
 
         #endregion Fields
 
@@ -33,11 +34,11 @@ namespace API.DOMAIN
         {
         }
 
-        public User(string userName, string name, string lastName, string email, string address, string phone, int? department,
-            DateTime? birthDay, int? province, int? district, int? village, int? project, string note, bool? status)
+        public User(string userName,string pasword, string name, string lastName, string email, string address, string phone, int? department,
+            DateTime? birthDay, int? province, int? district, int? village, int? project, string note, bool? status, string oTP)
         {
             _userName = userName;
-            _passWord = CommonBase.ToMD5(userName);
+            _passWord = pasword;
             _name = name;
             _lastName = lastName;
             _email = email;
@@ -51,6 +52,7 @@ namespace API.DOMAIN
             _project = project;
             _note = note;
             _status = status;
+            _oTP = oTP;
         }
 
         #endregion Constructors
@@ -73,6 +75,7 @@ namespace API.DOMAIN
         public string Note { get => _note; }
         public bool? Status { get => _status; }
         public int? UserGroup { get => _userGroup; }
+        public string OTP { get => _oTP; }
 
         #endregion Properties
 
@@ -109,6 +112,7 @@ namespace API.DOMAIN
         public void SetStatus(bool? status) => _status = status;
 
         public void SetUserGroup(int? userGroup) => _userGroup = userGroup;
+        public void SetOTP(string oTP) => _oTP = oTP;
 
         #endregion Behaviours
     }

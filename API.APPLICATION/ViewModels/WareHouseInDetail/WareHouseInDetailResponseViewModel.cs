@@ -20,6 +20,7 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
         public string Representative { get; set; }
         public DateTime? IntendTime { get; set; }
         public string WareHouseName { get; set; }
+        public int? WareHouse { get; set; }
         public string Note { get; set; }
         public string OrtherNote { get; set; }
         public int? FileAttach { get; set; }

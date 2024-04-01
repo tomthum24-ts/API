@@ -62,6 +62,7 @@ namespace API.APPLICATION.ViewModels.WareHouseOutDetail
         public string TotalWeighScan { get; set; }
         public string ProductDate { get; set; }
         public string ExpiryDate { get; set; }
+        public string MadeIn { get; set; }
         public string RONumber { get; set; }
     }
 }

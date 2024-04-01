@@ -49,7 +49,7 @@ namespace API.Controllers.Location
         [SQLInjectionCheckOperation]
         [ProducesResponseType(typeof(MethodResult<PagingItems<ProvinceDTO>>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AllowAnonymous]
         public async Task<ActionResult> GetDanhSachProvinceAsync(ProvinceRequestViewModel request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<PagingItems<ProvinceDTO>>();
@@ -73,7 +73,7 @@ namespace API.Controllers.Location
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AllowAnonymous]
         public async Task<ActionResult> GetProvinceByIdAsync(RequestByIdViewModel param, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<Dictionary<string, string>>();

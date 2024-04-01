@@ -137,6 +137,7 @@ namespace API.APPLICATION.Queries.WareHouseOut
                                                            ProductDate = z.First().ProductDate,
                                                            ExpiryDate = z.First().ExpiryDate,
                                                            RONumber= z.First().RONumber,
+                                                           MadeIn= z.First().MadeIn,
                                                        }
                                                        )
                                                    });

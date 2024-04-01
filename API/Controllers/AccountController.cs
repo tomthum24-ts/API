@@ -18,6 +18,8 @@ namespace API.Controllers
         private const string RefreshToken = nameof(RefreshToken);
         private const string Revoke = nameof(Revoke);
         private const string Logout = nameof(Logout);
+        private const string Active = nameof(Active);
+        private const string ResendOtp = nameof(ResendOtp);
         private readonly IMediator _mediator;
 
         public AccountController(IMediator mediator)
@@ -88,6 +90,38 @@ namespace API.Controllers
         public async Task<IActionResult> LogOutAsync(RevokeTokenCommand command)
         {
             command.IsLogout = true;
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+
+        }
+        /// <summary>
+        /// Revoketoken  - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(MethodResult<ActiveAccountCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
+        [Route(Active)]
+        public async Task<IActionResult> ActiveAccounttAsync(ActiveAccountCommand command)
+        {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+
+        }
+        /// <summary>
+        /// Revoketoken  - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(MethodResult<ResendOtpCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
+        [Route(ResendOtp)]
+        public async Task<IActionResult> ResendOtpAsync(ResendOtpCommand command)
+        {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);
 

@@ -48,7 +48,7 @@ namespace API.Controllers.Location
         [HttpPost]
         [Route(GetList)]
         [SQLInjectionCheckOperation(new string[] { nameof(DistrictRequestViewModel.Ids), nameof(DistrictRequestViewModel.IdProvinces),nameof(DistrictRequestViewModel.Keyword) })]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AllowAnonymous]
         public async Task<ActionResult> GetDanhSachDistrictAsync(DistrictRequestViewModel request)
         {
             var methodResult = new MethodResult<PagingItems<DistrictDTO>>();
@@ -72,7 +72,7 @@ namespace API.Controllers.Location
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AllowAnonymous]
         public async Task<ActionResult> GetDistrictByIdAsync(RequestByIdViewModel param, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<Dictionary<string, string>>();

@@ -49,7 +49,7 @@ namespace API.Controllers.Location
         [HttpPost]
         [Route(GetList)]
         [SQLInjectionCheckOperation(new string[] { nameof(DistrictRequestViewModel.Ids), nameof(DistrictRequestViewModel.IdProvinces), nameof(DistrictRequestViewModel.Keyword),nameof(VillageRequestViewModel.IdDistricts) })]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AllowAnonymous]
         public async Task<ActionResult> GetDanhSachVillageAsync(VillageRequestViewModel request)
         {
             var methodResult = new MethodResult<PagingItems<VillageDTO>>();
@@ -73,7 +73,7 @@ namespace API.Controllers.Location
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        [AllowAnonymous]
         public async Task<ActionResult> GetVillageByIdAsync(RequestByIdViewModel param, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<Dictionary<string, string>>();
