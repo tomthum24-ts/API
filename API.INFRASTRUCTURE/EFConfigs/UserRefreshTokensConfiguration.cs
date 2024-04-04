@@ -29,6 +29,10 @@ namespace API.INFRASTRUCTURE
             builder.Property(x => x.BrownVersion).HasField("_brownVersion").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.TimeZone).HasField("_timeZone").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.IsLogout).HasField("_isLogout").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.DeviceId).HasField("_deviceId").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.Platform).HasField("_platform").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.OSVersionMobile).HasField("_oSVersionMobile").HasMaxLength(200).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.header).HasField("_header").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

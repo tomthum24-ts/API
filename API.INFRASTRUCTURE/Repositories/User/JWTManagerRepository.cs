@@ -67,10 +67,10 @@ namespace API.INFRASTRUCTURE.Repositories.User
 			{
 				Subject = new ClaimsIdentity(new Claim[]
 			  {
-				 new Claim(AuthorSetting.UserName, users?.UserName),
+				 new Claim(AuthorSetting.UserName, users?.UserName?.ToString()),
 				 new Claim(AuthorSetting.ID, user.Id.ToString()),
-				 new Claim(AuthorSetting.Name,user?.Name.ToString()),
-				 new Claim(AuthorSetting.Email,user?.Email.ToString()),
+				 new Claim(AuthorSetting.Name,user?.Name),
+				 new Claim(AuthorSetting.Email,user?.Email ?? ""),
 				 //new Claim(AuthorSetting.Project,user.Project.ToString()),
 				 //new Claim(AuthorSetting.Permissiongroups,user.UserGroup.ToString())
 			  }),
@@ -96,8 +96,20 @@ namespace API.INFRASTRUCTURE.Repositories.User
 			var randomBytes = CMSEncryption.RandomBytes();
 			#region LogDevice
 			var deviceModel = _httpContextAccessor.HttpContext.Request.GetDeviceInformation(_browserDetector.Browser);
-			#endregion
-			var refreshToken = new UserRefreshToken(
+            var deviceId = string.Empty;
+            var osVersion = string.Empty;
+            var platform = string.Empty;
+            var hearder = _httpContextAccessor.HttpContext.Request?.Headers["header"].ToString();
+            var valueSpilit = hearder.Replace("}","").Replace("{","").Replace("\"","").Split(",");
+            if (valueSpilit.Length > 2)
+			{
+				deviceId= valueSpilit[0].Split(new string[] { ":" }, StringSplitOptions.None).Last();
+                platform = valueSpilit[1].Split(new string[] { ":" }, StringSplitOptions.None).Last();
+				osVersion = valueSpilit[2].Split(new string[] { ":" }, StringSplitOptions.None).Last();
+            }
+			
+            #endregion
+            var refreshToken = new UserRefreshToken(
 				 Convert.ToBase64String(randomBytes),
 				 DateTime.UtcNow.AddMinutes(int.Parse(_iconfiguration["JWT:TimeRefresh"])),
 				 ipAddress,
@@ -113,8 +125,12 @@ namespace API.INFRASTRUCTURE.Repositories.User
 				 deviceModel.DeviceHash,
 				 deviceModel.BrowserName,
 				 deviceModel.BrowserVersion,
-				 deviceModel.TimeZone
-				);
+				 deviceModel.TimeZone,
+                 deviceId,
+                 osVersion,
+                 platform,
+                 hearder
+                );
 			return refreshToken;
 		}
 		public async Task<Tokens> GenerateToken(Users userName, CancellationToken cancellationToken)

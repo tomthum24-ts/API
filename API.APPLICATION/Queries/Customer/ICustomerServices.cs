@@ -3,6 +3,7 @@ using API.APPLICATION.Parameters.User;
 using API.DOMAIN.DTOs.Customer;
 using API.DOMAIN.DTOs.User;
 using API.INFRASTRUCTURE.DataConnect;
+using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.Response;
 using Dapper;
 using System;
@@ -22,10 +23,12 @@ namespace API.APPLICATION.Queries.Customer
     public class CustomerServices : ICustomerServices
     {
         public readonly DapperContext _context;
+        private IUserSessionInfo _userSessionInfo;
 
-        public CustomerServices(DapperContext context)
+        public CustomerServices(DapperContext context, IUserSessionInfo userSessionInfo)
         {
             _context = context;
+            _userSessionInfo = userSessionInfo;
         }
 
         public async Task<PagingItems<CustomerDTO>> GetCustomerPagingAsync(CustomerFilterParam param)
@@ -38,6 +41,7 @@ namespace API.APPLICATION.Queries.Customer
                     PageSize = param.PageSize,
                 }
             };
+            param.IdUser = _userSessionInfo?.ID.Value ?? 0;
             var conn = _context.CreateConnection();
             using var rs = await conn.QueryMultipleAsync("SP_DM_LC_GetListCustomer_SelectWithPaging", param, commandType: CommandType.StoredProcedure);
             result.Items = await rs.ReadAsync<CustomerDTO>().ConfigureAwait(false);

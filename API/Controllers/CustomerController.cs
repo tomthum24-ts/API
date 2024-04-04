@@ -48,7 +48,7 @@ namespace API.Controllers
         [Route(GetList)]
         [SQLInjectionCheckOperation]
         //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<ActionResult> GetDanhSachCustomerAsync(CustomerRequestViewModel request)
         {
             var methodResult = new MethodResult<PagingItems<CustomerResponseViewModel>>();
@@ -73,7 +73,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
         //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> GetCustomerByIdAsync(CustomerByIdViewModel request)
         {
             var methodResult = new MethodResult<UserResponseByIdModel>();
@@ -87,7 +87,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(MethodResult<CreateCustomerCommand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> CreateCustomerAsync(CreateCustomerCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -103,7 +103,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(MethodResult<DeleteCustomerCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> DeleteCustomerAsync(DeleteCustomerCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -119,7 +119,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(MethodResult<UpdateCustomerCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> UpdateCustomerAsync(UpdateCustomerCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);

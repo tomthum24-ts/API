@@ -66,7 +66,13 @@ namespace API.DOMAIN
             _registrationDate = registrationDate;
             _registrationAddress = registrationAddress;
         }
-
+        public Customer(string name, string address, string email, string phone)
+        {
+            _name = name;
+            _address=address;
+            _email = email;
+            _phone = phone;
+        }
         private Customer()
         {
            

@@ -40,16 +40,15 @@ namespace API.APPLICATION
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB11), new[]
                     {
-                        ErrorHelpers.GenerateErrorResult(nameof(request.UserName), request.Email)
+                        ErrorHelpers.GenerateErrorResult(nameof(request.Email), request.Email)
                     });
                 return methodResult;
             }
-            if (request.Email == "" || request.Phone == "" || request.UserName == "" || request.PassWord == "")
+            if (request.Email == "" || request.PassWord == "")
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB09), new[]
                     {
                         ErrorHelpers.GenerateErrorResult(nameof(request.Email), request.Email),
-                        ErrorHelpers.GenerateErrorResult(nameof(request.Phone), request.Phone),
                         ErrorHelpers.GenerateErrorResult(nameof(request.PassWord), request.PassWord)
                     });
                 return methodResult;

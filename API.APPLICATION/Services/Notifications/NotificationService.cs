@@ -30,8 +30,7 @@ namespace API.APPLICATION.Services.Notifications
             ResponseModel response = new ResponseModel();
             try
             {
-                if (notificationModel.IsAndroiodDevice)
-                {
+               
                     /* FCM Sender (Android Device) */
                     FcmSettings settings = new FcmSettings()
                     {
@@ -70,13 +69,8 @@ namespace API.APPLICATION.Services.Notifications
                         response.Message = fcmSendResponse.Results[0].Error;
                         return response;
                     }
-                }
-                else
-                {
-                    /* Code here for APN Sender (iOS Device) */
-                    //var apn = new ApnSender(apnSettings, httpClient);
-                    //await apn.SendAsync(notification, deviceToken);
-                }
+                
+               
                 return response;
             }
             catch (Exception ex)

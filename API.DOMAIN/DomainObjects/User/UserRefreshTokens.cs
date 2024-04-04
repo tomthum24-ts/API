@@ -25,6 +25,10 @@ namespace API.DOMAIN
         private string _brownVersion;
         private string _timeZone;
         private bool? _isLogout;
+        private string _deviceId;
+        private string _platform;
+        private string _oSVersionMobile;
+        private string _header;
         #endregion Fields
 
         #region Constructors
@@ -35,8 +39,8 @@ namespace API.DOMAIN
 
         public UserRefreshToken(string idrefreshToken, DateTime? expires, string ipAddress,string userLogin,DateTime? revoked,
             string revokedByIp, bool? isRevoked, bool? isActive, string userAgent, string type, string osName, string osVerrsion,
-            string deviceHash, string brownName, string brownVersion, string timeZone
-)
+            string deviceHash, string brownName, string brownVersion, string timeZone,string deviceId, string platform,string oSVersionMobile, string header
+            )           
         {
 
             _idRefreshToken = idrefreshToken;
@@ -55,6 +59,10 @@ namespace API.DOMAIN
             _brownName=brownName;
             _brownVersion=brownVersion;
             _timeZone=timeZone;
+            _deviceId=deviceId;
+            _platform=platform;
+            _oSVersionMobile= oSVersionMobile;
+            _header=header;
         }
         #endregion Constructors
 
@@ -79,6 +87,10 @@ namespace API.DOMAIN
         public string BrownVersion { get => _brownVersion; }
         public string TimeZone { get => _timeZone; }
         public bool? IsLogout { get => _isLogout; }
+        public string DeviceId { get => _deviceId; }
+        public string Platform { get => _platform; }
+        public string OSVersionMobile { get => _oSVersionMobile; }
+        public string header { get => _header; }
         #endregion Properties
 
         #region Behaviours
@@ -102,6 +114,10 @@ namespace API.DOMAIN
         public void SetBrownVersion(string brownVersion) => _brownVersion = brownVersion;
         public void SetTimeZone(string timeZone) => _timeZone = timeZone;
         public void SetIsLogout(bool? isLogout) => _isLogout = isLogout;
+        public void SetDeviceId(string deviceId) => _deviceId = deviceId;
+        public void SetPlatform(string platform) => _platform = platform;
+        public void SetOSVersionMobile(string oSVersionMobile) => _oSVersionMobile = oSVersionMobile;
+        public void SetHeader(string hearder)=> _header = hearder;
         #endregion Behaviours
     }
 }

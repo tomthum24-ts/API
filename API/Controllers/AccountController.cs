@@ -1,5 +1,6 @@
 ﻿using API.APPLICATION.Commands.Login;
 using API.APPLICATION.Commands.RefreshToken;
+using BaseCommon.Attributes;
 using BaseCommon.Common.MethodResult;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -37,6 +38,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(MethodResult<LoginCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [AllowAnonymous]
+        [ExtractCustomHeader]
         [Route(Login)]
         public async Task<IActionResult> LoginAsync(LoginCommand command)
         {

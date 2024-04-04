@@ -10,30 +10,20 @@ namespace BaseCommon.Extension
         private static readonly Random _random = new Random();
         public static string RandomString(int size, bool lowerCase = false)
         {
-            var builder = new StringBuilder(size);
+            var passwordBuilder = new StringBuilder();
+            passwordBuilder.Append(RandomNumber(1000, 9999));
 
-            // Unicode/ASCII Letters are divided into two blocks
-            // (Letters 65–90 / 97–122):
-            // The first group containing the uppercase letters and
-            // the second group containing the lowercase.
-
-            // char is a single Unicode character
-            char offset = lowerCase ? 'a' : 'A';
-            const int lettersOffset = 26; // A...Z or a..z: length=26
-
-            for (var i = 0; i < size; i++)
-            {
-                var @char = (char)_random.Next(offset, offset + lettersOffset);
-                builder.Append(@char);
-            }
-
-            return lowerCase ? builder.ToString().ToLower() : builder.ToString();
+            return passwordBuilder.ToString().Trim();
+        }
+        public static int RandomNumber(int min, int max)
+        {
+            return _random.Next(min, max);
         }
         public static void SendMail(string receiveMail,string content, string tille, string smtpConnect,int port)
         {
             var email = new MimeMessage();
 
-            email.From.Add(new MailboxAddress("vietcoldchainapp@gmail.com", "vietcoldchainapp@gmail.com"));
+            email.From.Add(new MailboxAddress("VietColdChain", "vietcoldchainapp@gmail.com"));
             email.To.Add(new MailboxAddress(receiveMail, receiveMail));
 
             email.Subject = tille;

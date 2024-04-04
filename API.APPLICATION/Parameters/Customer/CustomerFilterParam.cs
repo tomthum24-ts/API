@@ -7,5 +7,6 @@
         public string Districts { get; set; }
         public string Villages { get; set; }
         public string MemberGroups { get; set; }
+        public int? IdUser { get; set; }
     }
 }

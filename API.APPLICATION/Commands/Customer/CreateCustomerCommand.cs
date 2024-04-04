@@ -11,28 +11,28 @@ namespace API.APPLICATION.Commands.Customer
 {
     public class CreateCustomerCommand : IRequest<MethodResult<CreateCustomerCommandResponse>>
     {
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public int? Province { get; set; }
-        public int? District { get; set; }
-        public int? Village { get; set; }
-        public string Phone { get; set; }
-        public string Phone2 { get; set; }
-        public string CMND { get; set; }
-        public DateTime? Birthday { get; set; }
-        public string Email { get; set; }
-        public string Note { get; set; }
-        public string TaxCode { get; set; }
-        public int? GroupMember { get; set; }
-        public int? FileAttach { get; set; }
-        public bool? IsEnterprise { get; set; }
-        public string EnterpriseName { get; set; }
-        public string Representative { get; set; }
-        public string Poisition { get; set; }
-        public string RegistrationNumber { get; set; }
-        public DateTime? RegistrationDate { get; set; }
-        public string RegistrationAddress { get; set; }
+        public string Code { get; set; }= string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
+        public int? Province { get; set; } = 0;
+        public int? District { get; set; } = 0;
+        public int? Village { get; set; } = 0;
+        public string Phone { get; set; } = string.Empty;
+        public string Phone2 { get; set; }=string.Empty;
+        public string CMND { get; set; } = string.Empty;
+        public DateTime? Birthday { get; set; }=DateTime.Now;
+        public string Email { get; set; } = string.Empty;
+        public string Note { get; set; }=string.Empty;
+        public string TaxCode { get; set; } = string.Empty;
+        public int? GroupMember { get; set; } = 0;
+        public int? FileAttach { get; set; } = 0;
+        public bool? IsEnterprise { get; set; }=false;
+        public string EnterpriseName { get; set; } = string.Empty;
+        public string Representative { get; set; } = string.Empty;
+        public string Poisition { get; set; } = string.Empty;
+        public string RegistrationNumber { get; set; } = string.Empty;
+        public DateTime? RegistrationDate { get; set; }=DateTime.Now;
+        public string RegistrationAddress { get; set; } = string.Empty;
     }
     public class CreateCustomerCommandResponse : CreateCustomerCommand
     {
