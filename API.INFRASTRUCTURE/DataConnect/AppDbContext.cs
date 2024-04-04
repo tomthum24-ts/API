@@ -1,5 +1,6 @@
 ﻿using API.DOMAIN;
 using API.DOMAIN.DomainObjects.BieuMau;
+using API.DOMAIN.DomainObjects.Notification;
 using API.DOMAIN.DomainObjects.WareHouseInDetail;
 using API.DOMAIN.DomainObjects.WareHouseOut;
 using API.DOMAIN.DomainObjects.WareHouseOutDetail;
@@ -7,6 +8,7 @@ using API.INFRASTRUCTURE.EFConfigs;
 using API.INFRASTRUCTURE.EFConfigs.BieuMau;
 using API.INFRASTRUCTURE.EFConfigs.Location;
 using API.INFRASTRUCTURE.EFConfigs.Media;
+using API.INFRASTRUCTURE.EFConfigs.Notification;
 using API.INFRASTRUCTURE.EFConfigs.Permission;
 using Microsoft.EntityFrameworkCore;
 
@@ -136,6 +138,14 @@ namespace API.INFRASTRUCTURE.DataConnect
                 entity.ToTable(TableConstants.WAREHOUSEOUTDETAIL_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new WareHouseOutDetailConfiguration());
+
+            //NotificationToken
+            modelBuilder.Entity<NotificationToken>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.NOTIFICATIONTOKEN_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new NotificationTokenConfiguration());
         }
 
         public DbSet<User> User { get; set; }
@@ -152,5 +162,6 @@ namespace API.INFRASTRUCTURE.DataConnect
         public DbSet<WareHouseInDetail> WareHouseInDetail { get; set; }
         public DbSet<WareHouseOut> WareHouseOut { get; set; }
         public DbSet<WareHouseOutDetail> WareHouseOutDetail { get; set; }
+        public DbSet<NotificationToken> NotificationToken { get; set; }
     }
 }

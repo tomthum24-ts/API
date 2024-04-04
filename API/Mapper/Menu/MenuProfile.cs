@@ -1,4 +1,5 @@
-﻿using API.APPLICATION.Parameters.Menu;
+﻿using API.APPLICATION.Commands.Notification;
+using API.APPLICATION.Parameters.Menu;
 using API.APPLICATION.ViewModels;
 using AutoMapper;
 
@@ -8,7 +9,7 @@ namespace API.Mapper.Menu
     {
         public MenuProfile()
         {
-            CreateMap<MenuRequestViewModel, MenuFilterParam>();
+            CreateMap<CreateNotificationTokenCommand, CreateNotificationTokenCommandResponse>();
           
         }
     }

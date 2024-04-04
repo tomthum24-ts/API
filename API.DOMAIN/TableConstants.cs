@@ -26,5 +26,6 @@ namespace API.DOMAIN
         public const string PRODUCT_TABLENAME = "Product";
         public const string VEHICLE_TABLENAME = "Vehicle";
         public const string WAREHOUSE_TABLENAME = "WareHouse";
+        public const string NOTIFICATIONTOKEN_TABLENAME = "NotificationToken";
     }
 }

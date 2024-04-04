@@ -21,10 +21,12 @@ using API.INFRASTRUCTURE.Interface;
 using API.INFRASTRUCTURE.Interface.BieuMau;
 using API.INFRASTRUCTURE.Interface.Location;
 using API.INFRASTRUCTURE.Interface.Media;
+using API.INFRASTRUCTURE.Interface.Notification;
 using API.INFRASTRUCTURE.Interface.RefreshToken;
 using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.BieuMau;
 using API.INFRASTRUCTURE.Repositories.FileAttach;
+using API.INFRASTRUCTURE.Repositories.Notification;
 using API.INFRASTRUCTURE.Repositories.Permission;
 using API.INFRASTRUCTURE.Repositories.User;
 using API.INFRASTRUCTUREm;
@@ -114,11 +116,10 @@ namespace API.Dependency
             services.AddScoped<ICredentialRepository, CredentialRepository>();
             // Notifications 
             services.AddTransient<INotificationService, NotificationService>();
+            services.AddTransient<INotificationTokenRepository, NotificationTokenRepository>();
             services.AddHttpClient<FcmSender>();
             services.AddHttpClient<ApnSender>();
-            // Configure strongly typed settings objects
-            //var appSettingsSection = Configuration.GetSection("FcmNotification");
-            //services.Configure<FcmNotificationSetting>(appSettingsSection);
+
         }
     }
 }
