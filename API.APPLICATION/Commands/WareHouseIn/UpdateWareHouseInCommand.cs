@@ -36,7 +36,8 @@ namespace API.APPLICATION.Commands.WareHouseIn
         public DateTime? TimeEnd { get; set; }
         public string Pallet { get; set; }
         public List<UpdateWareHouseInCommandDTO> UpdateWareHouseIns { get; set; }
-        
+        public List<UpdateWareHouseInFileAttachs> WareHouseInFileAttachs { get; set; }
+
     }
 
     public class UpdateWareHouseInCommandDTO
@@ -63,6 +64,12 @@ namespace API.APPLICATION.Commands.WareHouseIn
         public string ExpiryDate { get; set; }
         public string Note { get; set; }
         public string MadeIn { get; set; }
+    }
+    public class UpdateWareHouseInFileAttachs
+    {
+        public string Name { get; set; }
+        public string Path { get; set; }
+
     }
     public class UpdateWareHouseInCommandResponse : UpdateWareHouseInCommand
     {

@@ -1,9 +1,13 @@
 ﻿using API.APPLICATION.Commands.WareHouseOut;
+
 using API.APPLICATION.Commands.WareHouseOut;
+
 using API.DOMAIN.DomainObjects.WareHouseOutDetail;
 using API.DOMAIN;
 using API.DOMAIN.DomainObjects.WareHouseOut;
+
 using API.DOMAIN.DomainObjects.WareHouseOutDetail;
+
 using API.INFRASTRUCTURE;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
@@ -13,6 +17,10 @@ using MediatR;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using API.APPLICATION.ViewModels.Notification;
+using API.APPLICATION.Services.Notifications;
+using API.INFRASTRUCTURE.Interface;
+using API.DOMAIN.DomainObjects.WareHouseOutFileAttach;
 
 namespace API.APPLICATION
 {
@@ -22,13 +30,17 @@ namespace API.APPLICATION
         private readonly IWareHouseOutDetailRepository _WareHouseOutDetailRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly INotificationService _notificationService;
+        private readonly IWareHouseOutFileAttachRepository _wareHouseOutFileAttachRepository;
 
-        public CreateWareHouseOutCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IWareHouseOutRepository WareHouseOutRepository, IWareHouseOutDetailRepository WareHouseOutDetailRepository)
+        public CreateWareHouseOutCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IWareHouseOutRepository WareHouseOutRepository, IWareHouseOutDetailRepository WareHouseOutDetailRepository, INotificationService notificationService, IWareHouseOutFileAttachRepository wareHouseOutFileAttachRepository)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _WareHouseOutRepository = WareHouseOutRepository;
             _WareHouseOutDetailRepository = WareHouseOutDetailRepository;
+            _notificationService = notificationService;
+            _wareHouseOutFileAttachRepository = wareHouseOutFileAttachRepository;
         }
 
         public async Task<MethodResult<CreateWareHouseOutCommandResponse>> Handle(CreateWareHouseOutCommand request, CancellationToken cancellationToken)
@@ -71,7 +83,7 @@ namespace API.APPLICATION
                     request.Pallet
                 );
             _WareHouseOutRepository.Add(createWareHouse);
-            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            var idWareHouse = await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             List<WareHouseOutDetail> lstDetail = new List<WareHouseOutDetail>();
             if (request.WareHouseOutDetail.Count < 1)
             {
@@ -102,14 +114,43 @@ namespace API.APPLICATION
                                 item2.ProductDate,
                                 item2.ExpiryDate,
                                 item2.MadeIn
-                                
+
                             );
                     lstDetail.Add(createDetail);
                 }
             }
             _WareHouseOutDetailRepository.AddRange(lstDetail);
-            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            //var idWareHouse = await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            if(request.WareHouseOutFileAttachs.Count > 0)
+            {
+                List<WareHouseOutFileAttachs> WareHouseOutFileAttach = new List<WareHouseOutFileAttachs>();
+                foreach (var file in request.WareHouseOutFileAttachs)
+                {
+                    var createFile = new WareHouseOutFileAttachs(
+                            createWareHouse.Id,
+                            file.Name,
+                            file.Path
+                        );
+                    WareHouseOutFileAttach.Add(createFile);
+                }
+                _wareHouseOutFileAttachRepository.AddRange(WareHouseOutFileAttach);
+                _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            }
+           
             methodResult.Result = _mapper.Map<CreateWareHouseOutCommandResponse>(request);
+            try
+            {
+                var noti = new NotificationModel();
+                noti.Title = "Đơn hàng xuất mới";
+                noti.Body = "Đơn hàng  " + request.Code + " vừa được tạo";
+                noti.URL.ModuleName = "Xuất kho";
+                noti.URL.ModuleType = (int)TypeNotifyEnum.WareHouseOut;
+                noti.URL.Id = idWareHouse;
+                _notificationService.SendNotiToAdmin(noti);
+            }
+            catch (System.Exception)
+            {
+            }
             return methodResult;
         }
     }

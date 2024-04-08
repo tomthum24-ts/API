@@ -2,14 +2,17 @@
 using API.DOMAIN.DomainObjects.BieuMau;
 using API.DOMAIN.DomainObjects.Notification;
 using API.DOMAIN.DomainObjects.WareHouseInDetail;
+using API.DOMAIN.DomainObjects.WareHouseInFileAttach;
 using API.DOMAIN.DomainObjects.WareHouseOut;
 using API.DOMAIN.DomainObjects.WareHouseOutDetail;
+using API.DOMAIN.DomainObjects.WareHouseOutFileAttach;
 using API.INFRASTRUCTURE.EFConfigs;
 using API.INFRASTRUCTURE.EFConfigs.BieuMau;
 using API.INFRASTRUCTURE.EFConfigs.Location;
 using API.INFRASTRUCTURE.EFConfigs.Media;
 using API.INFRASTRUCTURE.EFConfigs.Notification;
 using API.INFRASTRUCTURE.EFConfigs.Permission;
+using API.INFRASTRUCTURE.EFConfigss;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.INFRASTRUCTURE.DataConnect
@@ -146,6 +149,23 @@ namespace API.INFRASTRUCTURE.DataConnect
                 entity.ToTable(TableConstants.NOTIFICATIONTOKEN_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new NotificationTokenConfiguration());
+
+            //
+            //WareHouseOutFileAttach
+            modelBuilder.Entity<WareHouseOutFileAttachs>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.WAREHOUSEOUTFILEATTACH_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new WareHouseOutFileAttachConfiguration());
+            //
+            //WareHouseInFileAttach
+            modelBuilder.Entity<WareHouseInFileAttachs>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.WAREHOUSEINFILEATTACH_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new WareHouseInFileAttachConfiguration());
         }
 
         public DbSet<User> User { get; set; }
@@ -163,5 +183,7 @@ namespace API.INFRASTRUCTURE.DataConnect
         public DbSet<WareHouseOut> WareHouseOut { get; set; }
         public DbSet<WareHouseOutDetail> WareHouseOutDetail { get; set; }
         public DbSet<NotificationToken> NotificationToken { get; set; }
+        public DbSet<WareHouseOutFileAttachs> WareHouseOutFileAttach { get; set; }
+        public DbSet<WareHouseInFileAttachs> WareHouseInFileAttach { get; set; }
     }
 }

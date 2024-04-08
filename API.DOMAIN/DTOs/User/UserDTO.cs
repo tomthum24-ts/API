@@ -12,5 +12,6 @@ namespace API.DOMAIN.DTOs.User
         public string DiaChi { get; set; }
         public string Phone { get; set; }
         public bool? TrangThai { get; set; }
+        public bool? IsAdmin { get;}
     }
 }

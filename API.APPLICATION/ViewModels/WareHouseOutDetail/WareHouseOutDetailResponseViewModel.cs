@@ -9,6 +9,14 @@ namespace API.APPLICATION.ViewModels.WareHouseOutDetail
     public class WareHouseOutDetailResponseViewModel
     {
        
+       
+        public IEnumerable<WareHouseOutResponseDTO> WareHouseOutResponseDTOs { get; set; }
+        public IEnumerable<WareHouseOutDetailResponseDTO> WareHouseOutDetailResponseDTOs { get; set; }
+        public IEnumerable<WareHouseOutFileAttachDTO> WareOutHouseFileAttachDTOs { get; set; }
+    }
+
+    public class WareHouseOutResponseDTO
+    {
         public int Id { get; set; }
         public string Code { get; set; }
         public DateTime? DateCode { get; set; }
@@ -40,9 +48,7 @@ namespace API.APPLICATION.ViewModels.WareHouseOutDetail
         public DateTime? TimeStart { get; set; }
         public DateTime? TimeEnd { get; set; }
         public string Pallet { get; set; }
-        public IEnumerable<WareHouseOutDetailResponseDTO> WareHouseOutDetailResponseDTOs { get; set; }
     }
-
     public class WareHouseOutDetailResponseDTO
     {
         public int? STT { get; set; }
@@ -69,5 +75,11 @@ namespace API.APPLICATION.ViewModels.WareHouseOutDetail
         public string ExpiryDate { get; set; }
         public string MadeIn { get; set; }
       
+    }
+    public class WareHouseOutFileAttachDTO
+    {
+        public int IdWareHouseOut { get; set; }
+        public string Path { get; set; }
+        public string Name { get; set; }
     }
 }

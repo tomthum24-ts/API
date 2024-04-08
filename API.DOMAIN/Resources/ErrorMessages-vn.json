@@ -9,6 +9,6 @@
   "EB08": "Tài khoản chưa được active. Vui lòng liên hệ bộ phận quản lý",
   "EB09": "Thông tin không được để trống. Vui lòng kiểm tra lại",
   "EB10": "OTP của bạn không tồn tại. Vui lòng kiểm tra lại",
-  "EB11": "Email đã được đăng ký. Vui lòng chọn email khác"
-
+  "EB11": "Email đã được đăng ký. Vui lòng chọn email khác",
+  "EB12": "Đã xảy ra lỗi trong quá trình gửi. Vui long thử lại sau."
 }

@@ -1,7 +1,13 @@
 ﻿using API.APPLICATION.Commands.WareHouseIn;
+using API.APPLICATION.Services.Notifications;
+using API.APPLICATION.ViewModels.Notification;
 using API.DOMAIN;
 using API.DOMAIN.DomainObjects.WareHouseInDetail;
+using API.DOMAIN.DomainObjects.WareHouseInFileAttach;
+using API.DOMAIN.DomainObjects.WareHouseOutFileAttach;
 using API.INFRASTRUCTURE;
+using API.INFRASTRUCTURE.Interface;
+using API.INFRASTRUCTURE.Repositories;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
@@ -19,13 +25,17 @@ namespace API.APPLICATION
         private readonly IWareHouseInDetailRepository _wareHouseInDetailRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly INotificationService _notificationService;
+        private readonly IWareHouseInFileAttachRepository  _wareHouseInFileAttachRepository;
 
-        public CreateWareHouseInCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IWareHouseInRepository wareHouseInRepository, IWareHouseInDetailRepository wareHouseInDetailRepository)
+        public CreateWareHouseInCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IWareHouseInRepository wareHouseInRepository, IWareHouseInDetailRepository wareHouseInDetailRepository, INotificationService notificationService, IWareHouseInFileAttachRepository wareHouseInFileAttachRepository)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _wareHouseInRepository = wareHouseInRepository;
             _wareHouseInDetailRepository = wareHouseInDetailRepository;
+            _notificationService = notificationService;
+            _wareHouseInFileAttachRepository = wareHouseInFileAttachRepository;
         }
 
         public async Task<MethodResult<CreateWareHouseInCommandResponse>> Handle(CreateWareHouseInCommand request, CancellationToken cancellationToken)
@@ -68,7 +78,7 @@ namespace API.APPLICATION
                     request.Pallet
                 );
             _wareHouseInRepository.Add(createWareHouse);
-            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            var idWareHouse = await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             List<WareHouseInDetail> lstDetail = new List<WareHouseInDetail>();
             if (request.WareHouseInDetail.Count < 1)
             {
@@ -103,8 +113,35 @@ namespace API.APPLICATION
                 }
             }
             _wareHouseInDetailRepository.AddRange(lstDetail);
+
+            List<WareHouseInFileAttachs> WareHouseInFileAttach = new List<WareHouseInFileAttachs>();
+            foreach (var file in request.WareHouseInFileAttachs)
+            {
+                var createFile = new WareHouseInFileAttachs(
+                        createWareHouse.Id,
+                        file.Name,
+                        file.Path
+                    );
+                WareHouseInFileAttach.Add(createFile);
+            }
+            _wareHouseInFileAttachRepository.AddRange(WareHouseInFileAttach);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             methodResult.Result = _mapper.Map<CreateWareHouseInCommandResponse>(request);
+            try
+            {
+                var noti = new NotificationModel();
+                noti.Title = "Đơn hàng nhập mới";
+                noti.Body = "Đơn hàng  " + request.Code+ "vừa được tạo";
+                noti.URL.ModuleName = "Nhập kho";
+                noti.URL.ModuleType = (int)TypeNotifyEnum.WareHouseIn;
+                noti.URL.Id = idWareHouse;
+                _notificationService.SendNotiToAdmin(noti);
+            }
+            catch (System.Exception)
+            {
+
+
+            }
             return methodResult;
         }
     }

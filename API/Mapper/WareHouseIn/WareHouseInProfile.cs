@@ -2,6 +2,8 @@
 using API.APPLICATION.Parameters.WareHouseIn;
 using API.APPLICATION.ViewModels.ByIdViewModel;
 using API.APPLICATION.ViewModels.WareHouseIn;
+using API.APPLICATION.ViewModels.WareHouseInDetail;
+using API.APPLICATION.ViewModels.WareHouseOutDetail;
 using API.DOMAIN.DTOs.WareHouseIn;
 using AutoMapper;
 
@@ -19,6 +21,8 @@ namespace API.Mapper.WareHouseIn
             CreateMap<WareHouseInResponseViewModel, WareHouseInByIdDTO>();
             CreateMap< UpdateWareHouseInCommand, UpdateWareHouseInCommandResponse> ();
             CreateMap< ReportWareHouseInByIdReplaceViewModel, WareHouseInByIdParam> ();
+           
+            CreateMap<WareInHouseFileAttachDTO, WareHouseInFileAttachViewModel>();
         }
     }
 }

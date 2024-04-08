@@ -9,20 +9,25 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using static API.APPLICATION.ViewModels.Notification.GoogleNotification;
+using API.INFRASTRUCTURE.DataConnect;
+using Dapper;
 
 namespace API.APPLICATION.Services.Notifications
 {
     public interface INotificationService
     {
         Task<ResponseModel> SendNotification(NotificationModel notificationModel);
+        Task<ResponseModel> SendNotiToAdmin(NotificationModel notificationModel);
     }
 
     public class NotificationService : INotificationService
     {
         private readonly FcmNotificationSetting _fcmNotificationSetting;
-        public NotificationService(IOptions<FcmNotificationSetting> settings)
+        public readonly DapperContext _context;
+        public NotificationService(IOptions<FcmNotificationSetting> settings, DapperContext context)
         {
             _fcmNotificationSetting = settings.Value;
+            _context = context;
         }
 
         public async Task<ResponseModel> SendNotification(NotificationModel notificationModel)
@@ -49,10 +54,12 @@ namespace API.APPLICATION.Services.Notifications
                     DataPayload dataPayload = new DataPayload();
                     dataPayload.Title = notificationModel.Title;
                     dataPayload.Body = notificationModel.Body;
+                    dataPayload.URL = notificationModel.URL;
 
                     GoogleNotification notification = new GoogleNotification();
                     notification.Data = dataPayload;
                     notification.Notification = dataPayload;
+                    notification.URL = dataPayload.URL;
 
                     var fcm = new FcmSender(settings, httpClient);
                     var fcmSendResponse = await fcm.SendAsync(deviceToken, notification);
@@ -80,5 +87,30 @@ namespace API.APPLICATION.Services.Notifications
                 return response;
             }
         }
+        public async Task<ResponseModel> SendNotiToAdmin(NotificationModel notificationModel)
+        {
+            ResponseModel response = new ResponseModel();
+            var regUser = new RequestUserReceiveModel();
+            regUser.IsAdmin = true;
+            var lstUser = await GetListReceiveNotiAsync(regUser).ConfigureAwait(false);
+            if (lstUser != null)
+            {
+                foreach (var item in lstUser)
+                {
+                    notificationModel.DeviceId = item.TokenFireBase;
+                    var sendTo = SendNotification(notificationModel);
+                }
+            }
+
+            return response;
+        }
+        public async Task<IEnumerable<ReponseUserReceiveNotiModel>> GetListReceiveNotiAsync(RequestUserReceiveModel param)
+        {
+            var conn = _context.CreateConnection();
+            using var rs = await conn.QueryMultipleAsync("SP_NT_GetListNotification", param, commandType: System.Data.CommandType.StoredProcedure);
+            var result = await rs.ReadAsync<ReponseUserReceiveNotiModel>().ConfigureAwait(false);
+            return result;
+        }
+
     }
 }

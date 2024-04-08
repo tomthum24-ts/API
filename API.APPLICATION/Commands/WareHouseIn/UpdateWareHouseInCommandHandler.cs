@@ -1,6 +1,8 @@
 ﻿using API.DOMAIN;
 using API.DOMAIN.DomainObjects.WareHouseInDetail;
+using API.DOMAIN.DomainObjects.WareHouseInFileAttach;
 using API.INFRASTRUCTURE;
+using API.INFRASTRUCTURE.Interface;
 using AutoMapper;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
@@ -17,15 +19,17 @@ namespace API.APPLICATION.Commands.WareHouseIn
     {
         private readonly IWareHouseInRepository _wareHouseInRepository;
         private readonly IWareHouseInDetailRepository _wareHouseInDetailRepository;
+        private readonly IWareHouseInFileAttachRepository _wareHouseInFileAttachRepository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateWareHouseInCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IWareHouseInRepository wareHouseInRepository, IWareHouseInDetailRepository wareHouseInDetailRepository)
+        public UpdateWareHouseInCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IWareHouseInRepository wareHouseInRepository, IWareHouseInDetailRepository wareHouseInDetailRepository, IWareHouseInFileAttachRepository wareHouseInFileAttachRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _wareHouseInRepository = wareHouseInRepository;
             _wareHouseInDetailRepository = wareHouseInDetailRepository;
+            _wareHouseInFileAttachRepository = wareHouseInFileAttachRepository;
         }
 
         public async Task<MethodResult<UpdateWareHouseInCommandResponse>> Handle(UpdateWareHouseInCommand request, CancellationToken cancellationToken)
@@ -99,7 +103,25 @@ namespace API.APPLICATION.Commands.WareHouseIn
                 _wareHouseInDetailRepository.AddRange(lstDetail);
                 await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
-            
+            if (request.WareHouseInFileAttachs.Count > 0)
+            {
+                var existingFile = await _wareHouseInFileAttachRepository.Get(x => x.IdWareHouseIn == request.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
+                _wareHouseInFileAttachRepository.DeleteRange(existingFile);
+                await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                List<WareHouseInFileAttachs> WareHouseInFileAttach = new List<WareHouseInFileAttachs>();
+                foreach (var file in request.WareHouseInFileAttachs)
+                {
+                    var createFile = new WareHouseInFileAttachs(
+                            isExistData.Id,
+                            file.Name,
+                            file.Path
+                        );
+                    WareHouseInFileAttach.Add(createFile);
+                }
+                _wareHouseInFileAttachRepository.AddRange(WareHouseInFileAttach);
+                await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            }
+
             methodResult.Result = _mapper.Map<UpdateWareHouseInCommandResponse>(request);
             return methodResult;
         }

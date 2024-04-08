@@ -11,12 +11,11 @@ namespace API.APPLICATION.ViewModels.Notification
     {
         [JsonProperty("deviceId")]
         public string DeviceId { get; set; }
-        [JsonProperty("isAndroiodDevice")]
-        public bool IsAndroiodDevice { get; set; }
         [JsonProperty("title")]
         public string Title { get; set; }
         [JsonProperty("body")]
         public string Body { get; set; }
+        public URL URL { get; set; } = new URL();
     }
 
     public class GoogleNotification
@@ -27,6 +26,7 @@ namespace API.APPLICATION.ViewModels.Notification
             public string Title { get; set; }
             [JsonProperty("body")]
             public string Body { get; set; }
+            public URL URL { get; set; } = new URL();
         }
         [JsonProperty("priority")]
         public string Priority { get; set; } = "high";
@@ -34,5 +34,12 @@ namespace API.APPLICATION.ViewModels.Notification
         public DataPayload Data { get; set; }
         [JsonProperty("notification")]
         public DataPayload Notification { get; set; }
+        public URL URL { get; set; }= new URL();
+    }
+    public class URL
+    {
+        public int ModuleType { get; set; }
+        public string ModuleName { get; set; } 
+        public int Id { get; set; } = 1;
     }
 }

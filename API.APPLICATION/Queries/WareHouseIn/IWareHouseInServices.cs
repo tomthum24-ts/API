@@ -85,6 +85,7 @@ namespace API.APPLICATION.Queries.WareHouseIn
             using var rs = await conn.QueryMultipleAsync("SP_DA_GetInfoWareHouseInById", param, commandType: CommandType.StoredProcedure);
             result.WareHouseInResponseDTOs = await rs.ReadAsync<WareHouseInResponseDTO>().ConfigureAwait(false);
             result.WareHouseInDetailResponseDTOs = await rs.ReadAsync<WareHouseInDetailResponseDTO>().ConfigureAwait(false);
+            result.WareInHouseFileAttachDTOs = await rs.ReadAsync<WareInHouseFileAttachDTO>().ConfigureAwait(false);
             return result;
         }
 
@@ -148,7 +149,7 @@ namespace API.APPLICATION.Queries.WareHouseIn
                                                        }
                                                        )
                                                    });
-
+            result.WareHouseInFileAttachViewModels = _mapper.Map<List<WareHouseInFileAttachViewModel>>(data.WareInHouseFileAttachDTOs);
             return result;
         }
         public async Task<IEnumerable<ReportReplaceInfoHTMLDTO>> GetDataWareHouseInReplaceThongTin(ReportReplaceWareHouseInParam param)

@@ -34,6 +34,7 @@ namespace API.APPLICATION.Commands.WareHouseOut
         public DateTime? TimeEnd { get; set; }
         public string Pallet { get; set; }
         public List<CreateWareHouseOutDetailCommandDTO> WareHouseOutDetail { get; set; }
+        public List<CreateWareHouseOutFileAttachs> WareHouseOutFileAttachs { get; set; }
     }
 
     public class CreateWareHouseOutDetailCommandDTO
@@ -44,6 +45,7 @@ namespace API.APPLICATION.Commands.WareHouseOut
         public int? RangeOfVehicle { get; set; }
         public string GuildId { get; set; }
         public List<CreateWareHouseOutVehicleCommandDTO> VehicleDetails { get; set; }
+       
     }
 
     public class CreateWareHouseOutVehicleCommandDTO
@@ -64,7 +66,12 @@ namespace API.APPLICATION.Commands.WareHouseOut
         public string GuildId { get; set; }
         public string RONumber { get; set; }
     }
+       public class CreateWareHouseOutFileAttachs
+    {
+        public string Name { get; set; }
+        public string Path { get; set; }
 
+    }
     public class CreateWareHouseOutCommandResponse : CreateWareHouseOutCommand
     {
     }

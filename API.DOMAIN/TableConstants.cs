@@ -27,5 +27,7 @@ namespace API.DOMAIN
         public const string VEHICLE_TABLENAME = "Vehicle";
         public const string WAREHOUSE_TABLENAME = "WareHouse";
         public const string NOTIFICATIONTOKEN_TABLENAME = "NotificationToken";
+        public const string WAREHOUSEINFILEATTACH_TABLENAME = "K_WareHouseIn_AttachmentFiles";
+        public const string WAREHOUSEOUTFILEATTACH_TABLENAME = "K_WareHouseOut_AttachmentFiles";
     }
 }

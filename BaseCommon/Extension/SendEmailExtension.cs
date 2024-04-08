@@ -11,7 +11,7 @@ namespace BaseCommon.Extension
         public static string RandomString(int size, bool lowerCase = false)
         {
             var passwordBuilder = new StringBuilder();
-            passwordBuilder.Append(RandomNumber(1000, 9999));
+            passwordBuilder.Append(RandomNumber(100000, 999999));
 
             return passwordBuilder.ToString().Trim();
         }

@@ -10,7 +10,9 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
     {
         public IEnumerable<WareHouseInResponseDTO> WareHouseInResponseDTOs { get; set; }
 
-        public IEnumerable<WareHouseInDetailResponseDTO> WareHouseInDetailResponseDTOs { get; set; } 
+        public IEnumerable<WareHouseInDetailResponseDTO> WareHouseInDetailResponseDTOs { get; set; }  
+        public IEnumerable<WareInHouseFileAttachDTO> WareInHouseFileAttachDTOs { get; set; } 
+
     }
     public class WareHouseInResponseDTO
     {
@@ -71,5 +73,11 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
         public string ProductDate { get; set; }
         public string ExpiryDate { get; set; }
         public string MadeIn { get; set; }
+    }
+    public class WareInHouseFileAttachDTO
+    {
+        public int IdWareHouseIn { get; set; }
+        public string Path { get; set; }
+        public string Name { get; set; }
     }
 }

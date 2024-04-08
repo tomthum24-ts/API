@@ -38,6 +38,7 @@ namespace API.APPLICATION.Commands.WareHouseIn
         public DateTime? TimeEnd { get; set; }
         public string Pallet { get; set; }
         public List<CreateWareHouseInDetailCommandDTO> WareHouseInDetail { get; set; }
+        public List<CreateWareHouseInFileAttachs> WareHouseInFileAttachs { get; set; }
     }
     public class CreateWareHouseInDetailCommandDTO
     {
@@ -62,6 +63,12 @@ namespace API.APPLICATION.Commands.WareHouseIn
         public string ProductDate { get; set; }
         public string ExpiryDate { get; set; }
         public string MadeIn { get; set; }
+
+    }
+    public class CreateWareHouseInFileAttachs
+    {
+        public string Name { get; set; }
+        public string Path { get; set; }
 
     }
     public class CreateWareHouseInCommandResponse : CreateWareHouseInCommand

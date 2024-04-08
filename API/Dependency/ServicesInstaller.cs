@@ -119,7 +119,9 @@ namespace API.Dependency
             services.AddTransient<INotificationTokenRepository, NotificationTokenRepository>();
             services.AddHttpClient<FcmSender>();
             services.AddHttpClient<ApnSender>();
-
+            //WareHouseInFileAttach
+            services.AddScoped<IWareHouseInFileAttachRepository, WareHouseInFileAttachRepository>();
+            services.AddScoped<IWareHouseOutFileAttachRepository, WareHouseOutFileAttachRepository>();
         }
     }
 }

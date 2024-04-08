@@ -1,17 +1,17 @@
-﻿using API.APPLICATION.Parameters.WareHouseIn;
+﻿using API.APPLICATION.Commands.Project;
 using API.APPLICATION.Parameters;
-using API.APPLICATION.Parameters.WareHouseOut;
+using API.APPLICATION.Parameters.WareHouseIn;
 using API.APPLICATION.Parameters.WareHouseOut;
 using API.APPLICATION.ViewModels.BieuMau;
-using API.APPLICATION.ViewModels.WareHouseIn;
-using API.APPLICATION.ViewModels.WareHouseOutDetail;
+using API.APPLICATION.ViewModels.WareHouseOut;
 using API.APPLICATION.ViewModels.WareHouseOutDetail;
 using API.DOMAIN;
 using API.DOMAIN.DTOs.WareHouseOut;
-using API.DOMAIN.DTOs.WareHouseOut;
 using API.INFRASTRUCTURE.DataConnect;
+using AutoMapper;
 using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.Report;
+using BaseCommon.Common.Report.Interfaces;
 using BaseCommon.Common.Response;
 using BaseCommon.Utilities;
 using Dapper;
@@ -20,16 +20,15 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using BaseCommon.Common.Report.Interfaces;
-using API.APPLICATION.ViewModels.WareHouseOut;
 
 namespace API.APPLICATION.Queries.WareHouseOut
 {
     public interface IWareHouseOutServices
     {
         Task<PagingItems<WareHouseOutDTO>> GetWareHouseOutPagingAsync(WareHouseOutFilterParam param);
+
         Task<WareHouseOutDetailViewModel> GetWareHouseOutByIdAsync(WareHouseOutByIdParam param);
+
         Task<BieuMauInfoResponseViewModel> ExportExcelWareHouseOutAsync(ReportWareHouseOutByIdReplaceViewModel request);
     }
 
@@ -41,6 +40,7 @@ namespace API.APPLICATION.Queries.WareHouseOut
         protected readonly IReportQueries _reportQueries;
         private readonly IMapper _mapper;
         private readonly IExportService _exportService;
+
         public WareHouseOutServices(DapperContext context, IUserSessionInfo userSessionInfo, ISYSBieuMauQueries sysBieuMauQueries, IReportQueries reportQueries, IMapper mapper, IExportService exportService)
         {
             _context = context;
@@ -81,8 +81,10 @@ namespace API.APPLICATION.Queries.WareHouseOut
             var result = new WareHouseOutDetailResponseViewModel();
             var conn = _context.CreateConnection();
             using var rs = await conn.QueryMultipleAsync("SP_DA_GetInfoWareHouseOutById", param, commandType: CommandType.StoredProcedure);
-            result = await rs.ReadFirstOrDefaultAsync<WareHouseOutDetailResponseViewModel>().ConfigureAwait(false);
+            //result = await rs.ReadFirstOrDefaultAsync<WareHouseOutDetailResponseViewModel>().ConfigureAwait(false);
+            result.WareHouseOutResponseDTOs = await rs.ReadAsync<WareHouseOutResponseDTO>().ConfigureAwait(false);
             result.WareHouseOutDetailResponseDTOs = await rs.ReadAsync<WareHouseOutDetailResponseDTO>().ConfigureAwait(false);
+            result.WareOutHouseFileAttachDTOs = await rs.ReadAsync<WareHouseOutFileAttachDTO>().ConfigureAwait(false);
             return result;
         }
 
@@ -90,33 +92,34 @@ namespace API.APPLICATION.Queries.WareHouseOut
         {
             var result = new WareHouseOutDetailViewModel();
             var data = await GetDataWareHouseOutByIdAsync(param);
-            result.Id = data.Id;
-            result.Code = data.Code;
-            result.DateCode = data.DateCode;
-            result.Representative = data.Representative;
-            result.IntendTime = data.IntendTime;
-            result.WareHouseName = data.WareHouseName;
-            result.Note = data.Note;
-            result.OrtherNote = data.OrtherNote;
-            result.FileAttach = data.FileAttach;
-            result.CreatedById = data.CreatedById;
-            result.CreateUser = data.CreateUser;
-            result.CustomerName = data.CustomerName;
-            result.FileName = data.FileName;
-            result.FileId = data.FileId;
-            result.Seal = data.Seal;
-            result.Temp = data.Temp;
-            result.CarNumber = data.CarNumber;
-            result.Container = data.Container;
-            result.Door = data.Door;
-            result.Deliver = data.Deliver;
-            result.Veterinary = data.Veterinary;
-            result.Cont = data.Cont;
-            result.NumberCode = data.NumberCode;
-            result.InvoiceNumber = data.InvoiceNumber;
-            result.TimeStart = data.TimeStart;
-            result.TimeEnd = data.TimeEnd;
-            result.Pallet=data.Pallet;
+            var wareHouseOut = data.WareHouseOutResponseDTOs?.FirstOrDefault();
+            result.Id = wareHouseOut.Id;
+            result.Code = wareHouseOut.Code;
+            result.DateCode = wareHouseOut.DateCode;
+            result.Representative = wareHouseOut.Representative;
+            result.IntendTime = wareHouseOut.IntendTime;
+            result.WareHouseName = wareHouseOut.WareHouseName;
+            result.Note = wareHouseOut.Note;
+            result.OrtherNote = wareHouseOut.OrtherNote;
+            result.FileAttach = wareHouseOut.FileAttach;
+            result.CreatedById = wareHouseOut.CreatedById;
+            result.CreateUser = wareHouseOut.CreateUser;
+            result.CustomerName = wareHouseOut.CustomerName;
+            result.FileName = wareHouseOut.FileName;
+            result.FileId = wareHouseOut.FileId;
+            result.Seal = wareHouseOut.Seal;
+            result.Temp = wareHouseOut.Temp;
+            result.CarNumber = wareHouseOut.CarNumber;
+            result.Container = wareHouseOut.Container;
+            result.Door = wareHouseOut.Door;
+            result.Deliver = wareHouseOut.Deliver;
+            result.Veterinary = wareHouseOut.Veterinary;
+            result.Cont = wareHouseOut.Cont;
+            result.NumberCode = wareHouseOut.NumberCode;
+            result.InvoiceNumber = wareHouseOut.InvoiceNumber;
+            result.TimeStart = wareHouseOut.TimeStart;
+            result.TimeEnd = wareHouseOut.TimeEnd;
+            result.Pallet = wareHouseOut.Pallet;
             result.WareHouseOutDetailModels = data?.WareHouseOutDetailResponseDTOs.GroupBy(x => x?.GuildId)?
                                                    .Select(y => new WareHouseOutDetailModel
                                                    {
@@ -136,14 +139,16 @@ namespace API.APPLICATION.Queries.WareHouseOut
                                                            TotalWeighScan = z.First().TotalWeighScan,
                                                            ProductDate = z.First().ProductDate,
                                                            ExpiryDate = z.First().ExpiryDate,
-                                                           RONumber= z.First().RONumber,
-                                                           MadeIn= z.First().MadeIn,
+                                                           RONumber = z.First().RONumber,
+                                                           MadeIn = z.First().MadeIn,
                                                        }
                                                        )
                                                    });
-
+            
+            result.WareHouseOutFileAttachViewModels= _mapper.Map<List<WareHouseOutFileAttachViewModel>>(data.WareOutHouseFileAttachDTOs);
             return result;
         }
+
         public async Task<IEnumerable<ReportReplaceInfoHTMLDTO>> GetDataWareHouseOutReplaceThongTin(ReportReplaceWareHouseInParam param)
         {
             var conn = _context.CreateConnection();
@@ -151,6 +156,7 @@ namespace API.APPLICATION.Queries.WareHouseOut
             var result = await rs.ReadAsync<ReportReplaceInfoHTMLDTO>().ConfigureAwait(false);
             return result;
         }
+
         public async Task<BieuMauInfoResponseViewModel> ExportExcelWareHouseOutAsync(ReportWareHouseOutByIdReplaceViewModel request)
         {
             var param = _mapper.Map<WareHouseOutByIdParam>(request);

@@ -36,6 +36,7 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
         public DateTime? TimeEnd { get; set; }
         public string Pallet { get; set; }
         public IEnumerable<WareHouseInDetailModel> WareHouseInDetailModels { get; set; }
+        public IEnumerable<WareHouseInFileAttachViewModel> WareHouseInFileAttachViewModels { get; set; }
     }
 
     public class WareHouseInDetailModel
@@ -61,5 +62,11 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
         public string ExpiryDate { get; set; }
         public string MadeIn { get; set; }
 
+    }
+    public class WareHouseInFileAttachViewModel
+    {
+        public int IdWareHouseIn { get; set; }
+        public string Path { get; set; }
+        public string Name { get; set; }
     }
 }
