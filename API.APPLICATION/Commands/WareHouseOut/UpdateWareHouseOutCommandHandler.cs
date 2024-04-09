@@ -99,7 +99,9 @@ namespace API.APPLICATION.Commands.WareHouseOut
                                 item2.TotalWeighScan,
                                 item2.ProductDate,
                                 item2.ExpiryDate,
-                                item2.MadeIn
+                                item2.MadeIn,
+                                item2.ProductName,
+                                item2.UnitName
                          );
                         lstDetail.Add(createDetail);
                     }

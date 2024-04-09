@@ -32,6 +32,8 @@ namespace API.INFRASTRUCTURE.EFConfigs
             builder.Property(x => x.ProductDate).HasField("_productDate").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.ExpiryDate).HasField("_expiryDate").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.MadeIn).HasField("_madeIn").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.ProductName).HasField("_productName").HasMaxLength(500).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.UnitName).HasField("_unitName").HasMaxLength(50).UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

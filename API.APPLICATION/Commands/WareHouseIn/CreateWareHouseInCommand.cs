@@ -54,8 +54,10 @@ namespace API.APPLICATION.Commands.WareHouseIn
        // public decimal? QuantityVehicle { get; set; }
         public int? ProductId { get; set; }
         public decimal? QuantityProduct { get; set; }
+        public string ProductName { get; set; }
         public int? Unit { get; set; }
-        public decimal? Size { get; set; }
+        public string UnitName { get; set; }    
+        public string Size { get; set; }
         public decimal? Weight { get; set; }
         public string Note { get; set; }
         public string LotNo { get; set; }

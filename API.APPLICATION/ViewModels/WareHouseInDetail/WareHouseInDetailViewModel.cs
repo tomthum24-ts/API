@@ -53,7 +53,7 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
         public int? ProductId { get; set; }
         public decimal? QuantityProduct { get; set; }
         public int? Unit { get; set; }
-        public decimal? Size { get; set; }
+        public string Size { get; set; }
         public decimal? Weight { get; set; }
         public string Note { get; set; }
         public string LotNo { get; set; }
@@ -61,6 +61,8 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
         public string ProductDate { get; set; }
         public string ExpiryDate { get; set; }
         public string MadeIn { get; set; }
+        public string ProductName { get; set; }
+        public string UnitName { get; set; }
 
     }
     public class WareHouseInFileAttachViewModel

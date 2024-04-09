@@ -10,7 +10,7 @@
         private int? _productId;
         private decimal? _quantityProduct;
         private int? _unit;
-        private decimal? _size;
+        private string _size;
         private decimal? _weight;
         private string _guildId;
         private string _rONumber;
@@ -20,6 +20,8 @@
         private string _expiryDate;
         private string _note;
         private string _madeIn;
+        private string _productName;
+        private string _unitName;
         #endregion Fields
 
         #region Constructors
@@ -28,7 +30,8 @@
         {
         }
         public WareHouseOutDetail(int? idWareHouseOut, int? rangeOfVehicle, decimal? quantityVehicle, int? productId, decimal? quantityProduct,
-            int? unit, decimal? size, decimal? weight, string rONumber, string guildId, string note, string lotNo,string totalWeighScan,string productDate,string expiryDate,string madeIn)
+            int? unit, string size, decimal? weight, string rONumber, string guildId, string note, string lotNo,string totalWeighScan,
+            string productDate,string expiryDate,string madeIn,string productName,string unitName)
         {
             _idWareHouseOut = idWareHouseOut;
             _rangeOfVehicle = rangeOfVehicle;
@@ -46,6 +49,8 @@
             _productDate = productDate;
             _expiryDate = expiryDate;
             _madeIn = madeIn;
+            _productName = productName;
+            _unitName = unitName;
         }
         #endregion Constructors
 
@@ -57,7 +62,7 @@
         public int? ProductId { get => _productId; }
         public decimal? QuantityProduct { get => _quantityProduct; }
         public int? Unit { get => _unit; }
-        public decimal? Size { get => _size; }
+        public string Size { get => _size; }
         public decimal? Weight { get => _weight; }
 
         public string RONumber { get => _rONumber; }
@@ -68,7 +73,8 @@
         public string Note { get; set; }
         public string MadeIn { get; set; }
         public string GuildId { get;set; }
-
+        public string ProductName { get => _productName; }
+        public string UnitName { get => _unitName; }
         #endregion Properties
 
         #region Behaviours
@@ -83,7 +89,7 @@
 
         public void SetQuantityProduct(decimal? quantityProduct) => _quantityProduct = quantityProduct;
         public void SetUnit(int? unit) => _unit = unit;
-        public void SetSize(decimal? size) => _size = size;
+        public void SetSize(string size) => _size = size;
         public void SetWeight(decimal? weight) => _weight = weight;
         public void SetRONumber(string rONumber) => _rONumber = rONumber;
         public void SetLotNo(string lotNo) => _lotNo = lotNo;
@@ -93,7 +99,8 @@
         public void SetNote(string note) => _note = note;
         public void SetMadeIn(string madeIn) => _madeIn = madeIn;
         public void SetGuildId(string guildId) => _guildId = guildId;
-
+        public void SetProductName(string productName) => _productName = productName;
+        public void SetUnitName(string unitName) => _unitName = unitName;
         #endregion Behaviours
     }
 }

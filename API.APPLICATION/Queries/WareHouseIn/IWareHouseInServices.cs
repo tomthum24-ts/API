@@ -146,6 +146,8 @@ namespace API.APPLICATION.Queries.WareHouseIn
                                                            ProductDate= z.First().ProductDate,
                                                            ExpiryDate= z.First().ExpiryDate,
                                                            MadeIn= z.First().MadeIn,
+                                                           ProductName=z.First().ProductName,
+                                                           UnitName=z.First().UnitName,
                                                        }
                                                        )
                                                    });
