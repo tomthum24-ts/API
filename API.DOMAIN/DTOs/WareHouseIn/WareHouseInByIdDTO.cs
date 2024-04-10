@@ -19,6 +19,7 @@ namespace API.DOMAIN.DTOs.WareHouseIn
         public int? CreatedById { get; set; }
         public string CreateUser { get; set; }
         public string Pallet { get; set; }
+        public int? Status { get; set; }
         public IEnumerable<WareHouseInDetailByIdModel> WareHouseInDetailByIdModels { get; set; }
     }
 

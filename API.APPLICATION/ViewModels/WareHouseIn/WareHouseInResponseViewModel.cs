@@ -18,5 +18,6 @@ namespace API.APPLICATION.ViewModels.WareHouseIn
         public int? CreatedById { get; set; }
         public string CreateUser { get; set; }
         public string Pallet { get; set; }
+        public int? Status { get; set; }
     }
 }

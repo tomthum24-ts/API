@@ -46,6 +46,7 @@ namespace API.APPLICATION.Queries.Customer
             using var rs = await conn.QueryMultipleAsync("SP_DM_LC_GetListCustomer_SelectWithPaging", param, commandType: CommandType.StoredProcedure);
             result.Items = await rs.ReadAsync<CustomerDTO>().ConfigureAwait(false);
             result.PagingInfo.TotalItems = await rs.ReadSingleAsync<int>().ConfigureAwait(false);
+            result.PagingInfo.TotalAll = await rs.ReadSingleAsync<int>().ConfigureAwait(false);
             return result;
         }
         public async Task<CustomerByIdDTO> GetInfoUserByIdAsync(CustomerByIdParam param)

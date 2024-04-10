@@ -46,7 +46,14 @@ namespace API.APPLICATION.Commands.WareHouseOut
                     });
                 return methodResult;
             }
-
+            if (isExistData.Step == 1)
+            {
+                methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB14), new[]
+                    {
+                        ErrorHelpers.GenerateErrorResult(nameof(User), request.Id)
+                    });
+                return methodResult;
+            }
             isExistData.SetCode(request.Code);
             isExistData.SetDateCode(request.DateCode);
             isExistData.SetCustomerID(request.CustomerID);

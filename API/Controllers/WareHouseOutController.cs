@@ -1,4 +1,5 @@
-﻿using API.APPLICATION.Commands.WareHouseOut;
+﻿using API.APPLICATION.Commands.WareHouseIn;
+using API.APPLICATION.Commands.WareHouseOut;
 using API.APPLICATION.Parameters.WareHouseIn;
 using API.APPLICATION.Parameters.WareHouseOut;
 using API.APPLICATION.Queries.WareHouseOut;
@@ -29,6 +30,7 @@ namespace API.Controllers
         private const string GetList = nameof(GetList);
         private const string GetById = nameof(GetById);
         private const string Report = nameof(Report);
+        private const string ChangeStatus = nameof(ChangeStatus);
         private readonly IWareHouseOutServices _wareHouseOutServices;
 
         private readonly IMapper _mapper;
@@ -121,6 +123,22 @@ namespace API.Controllers
         //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         //[AllowAnonymous]
         public async Task<IActionResult> UpdateWareHouseOutAsync(UpdateWareHouseOutCommand command)
+        {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+        }
+        /// <summary>
+        /// Update WareHouseIn- (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [Route(ChangeStatus)]
+        [HttpPut]
+        [ProducesResponseType(typeof(MethodResult<ChangeStatusWareHouseOutCommand>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        //[AllowAnonymous]
+        public async Task<IActionResult> ChangeStatusWareHouseOutAsync(ChangeStatusWareHouseOutCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);

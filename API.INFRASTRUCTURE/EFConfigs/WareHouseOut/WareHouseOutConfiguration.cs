@@ -40,6 +40,7 @@ namespace API.INFRASTRUCTURE.EFConfigs
             builder.Property(x => x.TimeStart).HasField("_timeStart").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.TimeEnd).HasField("_timeEnd").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Pallet).HasField("_pallet").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.Step).HasField("_step").UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

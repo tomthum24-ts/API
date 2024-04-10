@@ -36,5 +36,6 @@ namespace API.APPLICATION.ViewModels.User
         public DateTime? CreationDate { get; set; }
         public string UserUpdate { get; set; }
         public DateTime? UpdateDate { get; set; }
+        public bool? IsAdmin { get; set; }
     }
 }

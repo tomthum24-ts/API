@@ -31,6 +31,7 @@ namespace API.DOMAIN.DomainObjects.WareHouseOut
         private DateTime? _timeStart;
         private DateTime? _timeEnd;
         private string _pallet;
+        private int? _step;
         #endregion Fields
 
         #region Constructors
@@ -100,6 +101,7 @@ namespace API.DOMAIN.DomainObjects.WareHouseOut
         public DateTime? TimeStart { get => _timeStart; }
         public DateTime? TimeEnd { get => _timeEnd; }
         public string Pallet { get => _pallet; }
+        public int? Step { get => _step; }
 
         #endregion Properties
 
@@ -153,6 +155,7 @@ namespace API.DOMAIN.DomainObjects.WareHouseOut
 
         public void SetTimeEnd(DateTime? timeEnd) => _timeEnd = timeEnd;
         public void SetPallet(string pallet) => _pallet = pallet;
+        public void SetStep(int step) => _step = step;
 
         #endregion Behaviours
     }

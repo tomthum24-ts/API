@@ -21,8 +21,9 @@ namespace API.Mapper.WareHouseIn
             CreateMap<WareHouseInResponseViewModel, WareHouseInByIdDTO>();
             CreateMap< UpdateWareHouseInCommand, UpdateWareHouseInCommandResponse> ();
             CreateMap< ReportWareHouseInByIdReplaceViewModel, WareHouseInByIdParam> ();
-           
             CreateMap<WareInHouseFileAttachDTO, WareHouseInFileAttachViewModel>();
+            CreateMap<ChangeStatusWareHouseInCommand, ChangeStatusWareHouseInCommandResponse>();
+
         }
     }
 }

@@ -76,7 +76,7 @@ namespace API.Controllers
         [HttpPost(UploadFileV2)]
         [ProducesResponseType(typeof(MethodResult<List<MediaResponse>>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.Everyone)]
+        [AllowAnonymous]
         public async Task<IActionResult> UploadFileAsync(List<IFormFile> formFiles, [FromQuery] UploadFileViewModel uploadFileViewModel)
         {
            

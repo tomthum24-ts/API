@@ -35,6 +35,7 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
         public DateTime? TimeStart { get; set; }
         public DateTime? TimeEnd { get; set; }
         public string Pallet { get; set; }
+        public int? Status { get; set; }
         public IEnumerable<WareHouseInDetailModel> WareHouseInDetailModels { get; set; }
         public IEnumerable<WareHouseInFileAttachViewModel> WareHouseInFileAttachViewModels { get; set; }
     }

@@ -66,6 +66,7 @@ namespace API.APPLICATION.Queries.WareHouseOut
             using var rs = await conn.QueryMultipleAsync("SP_DM_LC_GetListWareHouseOut_SelectWithPaging", param, commandType: CommandType.StoredProcedure);
             result.Items = await rs.ReadAsync<WareHouseOutDTO>().ConfigureAwait(false);
             result.PagingInfo.TotalItems = await rs.ReadSingleAsync<int>().ConfigureAwait(false);
+            result.PagingInfo.TotalAll = await rs.ReadSingleAsync<int>().ConfigureAwait(false);
             return result;
         }
 
@@ -120,6 +121,7 @@ namespace API.APPLICATION.Queries.WareHouseOut
             result.TimeStart = wareHouseOut.TimeStart;
             result.TimeEnd = wareHouseOut.TimeEnd;
             result.Pallet = wareHouseOut.Pallet;
+            result.Status= wareHouseOut.Status;
             result.WareHouseOutDetailModels = data?.WareHouseOutDetailResponseDTOs.GroupBy(x => x?.GuildId)?
                                                    .Select(y => new WareHouseOutDetailModel
                                                    {

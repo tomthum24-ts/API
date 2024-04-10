@@ -96,6 +96,7 @@ namespace API.INFRASTRUCTURE
             using var rs = await conn.QueryMultipleAsync("SP_User_GetListUser_SelectWithPaging", param, commandType: CommandType.StoredProcedure);
             result.Items = await rs.ReadAsync<UserDTO>().ConfigureAwait(false);
             result.PagingInfo.TotalItems = await rs.ReadSingleAsync<int>().ConfigureAwait(false);
+            
             return result;
         }
 

@@ -17,5 +17,6 @@ namespace API.APPLICATION.ViewModels.WareHouseOut
         public int? FileAttach { get; set; }
         public int? CreatedById { get; set; }
         public string CreateUser { get; set; }
+        public int? Status { get; set; }
     }
 }

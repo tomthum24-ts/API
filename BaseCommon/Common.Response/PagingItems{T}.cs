@@ -12,13 +12,14 @@ namespace BaseCommon.Common.Response
         {
         }
 
-        public PagingItems(int pageSize, int pageNumber, int totalItems)
+        public PagingItems(int pageSize, int pageNumber, int totalItems,int totalAll=0)
         {
             PagingInfo = new PagingInfoDto
             {
                 PageSize = pageSize,
                 PageNumber = pageNumber,
-                TotalItems = totalItems
+                TotalItems = totalItems,
+                TotalAll = totalAll
             };
         }
 

@@ -22,5 +22,6 @@ namespace API.DOMAIN.DTOs.User
         public string VillageName { get; set; }
         public int? Project { get; set; }
         public string Note { get; set; }
+        public bool?  IsAdmin { get; set; } 
     }
 }

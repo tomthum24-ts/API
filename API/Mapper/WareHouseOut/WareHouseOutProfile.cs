@@ -1,4 +1,5 @@
-﻿using API.APPLICATION.Commands.WareHouseOut;
+﻿using API.APPLICATION.Commands.WareHouseIn;
+using API.APPLICATION.Commands.WareHouseOut;
 using API.APPLICATION.Parameters.WareHouseIn;
 using API.APPLICATION.Parameters.WareHouseOut;
 using API.APPLICATION.ViewModels.WareHouseIn;
@@ -23,6 +24,7 @@ namespace API.Mapper.WareHouseOut
             CreateMap< UpdateWareHouseOutCommand, UpdateWareHouseOutCommandResponse> ();
             CreateMap<ReportWareHouseOutByIdReplaceViewModel, WareHouseOutByIdParam>();
             CreateMap<WareHouseOutFileAttachDTO,  WareHouseOutFileAttachViewModel> ();
+            CreateMap<ChangeStatusWareHouseOutCommand, ChangeStatusWareHouseOutCommandResponse>();
         }
     }
 }

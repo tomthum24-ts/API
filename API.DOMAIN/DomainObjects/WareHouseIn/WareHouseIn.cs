@@ -32,6 +32,7 @@ namespace API.DOMAIN
         private DateTime? _timeStart;
         private DateTime? _timeEnd;
         private string _pallet;
+        private int? _step;
 
         #endregion Fields
 
@@ -102,6 +103,7 @@ namespace API.DOMAIN
         public DateTime? TimeStart { get => _timeStart; }
         public DateTime? TimeEnd { get => _timeEnd; }
         public string Pallet { get => _pallet; }
+        public int? Step { get => _step; }
 
         #endregion Properties
 
@@ -155,6 +157,7 @@ namespace API.DOMAIN
 
         public void SetTimeEnd(DateTime? timeEnd) => _timeEnd = timeEnd;
         public void SetPallet(string pallet)=> _pallet = pallet;
+        public void SetStep(int? step) => _step = step;
 
         #endregion Behaviours
     }

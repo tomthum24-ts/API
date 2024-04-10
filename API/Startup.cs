@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace API
 {
@@ -38,6 +40,7 @@ namespace API
                 app.UseDeveloperExceptionPage();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
+            
             app.UseSwagger();
             app.UseCors("EnableCORS");
             app.UseRouting();
@@ -51,6 +54,7 @@ namespace API
             {
                 endpoints.MapControllers();
             });
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
@@ -61,6 +65,14 @@ namespace API
             {
                 endpoints.MapHub<ChatHub>("/chat");
             });
+            
+            //app.UseFileServer(new FileServerOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //      Path.Combine(Directory.GetCurrentDirectory(), "Media")),
+            //    RequestPath = "/Media",
+            //    EnableDefaultFiles = true
+            //});
         }
     }
 }

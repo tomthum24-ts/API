@@ -35,6 +35,8 @@ namespace BaseCommon.Enums
         EB12,
         [Description("Password cũ không đúng. Vui lòng kiểm tra lại")]
         EB13,
+        [Description("Phiếu đã được duyệt, không thể chỉnh sửa")]
+        EB14,
     }
     public enum ESysBieuMauErrorCode
     {

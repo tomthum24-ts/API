@@ -33,7 +33,7 @@ namespace API.APPLICATION.Commands.Media
 
             foreach (var item in request.Files)
             {
-                newAttachmentFiles.Add(new AttachmentFile(item.Name, item.Type, item.Path+"/"+ item.Name, item.Size));
+                newAttachmentFiles.Add(new AttachmentFile(item.Name, item.Type, item.Path+ "/"+item.Name, item.Size));
             }
 
             _attachmentFileRepository.AddRange(newAttachmentFiles);

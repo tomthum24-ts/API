@@ -30,9 +30,9 @@ namespace API.APPLICATION.Queries.Media
         public async Task<MediaResponse> UploadFileAsync(IFormFile file, UploadFileViewModel uploadFileViewModel)
         {
             
-            string dayString = string.Format("{0:yyyy/MM/dd}", DateTime.Now);
-            string folder = Path.Combine(_webHostEnvironment.ContentRootPath, $"{_iconfiguration["MediaLink:Media"]}/{dayString}/{uploadFileViewModel.FolderFunction}");
-            string patch = $"{_iconfiguration["MediaLink:Media"]}/{dayString}/{uploadFileViewModel.FolderFunction}";
+            //string dayString = string.Format("{0:yyyy/MM/dd}", DateTime.Now);
+            string folder = Path.Combine(_webHostEnvironment.ContentRootPath+"/wwwroot/", $"{_iconfiguration["MediaLink:Media"]}/{uploadFileViewModel.FolderFunction}");
+            string patch = $"{_iconfiguration["MediaLink:Media"]}/{uploadFileViewModel.FolderFunction}";
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);

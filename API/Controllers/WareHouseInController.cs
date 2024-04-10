@@ -31,6 +31,7 @@ namespace API.Controllers
         private const string GetById = nameof(GetById);
         private const string Report = nameof(Report);
         private const string ReportExcel = nameof(ReportExcel);
+        private const string ChangeStatus = nameof(ChangeStatus);
         private readonly IWareHouseInServices _wareHouseInServices;
 
         private readonly IMapper _mapper;
@@ -127,32 +128,23 @@ namespace API.Controllers
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);
         }
-        ///// <summary>
-        ///// Report test
-        ///// </summary>
-        ///// <param name="request"></param>
-        ///// <returns></returns>
-        ////[AuthorizeGroupCheckOperation(EAuthorizeType.AuthorizedUsers)]
-        //[HttpPost(Report)]
-        //[ProducesResponseType(typeof(MethodResult<Base64Model>), (int)HttpStatusCode.OK)]
-        //[ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        /// <summary>
+        /// Update WareHouseIn- (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [Route(ChangeStatus)]
+        [HttpPut]
+        [ProducesResponseType(typeof(MethodResult<ChangeStatusWareHouseInCommand>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         //[AllowAnonymous]
-        //public async Task<IActionResult> ExportThongTinAsync(ReportWareHouseInByIdReplaceViewModel request)
-        //{
-        //    var result = new Base64Model();
-        //    var data = await _wareHouseInServices.ExportExcelWareHouseInAsync(request).ConfigureAwait(false);
-        //    //HardCode cho mobile
-        //    request.IsMobile = true;
-        //    if (request.IsMobile)
-        //    {
-        //        var file = File(data.OutputStream, data.ContentType, data.TenBieuMau);
-        //        result.DataStream = CoverToBase64.ConvertToBase64(file.FileStream);
-        //        result.ContentType = data.ContentType;
-        //        result.FileName = data.TenBieuMau;
-        //        return Ok(result);
-        //    }
-        //    return File(data.OutputStream, data.ContentType, data.TenBieuMau);
-        //}
+        public async Task<IActionResult> ChangeStatusWareHouseInAsync(ChangeStatusWareHouseInCommand command)
+        {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+        }
+       
         /// <summary>
         /// Report test
         /// </summary>
