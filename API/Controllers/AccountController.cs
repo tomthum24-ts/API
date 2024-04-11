@@ -22,6 +22,7 @@ namespace API.Controllers
         private const string Active = nameof(Active);
         private const string ResendOtp = nameof(ResendOtp);
         private const string ForgotPassword = nameof(ForgotPassword);
+        private const string LockAccount = nameof(LockAccount);
         private readonly IMediator _mediator;
 
         public AccountController(IMediator mediator)
@@ -130,7 +131,7 @@ namespace API.Controllers
 
         }
         /// <summary>
-        /// Revoketoken  - (Author: son)
+        /// FogotPassWord  - (Author: son)
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
@@ -140,6 +141,22 @@ namespace API.Controllers
         [AllowAnonymous]
         [Route(ForgotPassword)]
         public async Task<IActionResult> ForgotPasswordAsync(FogotPasswordCommand command)
+        {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+
+        }
+        /// <summary>
+        /// Revoketoken  - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(MethodResult<LockAccountCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        //[AllowAnonymous]
+        [Route(LockAccount)]
+        public async Task<IActionResult> LockAccounttAsync(LockAccountCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);

@@ -54,7 +54,7 @@ namespace API.Controllers
         [HttpPost]
         [Route(GetListUser)]
         [SQLInjectionCheckOperation]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<ActionResult> GetDanhSachUserAsync(UserRequestViewModel request)
         {
             var methodResult = new MethodResult<PagingItems<UserResponseViewModel>>();
@@ -72,7 +72,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.Everyone)]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.Everyone)]
         public async Task<ActionResult> GetUserByIdAsync(UserRequestByIdModel param)
         {
             var methodResult = new MethodResult<UserResponseByIdModel>();
@@ -86,7 +86,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(MethodResult<ResponseByIdViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
         [SQLInjectionCheckOperation]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.Everyone)]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.Everyone)]
         public async Task<ActionResult> GetInfoPersionalByIdAsync()
         {
             var methodResult = new MethodResult<UserResponseByIdModel>();
@@ -112,7 +112,7 @@ namespace API.Controllers
         [HttpDelete]
         [ProducesResponseType(typeof(MethodResult<DeleteUserCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> DeleteUserAsync(DeleteUserCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -126,7 +126,7 @@ namespace API.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(MethodResult<UpdateUserCommandResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
+        //[AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<IActionResult> UpdateUserAsync(UpdateUserCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
@@ -155,7 +155,7 @@ namespace API.Controllers
         //[AuthorizeGroupCheckOperation(EAuthorizeType.AuthorizedUsers)]
         [HttpPost(Report)]
         [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> ExportThongTinAsync(RequestByIdViewModel request)
         {
 
