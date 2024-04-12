@@ -49,6 +49,7 @@ namespace API.APPLICATION.ViewModels.WareHouseOutDetail
         public DateTime? TimeEnd { get; set; }
         public string Pallet { get; set; }
         public int? Status { get; set; }
+        public string AddressCustomer { get; set; }
     }
     public class WareHouseOutDetailResponseDTO
     {

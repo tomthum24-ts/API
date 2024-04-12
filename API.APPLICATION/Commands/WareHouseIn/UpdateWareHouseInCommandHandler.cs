@@ -77,6 +77,7 @@ namespace API.APPLICATION.Commands.WareHouseIn
             isExistData.SetTimeStart(request.TimeStart);
             isExistData.SetTimeEnd(request.TimeEnd);
             isExistData.SetPallet(request.Pallet);
+            isExistData.SetAddressCustomer(request.AddressCustomer);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             if(request.UpdateWareHouseIns.Count > 0) {
                 var existingDetail = await _wareHouseInDetailRepository.Get(x => x.IdWareHouseIn==request.Id).ToListAsync(cancellationToken).ConfigureAwait(false);

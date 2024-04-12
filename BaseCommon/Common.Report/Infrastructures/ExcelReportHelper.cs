@@ -1559,7 +1559,7 @@ namespace BaseCommon.Common.Report.Infrastructures
                 // Find and replace values
                 foreach (KeyValuePair<string, string> replacer in replaceValues)
                 {
-                    Replace(workSheet, replacer.Key, replacer.Value);
+                    Replace(workSheet,"%" + replacer.Key, replacer.Value);
                 }
             }
             bool isDeleteRow = false;

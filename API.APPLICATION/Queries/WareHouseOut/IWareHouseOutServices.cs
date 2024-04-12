@@ -122,6 +122,7 @@ namespace API.APPLICATION.Queries.WareHouseOut
             result.TimeEnd = wareHouseOut.TimeEnd;
             result.Pallet = wareHouseOut.Pallet;
             result.Status= wareHouseOut.Status;
+            result.AddressCustomer= wareHouseOut.AddressCustomer;
             result.WareHouseOutDetailModels = data?.WareHouseOutDetailResponseDTOs.GroupBy(x => x?.GuildId)?
                                                    .Select(y => new WareHouseOutDetailModel
                                                    {

@@ -128,6 +128,7 @@ namespace API.APPLICATION.Queries.WareHouseIn
             result.TimeEnd= wareHouseIn.TimeEnd;
             result.Pallet = wareHouseIn.Pallet;
             result.Status= wareHouseIn.Status;
+            result.AddressCustomer= wareHouseIn.AddressCustomer;
             result.WareHouseInDetailModels = data?.WareHouseInDetailResponseDTOs.GroupBy(x => x?.GuildId)?
                                                    .Select(y => new WareHouseInDetailModel
                                                    {

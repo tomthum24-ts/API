@@ -37,6 +37,7 @@ namespace API.APPLICATION.Commands.WareHouseOut
         public DateTime? TimeStart { get; set; }
         public DateTime? TimeEnd { get; set; }
         public string Pallet { get; set; }
+        public string AddressCustomer { get; set; }
         public List<UpdateWareHouseOutCommandDTO> UpdateWareHouseOuts { get; set; }
         public List<UpdateWareHouseOutFileAttachs> WareHouseOutFileAttachs { get; set; }
 

@@ -33,7 +33,7 @@ namespace API.DOMAIN
         private DateTime? _timeEnd;
         private string _pallet;
         private int? _step;
-
+        private string _addressCustomer;
         #endregion Fields
 
         #region Constructors
@@ -41,7 +41,7 @@ namespace API.DOMAIN
         public WareHouseIn(string code,DateTime? dateCode, int? customerID, string representative, DateTime? intendTime,int? wareHouse, string customerName,
             string filePath, string fileName, string seal, string temp, string carNumber, string container, string door, string deliver, string veterinary,
             string cont, string note, string ortherNote, int? fileAttach, 
-            string numberCode, string invoiceNumber, DateTime? timeStart, DateTime? timeEnd,string pallet)
+            string numberCode, string invoiceNumber, DateTime? timeStart, DateTime? timeEnd,string pallet,string addressCustomer)
         {
             _code = code;
             _dateCode = dateCode;
@@ -68,6 +68,7 @@ namespace API.DOMAIN
             _timeStart = timeStart;
             _timeEnd = timeEnd;
             _pallet = pallet;
+            _addressCustomer= addressCustomer;
         }
 
         private WareHouseIn()
@@ -104,6 +105,7 @@ namespace API.DOMAIN
         public DateTime? TimeEnd { get => _timeEnd; }
         public string Pallet { get => _pallet; }
         public int? Step { get => _step; }
+        public string AddressCustomer { get => _addressCustomer; }
 
         #endregion Properties
 
@@ -158,6 +160,7 @@ namespace API.DOMAIN
         public void SetTimeEnd(DateTime? timeEnd) => _timeEnd = timeEnd;
         public void SetPallet(string pallet)=> _pallet = pallet;
         public void SetStep(int? step) => _step = step;
+        public void SetAddressCustomer(string addressCustomer) => _addressCustomer = addressCustomer;
 
         #endregion Behaviours
     }

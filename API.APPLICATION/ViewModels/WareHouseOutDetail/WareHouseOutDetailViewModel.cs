@@ -28,13 +28,13 @@ namespace API.APPLICATION.ViewModels.WareHouseOutDetail
         public string Deliver { get; set; }
         public string Veterinary { get; set; }
         public string Cont { get; set; }
-
         public string NumberCode { get; set; }
         public string InvoiceNumber { get; set; }
         public DateTime? TimeStart { get; set; }
         public DateTime? TimeEnd { get; set; }
         public string Pallet { get; set; }
         public int? Status { get; set; }
+        public string AddressCustomer { get; set; }
         public IEnumerable<WareHouseOutDetailModel> WareHouseOutDetailModels { get; set; }
         public IEnumerable<WareHouseOutFileAttachViewModel> WareHouseOutFileAttachViewModels { get; set; } =new List<WareHouseOutFileAttachViewModel>();
     }

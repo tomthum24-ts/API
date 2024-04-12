@@ -79,6 +79,7 @@ namespace API.APPLICATION.Commands.WareHouseOut
             isExistData.SetTimeStart(request.TimeStart);
             isExistData.SetTimeEnd(request.TimeEnd);
             isExistData.SetPallet(request.Pallet);
+            isExistData.SetAddressCustomer(request.AddressCustomer);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             if (request.UpdateWareHouseOuts.Count > 0)
             {

@@ -41,6 +41,7 @@ namespace API.INFRASTRUCTURE.EFConfigs
             builder.Property(x => x.TimeEnd).HasField("_timeEnd").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Pallet).HasField("_pallet").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Step).HasField("_step").UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.AddressCustomer).HasField("_addressCustomer").HasMaxLength(500).UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }
