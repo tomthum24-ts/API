@@ -48,6 +48,8 @@ namespace API.APPLICATION.Commands.WareHouseIn
         [JsonIgnore]
         public int? IdWareHouseIn { get; set; }
         public int? RangeOfVehicle { get; set; }
+        public string ContainerNumber { get; set; }
+        public string VehicleNumber { get; set; }
         public string GuildId { get; set; }
         public List<UpdateWareHouseInVehicleCommandDTO> VehicleDetails { get; set; }
     }
@@ -67,6 +69,7 @@ namespace API.APPLICATION.Commands.WareHouseIn
         public string ExpiryDate { get; set; }
         public string Note { get; set; }
         public string MadeIn { get; set; }
+
     }
     public class UpdateWareHouseInFileAttachs
     {

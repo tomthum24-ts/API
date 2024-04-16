@@ -135,6 +135,8 @@ namespace API.APPLICATION.Queries.WareHouseIn
                                                        Id = y.First().Id,
                                                        RangeOfVehicle = y.First().RangeOfVehicle,
                                                        GuildId = y.First().GuildId,
+                                                       ContainerNumber= y.First().ContainerNumber,
+                                                       VehicleNumber=y.First().VehicleNumber,
 
                                                        VehicleDetaiModels = data?.WareHouseInDetailResponseDTOs.Where(e => e.GuildId == y.First().GuildId).GroupBy(c => c?.Id)?.Select(z => new VehicleDetaiModel
                                                        {

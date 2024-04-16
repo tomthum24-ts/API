@@ -109,7 +109,9 @@ namespace API.APPLICATION.Commands.WareHouseOut
                                 item2.ExpiryDate,
                                 item2.MadeIn,
                                 item2.ProductName,
-                                item2.UnitName
+                                item2.UnitName,
+                                item.ContainerNumber,
+                                item.VehicleNumber
                          );
                         lstDetail.Add(createDetail);
                     }

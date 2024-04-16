@@ -47,6 +47,8 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
         //public int? IdWareHouseIn { get; set; }
         public int? RangeOfVehicle { get; set; }
         public string GuildId { get; set; }
+        public string ContainerNumber { get; set; }
+        public string VehicleNumber { get; set; }
         public IEnumerable<VehicleDetaiModel> VehicleDetaiModels { get; set; }
     }
     public class VehicleDetaiModel

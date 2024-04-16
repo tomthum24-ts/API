@@ -50,6 +50,8 @@ namespace API.APPLICATION.Commands.WareHouseOut
         [JsonIgnore]
         public int? IdWareHouseOut { get; set; }
         public int? RangeOfVehicle { get; set; }
+        public string ContainerNumber { get; set; }
+        public string VehicleNumber { get; set; }
         public string GuildId { get; set; }
         public List<UpdateWareHouseOutVehicleCommandDTO> VehicleDetails { get; set; }
     }
@@ -71,6 +73,7 @@ namespace API.APPLICATION.Commands.WareHouseOut
         public string ExpiryDate { get; set; }
         public string MadeIn { get; set; }
         public string RONumber { get; set; }
+
     }
     public class UpdateWareHouseOutFileAttachs
     {

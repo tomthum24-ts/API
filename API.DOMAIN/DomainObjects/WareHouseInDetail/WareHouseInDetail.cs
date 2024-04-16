@@ -20,6 +20,8 @@
         private string _madeIn;
         private string _productName;
         private string _unitName;
+        private string _containerNumber;
+        private string _vehicleNumber;
         #endregion Fields
 
         #region Constructors
@@ -30,7 +32,7 @@
 
         public WareHouseInDetail(int? idWareHouseIn,int? rangeOfVehicle, decimal? quantityVehicle, int? productId,
             decimal? quantityProduct, int? unit, string size, decimal? weight, string guildId, string note, string lotNo, string totalWeighScan,
-            string productDate, string expiryDate, string madeIn,string productName,string unitName)
+            string productDate, string expiryDate, string madeIn,string productName,string unitName,string containerNumber,string vehicleNumber)
         {
             _idWareHouseIn = idWareHouseIn;
             _rangeOfVehicle = rangeOfVehicle;
@@ -49,6 +51,8 @@
             _madeIn = madeIn;
             _productName = productName;
             _unitName = unitName;
+            _containerNumber = containerNumber;
+            _vehicleNumber= vehicleNumber;
         }
 
         #endregion Constructors
@@ -72,6 +76,8 @@
         public string MadeIn { get; set; }
         public string ProductName { get => _productName; }
         public string UnitName { get => _unitName; }
+        public string ContainerNumber { get; set; }
+        public string VehicleNumber { get; set; }
         #endregion Properties
 
         #region Behaviours
@@ -93,6 +99,8 @@
         public void SetMadeIn(string madeIn) => _madeIn = madeIn;
         public void SetProductName(string productName) => _productName = productName;
         public void SetUnitName(string unitName) => _unitName = unitName;
+        public void SetContainerNumber(string containerNumber) => _containerNumber = containerNumber;
+        public void SetVehicleNumber(string vehicleNumber) => _vehicleNumber = vehicleNumber;
         #endregion Behaviours
     }
 }

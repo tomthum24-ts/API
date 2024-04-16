@@ -46,6 +46,8 @@ namespace API.APPLICATION.Commands.WareHouseIn
         [JsonIgnore]
         public int? IdWareHouseIn { get; set; }
         public int? RangeOfVehicle { get; set; }
+        public string ContainerNumber { get; set; }
+        public string VehicleNumber { get; set; }
         public string GuildId { get; set; }
         public List<CreateWareHouseInVehicleCommandDTO> VehicleDetails { get; set; }
 

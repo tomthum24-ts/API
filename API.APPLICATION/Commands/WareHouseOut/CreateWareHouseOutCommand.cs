@@ -44,6 +44,8 @@ namespace API.APPLICATION.Commands.WareHouseOut
         public int? IdWareHouseOut { get; set; }
 
         public int? RangeOfVehicle { get; set; }
+        public string ContainerNumber { get; set; }
+        public string VehicleNumber { get; set; }
         public string GuildId { get; set; }
         public List<CreateWareHouseOutVehicleCommandDTO> VehicleDetails { get; set; }
        

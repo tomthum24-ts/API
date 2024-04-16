@@ -77,6 +77,8 @@ namespace API.APPLICATION.ViewModels.WareHouseInDetail
         public string MadeIn { get; set; }
         public string ProductName { get; set; }
         public string UnitName { get; set; }
+        public string ContainerNumber { get; set; }
+        public string VehicleNumber { get; set; }
     }
     public class WareInHouseFileAttachDTO
     {
