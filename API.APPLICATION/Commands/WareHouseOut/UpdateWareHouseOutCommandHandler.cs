@@ -80,12 +80,19 @@ namespace API.APPLICATION.Commands.WareHouseOut
             isExistData.SetTimeEnd(request.TimeEnd);
             isExistData.SetPallet(request.Pallet);
             isExistData.SetAddressCustomer(request.AddressCustomer);
+            isExistData.SetRequire(request.Require);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            if (request.UpdateWareHouseOuts.Count > 0)
+            
+            var existingDetail = await _WareHouseOutDetailRepository.Get(x => x.IdWareHouseOut == request.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
+            if(existingDetail != null)
             {
-                var existingDetail = await _WareHouseOutDetailRepository.Get(x => x.IdWareHouseOut == request.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
                 _WareHouseOutDetailRepository.DeleteRange(existingDetail);
                 await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            }
+
+            if (request.UpdateWareHouseOuts.Count > 0)
+            {
+               
                 List<WareHouseOutDetail> lstDetail = new List<WareHouseOutDetail>();
                 foreach (var item in request.UpdateWareHouseOuts)
                 {
@@ -119,12 +126,14 @@ namespace API.APPLICATION.Commands.WareHouseOut
                 _WareHouseOutDetailRepository.AddRange(lstDetail);
                 await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
-            if (request.WareHouseOutFileAttachs.Count > 0)
-            {
-                var existingFile = await _wareHouseOutFileAttachRepository.Get(x => x.IdWareHouseOut == request.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
+
+            var existingFile = await _wareHouseOutFileAttachRepository.Get(x => x.IdWareHouseOut == request.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
+            if(existingFile != null) {
                 _wareHouseOutFileAttachRepository.DeleteRange(existingFile);
                 await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-               
+            }          
+            if (request.WareHouseOutFileAttachs.Count > 0)
+            {
                     List<WareHouseOutFileAttachs> WareHouseOutFileAttach = new List<WareHouseOutFileAttachs>();
                     foreach (var file in request.WareHouseOutFileAttachs)
                     {

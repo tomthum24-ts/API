@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Syncfusion.DocIO;
 using Syncfusion.DocIO.DLS;
 using Syncfusion.DocIORenderer;
+using Syncfusion.Office;
 using Syncfusion.Pdf;
 using Syncfusion.XlsIO;
 using Syncfusion.XlsIORenderer;
@@ -233,6 +234,9 @@ namespace BaseCommon.Common.Report.Infrastructures
             BuildReplaceInfo(ref replaceSameValues, maBieuMau);
             IWorkbook workbook = ExcelReportHelper.OutSimpleReport(dataSource.ToList(), noiDungBieuMau, maBieuMau, replaceSameValues, false, columnDelete);
 
+            //IVbaProject project = workbook.VbaProject;
+            //IVbaModule module = project.Modules.Add("Document", VbaModuleType.Document);
+            workbook.DisableMacrosStart = true;
             //Initialize XlsIORendererSettings
             XlsIORendererSettings settings = new XlsIORendererSettings();
 
@@ -269,7 +273,7 @@ namespace BaseCommon.Common.Report.Infrastructures
 
             //Convert the Excel document to PDF with renderer settings
             PdfDocument document = renderer.ConvertToPDF(workbook, settings);
-
+            workbook.DisableMacrosStart = false;
             //Save the workbook to stream
             MemoryStream outputStream = new MemoryStream();
             document.Save(outputStream);

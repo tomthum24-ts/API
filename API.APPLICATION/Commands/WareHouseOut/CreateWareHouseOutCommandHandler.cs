@@ -81,7 +81,8 @@ namespace API.APPLICATION
                     request.TimeStart,
                     request.TimeEnd,
                     request.Pallet,
-                    request.AddressCustomer
+                    request.AddressCustomer,
+                    request.Require
                 );
             _WareHouseOutRepository.Add(createWareHouse);
             var idWareHouse = await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
@@ -124,7 +125,7 @@ namespace API.APPLICATION
                 }
             }
             _WareHouseOutDetailRepository.AddRange(lstDetail);
-            //var idWareHouse = await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             if(request.WareHouseOutFileAttachs.Count > 0)
             {
                 List<WareHouseOutFileAttachs> WareHouseOutFileAttach = new List<WareHouseOutFileAttachs>();

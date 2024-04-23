@@ -33,6 +33,7 @@ namespace API.DOMAIN.DomainObjects.WareHouseOut
         private string _pallet;
         private int? _step;
         private string _addressCustomer;
+        private string _require;
         #endregion Fields
 
         #region Constructors
@@ -40,7 +41,7 @@ namespace API.DOMAIN.DomainObjects.WareHouseOut
         public WareHouseOut(string code, DateTime? dateCode, int? customerID, string representative, DateTime? intendTime, int? wareHouse, string customerName,
             string filePath, string fileName, string seal, string temp, string carNumber, string container, string door, string deliver, string veterinary,
             string cont, string note, string ortherNote, int? fileAttach,
-            string numberCode, string invoiceNumber, DateTime? timeStart, DateTime? timeEnd, string pallet, string addressCustomer)
+            string numberCode, string invoiceNumber, DateTime? timeStart, DateTime? timeEnd, string pallet, string addressCustomer, string require)
         {
             _code = code;
             _dateCode = dateCode;
@@ -68,6 +69,7 @@ namespace API.DOMAIN.DomainObjects.WareHouseOut
             _timeEnd = timeEnd;
             _pallet = pallet;
             _addressCustomer = addressCustomer;
+            _require = require;
         }
 
         private WareHouseOut()
@@ -106,6 +108,7 @@ namespace API.DOMAIN.DomainObjects.WareHouseOut
         public int? Step { get => _step; }
         public string AddressCustomer { get => _addressCustomer; }
 
+        public string Require { get => _require; }
         #endregion Properties
 
         #region Behaviours
@@ -160,6 +163,7 @@ namespace API.DOMAIN.DomainObjects.WareHouseOut
         public void SetPallet(string pallet) => _pallet = pallet;
         public void SetStep(int step) => _step = step;
         public void SetAddressCustomer(string addressCustomer) => _addressCustomer = addressCustomer;
+        public void SetRequire(string require) => _require = require;
 
         #endregion Behaviours
     }

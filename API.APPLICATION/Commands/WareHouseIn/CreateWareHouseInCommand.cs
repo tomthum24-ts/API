@@ -38,6 +38,7 @@ namespace API.APPLICATION.Commands.WareHouseIn
         public DateTime? TimeEnd { get; set; }
         public string Pallet { get; set; }
         public string AddressCustomer { get; set; }
+        public string Require {  get; set; }
         public List<CreateWareHouseInDetailCommandDTO> WareHouseInDetail { get; set; }
         public List<CreateWareHouseInFileAttachs> WareHouseInFileAttachs { get; set; }
     }

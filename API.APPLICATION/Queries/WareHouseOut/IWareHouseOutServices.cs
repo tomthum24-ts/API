@@ -105,6 +105,7 @@ namespace API.APPLICATION.Queries.WareHouseOut
             result.FileAttach = wareHouseOut.FileAttach;
             result.CreatedById = wareHouseOut.CreatedById;
             result.CreateUser = wareHouseOut.CreateUser;
+            result.CustomerID = wareHouseOut.CustomerID;
             result.CustomerName = wareHouseOut.CustomerName;
             result.FileName = wareHouseOut.FileName;
             result.FileId = wareHouseOut.FileId;
@@ -123,6 +124,7 @@ namespace API.APPLICATION.Queries.WareHouseOut
             result.Pallet = wareHouseOut.Pallet;
             result.Status= wareHouseOut.Status;
             result.AddressCustomer= wareHouseOut.AddressCustomer;
+            result.Require=wareHouseOut.Require;
             result.WareHouseOutDetailModels = data?.WareHouseOutDetailResponseDTOs.GroupBy(x => x?.GuildId)?
                                                    .Select(y => new WareHouseOutDetailModel
                                                    {

@@ -16,6 +16,7 @@ namespace API.APPLICATION.ViewModels.WareHouseOutDetail
         public int? FileAttach { get; set; }
         public int? CreatedById { get; set; }
         public string CreateUser { get; set; }
+        public int CustomerID { get; set; }
         public string CustomerName { get; set; }
         public string FileName { get; set; }
         public string FilePath { get; set; }
@@ -35,6 +36,7 @@ namespace API.APPLICATION.ViewModels.WareHouseOutDetail
         public string Pallet { get; set; }
         public int? Status { get; set; }
         public string AddressCustomer { get; set; }
+        public string Require { get; set; }
         public IEnumerable<WareHouseOutDetailModel> WareHouseOutDetailModels { get; set; }
         public IEnumerable<WareHouseOutFileAttachViewModel> WareHouseOutFileAttachViewModels { get; set; } =new List<WareHouseOutFileAttachViewModel>();
     }

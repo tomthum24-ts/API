@@ -76,7 +76,8 @@ namespace API.APPLICATION
                     request.TimeStart,
                     request.TimeEnd,
                     request.Pallet,
-                    request.AddressCustomer
+                    request.AddressCustomer,
+                    request.Require
                 );
             _wareHouseInRepository.Add(createWareHouse);
             var idWareHouse = await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);

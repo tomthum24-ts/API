@@ -34,6 +34,8 @@ namespace API.APPLICATION.Commands.WareHouseOut
         public DateTime? TimeEnd { get; set; }
         public string Pallet { get; set; }
         public string AddressCustomer { get; set; }
+        public string Require { get; set; }
+
         public List<CreateWareHouseOutDetailCommandDTO> WareHouseOutDetail { get; set; }
         public List<CreateWareHouseOutFileAttachs> WareHouseOutFileAttachs { get; set; }
     }

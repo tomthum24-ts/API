@@ -77,12 +77,19 @@ namespace API.APPLICATION.Commands.WareHouseIn
             isExistData.SetTimeStart(request.TimeStart);
             isExistData.SetTimeEnd(request.TimeEnd);
             isExistData.SetPallet(request.Pallet);
+            isExistData.SetRequire(request.Require);
             isExistData.SetAddressCustomer(request.AddressCustomer);
             await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            if(request.UpdateWareHouseIns.Count > 0) {
-                var existingDetail = await _wareHouseInDetailRepository.Get(x => x.IdWareHouseIn==request.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
+            #region Detail
+            var existingDetail = await _wareHouseInDetailRepository.Get(x => x.IdWareHouseIn == request.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
+            if(existingDetail != null)
+            {
                 _wareHouseInDetailRepository.DeleteRange(existingDetail);
                 await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            }
+            
+            if (request.UpdateWareHouseIns.Count > 0) {
+                
                 List<WareHouseInDetail> lstDetail = new List<WareHouseInDetail>();
                 foreach (var item in request.UpdateWareHouseIns)
                 {
@@ -92,22 +99,22 @@ namespace API.APPLICATION.Commands.WareHouseIn
                              isExistData.Id,
                              item.RangeOfVehicle,
                              null,
-                             item2.ProductId,
-                             item2.QuantityProduct,
-                             item2.Unit,
-                             item2.Size,
-                             item2.Weight,
-                             item.GuildId,
-                             item2.LotNo,
-                             item2.TotalWeighScan,
-                             item2.ProductDate,
-                             item2.ExpiryDate,
-                             item2.Note,
-                             item2.MadeIn,
-                             item2.ProductName,
-                             item2.UnitName,
-                             item.ContainerNumber,
-                             item.VehicleNumber
+                            item2.ProductId,
+                            item2.QuantityProduct,
+                            item2.Unit,
+                            item2.Size,
+                            item2.Weight,
+                            item.GuildId,
+                            item2.Note,
+                            item2.LotNo,
+                            item2.TotalWeighScan,
+                            item2.ProductDate,
+                            item2.ExpiryDate,
+                            item2.MadeIn,
+                            item2.ProductName,
+                            item2.UnitName,
+                            item.ContainerNumber,
+                            item.VehicleNumber
                          );
                         lstDetail.Add(createDetail);
                     }
@@ -115,11 +122,18 @@ namespace API.APPLICATION.Commands.WareHouseIn
                 _wareHouseInDetailRepository.AddRange(lstDetail);
                 await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
-            if (request.WareHouseInFileAttachs.Count > 0)
+            #endregion
+            #region Upload file
+            var existingFile = await _wareHouseInFileAttachRepository.Get(x => x.IdWareHouseIn == request.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
+            if(existingFile != null)
             {
-                var existingFile = await _wareHouseInFileAttachRepository.Get(x => x.IdWareHouseIn == request.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
                 _wareHouseInFileAttachRepository.DeleteRange(existingFile);
                 await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            }
+           
+            if (request.WareHouseInFileAttachs.Count > 0)
+            {
+               
                 List<WareHouseInFileAttachs> WareHouseInFileAttach = new List<WareHouseInFileAttachs>();
                 foreach (var file in request.WareHouseInFileAttachs)
                 {
@@ -133,7 +147,7 @@ namespace API.APPLICATION.Commands.WareHouseIn
                 _wareHouseInFileAttachRepository.AddRange(WareHouseInFileAttach);
                 await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
-
+            #endregion
             methodResult.Result = _mapper.Map<UpdateWareHouseInCommandResponse>(request);
             return methodResult;
         }

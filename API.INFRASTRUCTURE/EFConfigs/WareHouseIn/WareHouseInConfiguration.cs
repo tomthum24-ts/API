@@ -37,6 +37,7 @@ namespace API.INFRASTRUCTURE.EFConfigs
             builder.Property(x => x.Note).HasField("_note").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.Step).HasField("_step").UsePropertyAccessMode(PropertyAccessMode.Field);
             builder.Property(x => x.AddressCustomer).HasField("_addressCustomer").HasMaxLength(500).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.Require).HasField("_require").HasColumnType("nvarchar(max)").UsePropertyAccessMode(PropertyAccessMode.Field);
 
         }
     }
