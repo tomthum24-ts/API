@@ -2,6 +2,8 @@
 using API.APPLICATION;
 using AutoMapper;
 using API.DOMAIN.DTOs;
+using API.DOMAIN.DTOs.WareHouse;
+using API.APPLICATION.Parameters.WareHouse;
 
 namespace API.Mapper.WareHouse
 {
@@ -11,7 +13,9 @@ namespace API.Mapper.WareHouse
         public WareHouseProfile()
         {
             CreateMap<WareHouseRequestViewModel, DanhMucFilterParam>();
-            CreateMap<WareHouseDTO, WareHouseResponseViewModel>();
+            CreateMap<WareHouseDTO, WareHouseResponseViewModel>(); 
+            CreateMap<WareHouseAllDTO, WareHouseAllResponseViewModel>();
+            CreateMap<WareHouseAllRequestViewModel, WareHouseAllFilterParam>();
         }
     }
 }

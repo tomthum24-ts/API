@@ -25,6 +25,9 @@ using API.APPLICATION.ViewModels.WareHouseIn;
 using Aspose.Words;
 using API.DOMAIN.DTOs.Product;
 using Syncfusion.Office;
+using BaseCommon.Common.Report.Models;
+using API.DOMAIN.DTOs.WareHouse;
+using API.APPLICATION.Parameters.WareHouse;
 
 namespace API.APPLICATION.Queries.WareHouseIn
 {
@@ -35,6 +38,7 @@ namespace API.APPLICATION.Queries.WareHouseIn
         Task<BieuMauInfoResponseViewModel> ExportWordThongTinAsync(ReportWareHouseInByIdReplaceViewModel request);
         Task<BieuMauInfoResponseViewModel> ExportExcelWareHouseInAsync(ReportWareHouseInByIdReplaceViewModel request);
         Task<BieuMauInfoResponseViewModel> ExportExcel2WareHouseInAsync(ReportWareHouseInByIdReplaceViewModel request);
+        Task<PagingItems<WareHouseAllDTO>> GetWareHouseAllPagingAsync(WareHouseAllFilterParam param);
     }
 
     public class WareHouseInServices : IWareHouseInServices
@@ -89,6 +93,23 @@ namespace API.APPLICATION.Queries.WareHouseIn
             result.WareHouseInResponseDTOs = await rs.ReadAsync<WareHouseInResponseDTO>().ConfigureAwait(false);
             result.WareHouseInDetailResponseDTOs = await rs.ReadAsync<WareHouseInDetailResponseDTO>().ConfigureAwait(false);
             result.WareInHouseFileAttachDTOs = await rs.ReadAsync<WareInHouseFileAttachDTO>().ConfigureAwait(false);
+            return result;
+        }
+        public async Task<PagingItems<WareHouseAllDTO>> GetWareHouseAllPagingAsync(WareHouseAllFilterParam param)
+        {
+            var result = new PagingItems<WareHouseAllDTO>
+            {
+                PagingInfo = new PagingInfoDto
+                {
+                    PageNumber = param.PageNumber,
+                    PageSize = param.PageSize,
+                }
+            };
+            param.IdUser = _userSessionInfo?.ID.Value ?? 0;
+            var conn = _context.CreateConnection();
+            using var rs = await conn.QueryMultipleAsync("SP_WH_LC_GetListAllWahouse_SelectWithPaging", param, commandType: CommandType.StoredProcedure);
+            result.Items = await rs.ReadAsync<WareHouseAllDTO>().ConfigureAwait(false);
+            result.PagingInfo.TotalItems = await rs.ReadSingleAsync<int>().ConfigureAwait(false);
             return result;
         }
 
@@ -170,6 +191,7 @@ namespace API.APPLICATION.Queries.WareHouseIn
             var result = await rs.ReadAsync<ReportReplaceInfoHTMLDTO>().ConfigureAwait(false);
             return result;
         }
+
         public async Task<BieuMauInfoResponseViewModel> ExportWordThongTinAsync(ReportWareHouseInByIdReplaceViewModel request)
         {
             var param = _mapper.Map<WareHouseInByIdParam>(request);
@@ -181,7 +203,38 @@ namespace API.APPLICATION.Queries.WareHouseIn
             replaceSameValues.Add("NguoiXuatBan", "Hahaha");
             List<WordTemplateTable> wordTemplateTables = new List<WordTemplateTable>();
             wordTemplateTables.Add(new WordTemplateTable { ColumnKeyWord = columKeywordQuaTrinhDaoTao, DataTable = queryResult?.WareHouseInDetailResponseDTOs.OfType<object>().ToList(), Prefix = "#" });
-   
+
+            //#region Group TieuChuanTuyenDung
+
+            //List<GroupContainerReportDTO> viTriViecLams = _mapper.Map<List<GroupContainerReportDTO>>(queryResult.WareHouseInDetailResponseDTOs);
+            //foreach (var item in viTriViecLams)
+            //{
+            //    long sttViTriViecLam = item.STT.GetValueOrDefault();
+            //    int sttViTriTuyenDung = 0;
+            //    item.ContainerNumbers = _mapper.Map<List<WareHouseInDetailResponseDTO>>(queryResult.WareHouseInDetailResponseDTOs.Where(x => x.ContainerNumber == item.ContainerNumber));
+            //    foreach (var itemVTTD in item.TenSp)
+            //    {
+            //        int sttTieuChuan = 0;
+            //        itemVTTD.TieuChuanTuyenDungs = queryResult.TieuChuanTuyenDungs.Where(x => x.IdKeHoachTuyenDungDeXuatChiTiet == itemVTTD.Id).ToList();
+            //        foreach (var item in itemVTTD.TieuChuanTuyenDungs)
+            //        {
+            //            item.STT = ++sttTieuChuan;
+            //        }
+            //    }
+            //}
+
+            //var listRequestGroup = new List<RequestGroupTableWordReport>();
+            //RequestGroupTableWordReport requestGroup = new RequestGroupTableWordReport();
+            //string groupName = "ViTriViecLams";
+
+            //requestGroup.GroupName = groupName;
+            //requestGroup.GroupData = viTriViecLams.OfType<object>().ToList();
+
+            //listRequestGroup.Add(requestGroup);
+
+            //#endregion 
+
+
             var bieuMau = await _sysBieuMauQueries.GetBieuMauByFilter(new SYSBieuMauFilterParam { MaBieuMau = ReportConstants.WareHouseIn_WHI001 });
             //ValidateBieuMau(bieuMau);
 

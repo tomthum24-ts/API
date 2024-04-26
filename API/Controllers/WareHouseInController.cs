@@ -1,8 +1,10 @@
 ﻿using API.APPLICATION.Commands.WareHouseIn;
+using API.APPLICATION.Parameters.WareHouse;
 using API.APPLICATION.Parameters.WareHouseIn;
 using API.APPLICATION.Queries.WareHouseIn;
 using API.APPLICATION.ViewModels.Base64;
 using API.APPLICATION.ViewModels.ByIdViewModel;
+using API.APPLICATION.ViewModels.WareHouse;
 using API.APPLICATION.ViewModels.WareHouseIn;
 using API.APPLICATION.ViewModels.WareHouseInDetail;
 using AutoMapper;
@@ -28,6 +30,7 @@ namespace API.Controllers
     public class WareHouseInController : ControllerBase
     {
         private const string GetList = nameof(GetList);
+        private const string GetListAll = nameof(GetListAll);
         private const string GetById = nameof(GetById);
         private const string Report = nameof(Report);
         private const string ReportExcel = nameof(ReportExcel);
@@ -198,6 +201,28 @@ namespace API.Controllers
                 return Ok(result);
             }
             return File(data.OutputStream, data.ContentType, data.TenBieuMau);
+        }
+        /// <summary>
+        /// GetListWareHouseIn - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route(GetListAll)]
+        [SQLInjectionCheckOperation]
+        public async Task<ActionResult> GetDanhSachWareHouseAllAsync(WareHouseAllRequestViewModel request)
+        {
+            var methodResult = new MethodResult<PagingItems<WareHouseAllResponseViewModel>>();
+            var userFilterParam = _mapper.Map<WareHouseAllFilterParam>(request);
+
+            var queryResult = await _wareHouseInServices.GetWareHouseAllPagingAsync(userFilterParam).ConfigureAwait(false);
+            methodResult.Result = new PagingItems<WareHouseAllResponseViewModel>
+            {
+                PagingInfo = queryResult.PagingInfo,
+                Items = _mapper.Map<IEnumerable<WareHouseAllResponseViewModel>>(queryResult.Items)
+            };
+
+            return Ok(methodResult);
         }
 
     }
