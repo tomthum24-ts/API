@@ -4,6 +4,7 @@ using API.DOMAIN.DomainObjects.WareHouseInFileAttach;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface;
 using AutoMapper;
+using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
 using BaseCommon.UnitOfWork;
@@ -22,20 +23,23 @@ namespace API.APPLICATION.Commands.WareHouseIn
         private readonly IWareHouseInFileAttachRepository _wareHouseInFileAttachRepository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserSessionInfo _userSessionInfo;
 
-        public UpdateWareHouseInCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IWareHouseInRepository wareHouseInRepository, IWareHouseInDetailRepository wareHouseInDetailRepository, IWareHouseInFileAttachRepository wareHouseInFileAttachRepository)
+        public UpdateWareHouseInCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IWareHouseInRepository wareHouseInRepository, IWareHouseInDetailRepository wareHouseInDetailRepository, IWareHouseInFileAttachRepository wareHouseInFileAttachRepository, IUserSessionInfo userSessionInfo)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _wareHouseInRepository = wareHouseInRepository;
             _wareHouseInDetailRepository = wareHouseInDetailRepository;
             _wareHouseInFileAttachRepository = wareHouseInFileAttachRepository;
+            _userSessionInfo = userSessionInfo;
         }
 
         public async Task<MethodResult<UpdateWareHouseInCommandResponse>> Handle(UpdateWareHouseInCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<UpdateWareHouseInCommandResponse>();
             var isExistData = await _wareHouseInRepository.Get(x => x.Id == request.Id).FirstOrDefaultAsync(cancellationToken);
+            var usrerCreate = _userSessionInfo.ID;
             if (isExistData == null || isExistData.Id < 0)
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB02), new[]
@@ -54,7 +58,7 @@ namespace API.APPLICATION.Commands.WareHouseIn
             }
             isExistData.SetCode(request.Code);
             isExistData.SetDateCode(request.DateCode);
-            isExistData.SetCustomerID(request.CustomerID);
+            isExistData.SetCustomerID(usrerCreate);
             isExistData.SetRepresentative(request.Representative);
             isExistData.SetIntendTime(request.IntendTime);
             isExistData.SetWareHouse(request.WareHouse);

@@ -21,6 +21,7 @@ using API.APPLICATION.ViewModels.Notification;
 using API.APPLICATION.Services.Notifications;
 using API.INFRASTRUCTURE.Interface;
 using API.DOMAIN.DomainObjects.WareHouseOutFileAttach;
+using BaseCommon.Common.ClaimUser;
 
 namespace API.APPLICATION
 {
@@ -32,8 +33,9 @@ namespace API.APPLICATION
         private readonly IMapper _mapper;
         private readonly INotificationService _notificationService;
         private readonly IWareHouseOutFileAttachRepository _wareHouseOutFileAttachRepository;
+        private readonly IUserSessionInfo _userSessionInfo;
 
-        public CreateWareHouseOutCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IWareHouseOutRepository WareHouseOutRepository, IWareHouseOutDetailRepository WareHouseOutDetailRepository, INotificationService notificationService, IWareHouseOutFileAttachRepository wareHouseOutFileAttachRepository)
+        public CreateWareHouseOutCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IWareHouseOutRepository WareHouseOutRepository, IWareHouseOutDetailRepository WareHouseOutDetailRepository, INotificationService notificationService, IWareHouseOutFileAttachRepository wareHouseOutFileAttachRepository, IUserSessionInfo userSessionInfo)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -41,6 +43,7 @@ namespace API.APPLICATION
             _WareHouseOutDetailRepository = WareHouseOutDetailRepository;
             _notificationService = notificationService;
             _wareHouseOutFileAttachRepository = wareHouseOutFileAttachRepository;
+            _userSessionInfo = userSessionInfo;
         }
 
         public async Task<MethodResult<CreateWareHouseOutCommandResponse>> Handle(CreateWareHouseOutCommand request, CancellationToken cancellationToken)
@@ -55,10 +58,11 @@ namespace API.APPLICATION
             //        });
             //    return methodResult;
             //}
+            var userCreate = _userSessionInfo.ID;
             var createWareHouse = new WareHouseOut(
                     request.Code,
                     request.DateCode,
-                    request.CustomerID,
+                    userCreate,
                     request.Representative,
                     request.IntendTime,
                     request.WareHouse,

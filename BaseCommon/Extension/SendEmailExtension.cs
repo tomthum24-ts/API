@@ -37,7 +37,7 @@ namespace BaseCommon.Extension
                 smtp.Connect(smtpConnect, port, false);
 
                 // Note: only needed if the SMTP server requires authentication
-                smtp.Authenticate("son.tienson@gmail.com", "qxki hrip zuvk denz");
+                smtp.Authenticate("vietcoldchainapp@gmail.com", "rqco kbbo dais fpvq");
                 try
                 {
                     smtp.Send(email);

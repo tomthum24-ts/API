@@ -10,7 +10,7 @@ namespace API.APPLICATION.Commands.WareHouseOut
     {
         public string Code { get; set; }
         public DateTime? DateCode { get; set; }
-        public int? CustomerID { get; set; }
+        //public int? CustomerID { get; set; }
         public string Representative { get; set; }
         public DateTime? IntendTime { get; set; }
         public int? WareHouse { get; set; }

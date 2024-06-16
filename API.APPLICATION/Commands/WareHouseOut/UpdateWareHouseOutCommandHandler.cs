@@ -7,6 +7,7 @@ using API.DOMAIN.DomainObjects.WareHouseOutFileAttach;
 using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface;
 using AutoMapper;
+using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
 using BaseCommon.UnitOfWork;
@@ -25,19 +26,22 @@ namespace API.APPLICATION.Commands.WareHouseOut
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWareHouseOutFileAttachRepository _wareHouseOutFileAttachRepository;
-        public UpdateWareHouseOutCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IWareHouseOutRepository WareHouseOutRepository, IWareHouseOutDetailRepository WareHouseOutDetailRepository, IWareHouseOutFileAttachRepository wareHouseOutFileAttachRepository)
+        private readonly IUserSessionInfo _userSessionInfo;
+        public UpdateWareHouseOutCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IWareHouseOutRepository WareHouseOutRepository, IWareHouseOutDetailRepository WareHouseOutDetailRepository, IWareHouseOutFileAttachRepository wareHouseOutFileAttachRepository, IUserSessionInfo userSessionInfo)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _WareHouseOutRepository = WareHouseOutRepository;
             _WareHouseOutDetailRepository = WareHouseOutDetailRepository;
             _wareHouseOutFileAttachRepository = wareHouseOutFileAttachRepository;
+            _userSessionInfo = userSessionInfo;
         }
 
         public async Task<MethodResult<UpdateWareHouseOutCommandResponse>> Handle(UpdateWareHouseOutCommand request, CancellationToken cancellationToken)
         {
             var methodResult = new MethodResult<UpdateWareHouseOutCommandResponse>();
             var isExistData = await _WareHouseOutRepository.Get(x => x.Id == request.Id).FirstOrDefaultAsync(cancellationToken);
+            var userCreate = _userSessionInfo.ID;
             if (isExistData == null || isExistData.Id < 0)
             {
                 methodResult.AddAPIErrorMessage(nameof(EErrorCode.EB02), new[]
@@ -56,7 +60,7 @@ namespace API.APPLICATION.Commands.WareHouseOut
             }
             isExistData.SetCode(request.Code);
             isExistData.SetDateCode(request.DateCode);
-            isExistData.SetCustomerID(request.CustomerID);
+            isExistData.SetCustomerID(userCreate);
             isExistData.SetRepresentative(request.Representative);
             isExistData.SetIntendTime(request.IntendTime);
             isExistData.SetWareHouse(request.WareHouse);

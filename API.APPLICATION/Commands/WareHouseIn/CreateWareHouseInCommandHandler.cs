@@ -9,6 +9,7 @@ using API.INFRASTRUCTURE;
 using API.INFRASTRUCTURE.Interface;
 using API.INFRASTRUCTURE.Repositories;
 using AutoMapper;
+using BaseCommon.Common.ClaimUser;
 using BaseCommon.Common.MethodResult;
 using BaseCommon.Enums;
 using BaseCommon.UnitOfWork;
@@ -27,8 +28,9 @@ namespace API.APPLICATION
         private readonly IMapper _mapper;
         private readonly INotificationService _notificationService;
         private readonly IWareHouseInFileAttachRepository  _wareHouseInFileAttachRepository;
+        private readonly IUserSessionInfo _userSessionInfo;
 
-        public CreateWareHouseInCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IWareHouseInRepository wareHouseInRepository, IWareHouseInDetailRepository wareHouseInDetailRepository, INotificationService notificationService, IWareHouseInFileAttachRepository wareHouseInFileAttachRepository)
+        public CreateWareHouseInCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IWareHouseInRepository wareHouseInRepository, IWareHouseInDetailRepository wareHouseInDetailRepository, INotificationService notificationService, IWareHouseInFileAttachRepository wareHouseInFileAttachRepository, IUserSessionInfo userSessionInfo)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -36,6 +38,7 @@ namespace API.APPLICATION
             _wareHouseInDetailRepository = wareHouseInDetailRepository;
             _notificationService = notificationService;
             _wareHouseInFileAttachRepository = wareHouseInFileAttachRepository;
+            _userSessionInfo = userSessionInfo;
         }
 
         public async Task<MethodResult<CreateWareHouseInCommandResponse>> Handle(CreateWareHouseInCommand request, CancellationToken cancellationToken)
@@ -50,10 +53,12 @@ namespace API.APPLICATION
             //        });
             //    return methodResult;
             //}
+            var userCreate = _userSessionInfo.ID;
             var createWareHouse = new WareHouseIn(
                     request.Code,
                     request.DateCode,
-                    request.CustomerID,
+                    //request.CustomerID,
+                    userCreate,
                     request.Representative,
                     request.IntendTime,
                     request.WareHouse,
