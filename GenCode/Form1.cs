@@ -13,7 +13,7 @@ namespace GenCode
 {
     public partial class Form1 : Form
     {
-        string connectString = "server=DESKTOP-2LILVUD\\SQLEXPRESS;database=NetCore;uid=sa;password=Tienson0204;MultipleActiveResultSets=True;App=EntityFramework;TrustServerCertificate=True";
+        string connectString = "server=localhost,1433;database=NetCore;uid=sa;password=StrongP@ssw0rd!;MultipleActiveResultSets=True;App=EntityFramework";
         public Form1()
         {
             InitializeComponent();

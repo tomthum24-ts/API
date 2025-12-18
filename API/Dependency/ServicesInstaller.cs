@@ -82,6 +82,10 @@ namespace API.Dependency
             services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
             services.AddScoped<ICredentialServices, CredentialServices>();
             services.AddScoped<ICredentialRepository, CredentialRepository>();
+            //jobs
+            services.AddScoped<IJobsRepository, JobsRepository>();
+            //jobApply
+            services.AddScoped<IJobApplysRepository, JobApplysRepository>();
         }
     }
 }

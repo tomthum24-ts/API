@@ -107,6 +107,20 @@ namespace API.INFRASTRUCTURE.DataConnect
                 entity.ToTable(TableConstants.CUSTOMER_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+            //Jobs
+            modelBuilder.Entity<Jobs>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.JOBS_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new JobsConfiguration());
+            //JobApply
+            modelBuilder.Entity<JobApplys>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable(TableConstants.JOBAPPLY_TABLENAME);
+            });
+            modelBuilder.ApplyConfiguration(new JobApplysConfiguration());
         }
         public DbSet<User> User { get; set; }
         public DbSet<Project> Project { get; set; }
@@ -118,6 +132,8 @@ namespace API.INFRASTRUCTURE.DataConnect
         public DbSet<AttachmentFile> AttachmentFile { get; set; }
         public DbSet<SysBieuMau> SysBieuMau { get; set; }
         public DbSet<Customer> Customer { get; set; }
+        public DbSet<Jobs> Jobs { get; set; }
+        public DbSet<JobApplys> JobApplys { get; set; }
 
     }
 }
