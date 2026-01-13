@@ -3,6 +3,7 @@ using API.APPLICATION.Queries;
 using API.APPLICATION.Queries.Customer;
 using API.APPLICATION.Queries.GenDTO;
 using API.APPLICATION.Queries.GroupPermission;
+using API.APPLICATION.Queries.Jobs;
 using API.APPLICATION.Queries.Location;
 using API.APPLICATION.Queries.Media;
 using API.APPLICATION.Queries.Menu;
@@ -84,6 +85,7 @@ namespace API.Dependency
             services.AddScoped<ICredentialRepository, CredentialRepository>();
             //jobs
             services.AddScoped<IJobsRepository, JobsRepository>();
+            services.AddScoped<IJobsServices, JobsServices>();
             //jobApply
             services.AddScoped<IJobApplysRepository, JobApplysRepository>();
         }

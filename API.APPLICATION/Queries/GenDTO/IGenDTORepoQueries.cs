@@ -20,7 +20,7 @@ namespace API.APPLICATION.Queries.GenDTO
     public class GenDTORepoQueries : IGenDTORepoQueries
     {
         private const string F_CONNECT = "data source={0};initial catalog={1};uid={2};password={3};MultipleActiveResultSets=True;App=EntityFramework";
-        private const string L_CONNECT = "data source=DESKTOP-2LILVUD\\SQLEXPRESS;initial catalog=NetCore;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework";
+        private const string L_CONNECT = "server=localhost,1433;database=NetCore;uid=sa;password=StrongP@ssw0rd!;MultipleActiveResultSets=True;App=EntityFramework\r\n";
         protected readonly IConfiguration _configuration;
 
         public GenDTORepoQueries(IConfiguration configuration)

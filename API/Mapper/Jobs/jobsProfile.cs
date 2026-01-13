@@ -1,5 +1,8 @@
 ﻿using API.APPLICATION.Commands.Jobs;
+using API.APPLICATION.Parameters.Jobs;
+using API.APPLICATION.ViewModels.Jobs;
 using API.DOMAIN;
+using API.DOMAIN.DTOs.Jobs;
 using AutoMapper;
 
 namespace API.Mapper
@@ -11,11 +14,11 @@ namespace API.Mapper
             CreateMap<Jobs, CreateJobsCommandResponse>();
             CreateMap<Jobs, DeleteJobsCommandResponse>();
             CreateMap<Jobs, UpdateJobsCommandResponse>();
-            //CreateMap<JobsRequestViewModel, JobsFilterParam>();
+            CreateMap<JobsRequestViewModel, JobsFilterParam>();
 
-            //CreateMap<JobsDTO, JobsResponseViewModel>();
-            //CreateMap<JobsByIdViewModel, JobsByIdParam>();
-            //CreateMap<JobsByIdDTO, UserResponseByIdModel>();
+            CreateMap<JobsDTO, JobsResponseViewModel>();
+            CreateMap<JobsByIdViewModel, JobsByIdParam>();
+            CreateMap<JobsByIdDTO, JobsResponseViewModel>();
         }
     }
 }
