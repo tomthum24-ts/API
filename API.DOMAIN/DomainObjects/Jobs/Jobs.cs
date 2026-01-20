@@ -50,7 +50,6 @@ namespace API.DOMAIN
                     bool? isHome,
                     bool? isEating,
                     int? province,
-                    int? district,
                     int? village,
                     string address,
                     int? typeJob,
@@ -73,7 +72,6 @@ namespace API.DOMAIN
             _isHome = isHome;
             _isEating = isEating;
             _province = province;
-            _district = district;
             _village = village;
             _address = address;
             _typeJob = typeJob;

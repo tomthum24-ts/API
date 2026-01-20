@@ -19,6 +19,7 @@ namespace API.DOMAIN
         public const string CUSTOMER_TABLENAME = "DA_Customer";
         public const string JOBS_TABLENAME = "Jobs";
         public const string JOBAPPLY_TABLENAME = "JobApply";
+        public const string JOBSCATEGORY_TABLENAME = "Job_Category";
 
     }
 }

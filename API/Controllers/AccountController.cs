@@ -18,6 +18,7 @@ namespace API.Controllers
         private const string RefreshToken = nameof(RefreshToken);
         private const string Revoke = nameof(Revoke);
         private const string Logout = nameof(Logout);
+        private const string LoginSSO = nameof(LoginSSO);
         private readonly IMediator _mediator;
 
         public AccountController(IMediator mediator)
@@ -36,6 +37,22 @@ namespace API.Controllers
         [AllowAnonymous]
         [Route(Login)]
         public async Task<IActionResult> LoginAsync(LoginCommand command)
+        {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+
+        }
+        /// <summary>
+        /// Gen token login - (Author: son)
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(MethodResult<LoginCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
+        [Route(LoginSSO)]
+        public async Task<IActionResult> LoginSSOAsync(LoginSSOCommand command)
         {
             var result = await _mediator.Send(command).ConfigureAwait(false);
             return Ok(result);

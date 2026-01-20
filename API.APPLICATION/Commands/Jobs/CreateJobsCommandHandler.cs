@@ -49,7 +49,6 @@ namespace API.APPLICATION
                 request.IsHome,
                 request.IsEating,
                 request.Province,
-                request.District,
                 request.Village,
                 request.Address,
                 request.TypeJob,

@@ -4,6 +4,7 @@ using API.APPLICATION.Queries.Customer;
 using API.APPLICATION.Queries.GenDTO;
 using API.APPLICATION.Queries.GroupPermission;
 using API.APPLICATION.Queries.Jobs;
+using API.APPLICATION.Queries.JobsCategory;
 using API.APPLICATION.Queries.Location;
 using API.APPLICATION.Queries.Media;
 using API.APPLICATION.Queries.Menu;
@@ -25,6 +26,7 @@ using BaseCommon.Common.Report.Infrastructures;
 using BaseCommon.Common.Report.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using static API.APPLICATION.Queries.JobsCategory.IJobsCategoryServices;
 
 namespace API.Dependency
 {
@@ -88,6 +90,8 @@ namespace API.Dependency
             services.AddScoped<IJobsServices, JobsServices>();
             //jobApply
             services.AddScoped<IJobApplysRepository, JobApplysRepository>();
+            //Project
+            services.AddScoped<IJobsCategoryServices, JobsCategoryServices>();
         }
     }
 }
