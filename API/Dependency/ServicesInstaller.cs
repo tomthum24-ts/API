@@ -28,6 +28,8 @@ using BaseCommon.Common.Report.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using static API.APPLICATION.Queries.JobsCategory.IJobsCategoryServices;
+using static API.APPLICATION.Queries.JobApplys.IJobApplysServices;
+using API.APPLICATION.Queries.JobApplys;
 
 namespace API.Dependency
 {
@@ -55,9 +57,6 @@ namespace API.Dependency
             //Provine
             services.AddScoped<IProvinceRepository, ProvinceRepository>();
             services.AddScoped<IProvinceServices, ProvinceServices>();
-            //District
-            services.AddScoped<IDistrictRepository, DistrictRepository>();
-            services.AddScoped<IDistrictServices, DistrictServices>();
             //Village
             services.AddScoped<IVillageRepository, VillageRepository>();
             services.AddScoped<IVillageServices, VillageServices>();
@@ -91,6 +90,7 @@ namespace API.Dependency
             services.AddScoped<IJobsServices, JobsServices>();
             //jobApply
             services.AddScoped<IJobApplysRepository, JobApplysRepository>();
+            services.AddScoped<IJobApplysServices, JobApplysServices>();
 
             //JobsCategory
             services.AddScoped<IJobsCategoryRepository, JobsCategoryRepository>();

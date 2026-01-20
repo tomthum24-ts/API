@@ -5,6 +5,5 @@ namespace API.APPLICATION.Parameters.Location
     {
         public string Ids { get; set; }
         public string IdProvinces { get; set; }
-        public string IdDistricts { get; set; }
     }
 }

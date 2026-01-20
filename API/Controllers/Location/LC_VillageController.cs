@@ -48,7 +48,7 @@ namespace API.Controllers.Location
         /// <returns></returns>
         [HttpPost]
         [Route(GetList)]
-        [SQLInjectionCheckOperation(new string[] { nameof(DistrictRequestViewModel.Ids), nameof(DistrictRequestViewModel.IdProvinces), nameof(DistrictRequestViewModel.Keyword),nameof(VillageRequestViewModel.IdDistricts) })]
+        [SQLInjectionCheckOperation(new string[] { nameof(DistrictRequestViewModel.Ids), nameof(DistrictRequestViewModel.IdProvinces), nameof(DistrictRequestViewModel.Keyword),nameof(VillageRequestViewModel.IdProvinces) })]
         [AuthorizeGroupCheckOperation(EAuthorizeType.MusHavePermission)]
         public async Task<ActionResult> GetDanhSachVillageAsync(VillageRequestViewModel request)
         {

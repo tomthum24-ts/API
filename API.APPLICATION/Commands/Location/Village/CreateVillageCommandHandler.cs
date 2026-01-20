@@ -43,7 +43,7 @@ namespace API.APPLICATION.Commands
                                             request.VillageName,
                                             request.CodeName,
                                             request.DivisionType,
-                                            request.IdDistrict,
+                                            request.IdProvince,
                                             request.Note,
                                             request.Status
             );

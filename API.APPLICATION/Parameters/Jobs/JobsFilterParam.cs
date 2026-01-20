@@ -10,7 +10,6 @@ namespace API.APPLICATION.Parameters.Jobs
     {
         public string Ids { get; set; }
         public string Provinces { get; set; }
-        public string Districts { get; set; }
         public string Villages { get; set; }
     }
 }

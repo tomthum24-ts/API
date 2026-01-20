@@ -10,7 +10,7 @@ namespace API.APPLICATION.Commands.Location.Village
         public string VillageName { get; set; }
         public string CodeName { get; set; }
         public string DivisionType { get; set; }
-        public int? IdDistrict { get; set; }
+        public int? IdProvince { get; set; }
         public string Note { get; set; }
         public bool? Status { get; set; }
     }

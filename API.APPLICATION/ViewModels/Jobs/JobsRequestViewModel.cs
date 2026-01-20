@@ -11,7 +11,6 @@ namespace API.APPLICATION.ViewModels.Jobs
     {
         public string Ids { get; set; }
         public string Provinces { get; set; }
-        public string Districts { get; set; }
         public string Villages { get; set; }
         public string Keyword { get; set; }
         public string SortCol { get; set; }
