@@ -1,5 +1,8 @@
 ﻿using API.APPLICATION;
 using API.APPLICATION.Commands.Login;
+using API.APPLICATION.Commands.JobsCategory.CreateJobsCategory;
+using API.APPLICATION.Commands.JobsCategory.UpdateJobsCategory;
+using API.APPLICATION.Commands.JobsCategory.DeleteJobsCategory;
 using API.APPLICATION.Queries.JobsCategory;
 using API.APPLICATION.ViewModels.JobsCategory;
 using API.APPLICATION.ViewModels.Project;
@@ -63,5 +66,31 @@ namespace API.Controllers
             };
             return Ok(methodResult);
         }
+        [HttpPost]
+        [ProducesResponseType(typeof(MethodResult<CreateJobsCategoryCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> CreateJobsCategoryAsync(CreateJobsCategoryCommand command)
+        {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+        }
+        [HttpPut]
+        [ProducesResponseType(typeof(MethodResult<UpdateJobsCategoryCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> UpdateJobsCategoryAsync(UpdateJobsCategoryCommand command)
+        {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(typeof(MethodResult<DeleteJobsCategoryCommandResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(VoidMethodResult), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> DeleteJobsCategoryAsync(DeleteJobsCategoryCommand command)
+        {
+            var result = await _mediator.Send(command).ConfigureAwait(false);
+            return Ok(result);
+        }
     }
+    
 }

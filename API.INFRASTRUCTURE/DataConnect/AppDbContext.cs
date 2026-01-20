@@ -121,6 +121,10 @@ namespace API.INFRASTRUCTURE.DataConnect
                 entity.ToTable(TableConstants.JOBAPPLY_TABLENAME);
             });
             modelBuilder.ApplyConfiguration(new JobApplysConfiguration());
+
+            //JobsCategory
+            modelBuilder.ApplyConfiguration(new JobsCategoryConfiguration());
+
         }
         public DbSet<User> User { get; set; }
         public DbSet<Project> Project { get; set; }
@@ -134,6 +138,7 @@ namespace API.INFRASTRUCTURE.DataConnect
         public DbSet<Customer> Customer { get; set; }
         public DbSet<Jobs> Jobs { get; set; }
         public DbSet<JobApplys> JobApplys { get; set; }
+        public DbSet<JobsCategory> JobsCategory { get; set; }
 
     }
 }

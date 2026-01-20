@@ -14,6 +14,7 @@ using API.INFRASTRUCTURE.Interface;
 using API.INFRASTRUCTURE.Interface.BieuMau;
 using API.INFRASTRUCTURE.Interface.Location;
 using API.INFRASTRUCTURE.Interface.Media;
+using API.INFRASTRUCTURE.Interface.Media;
 using API.INFRASTRUCTURE.Interface.RefreshToken;
 using API.INFRASTRUCTURE.Repositories;
 using API.INFRASTRUCTURE.Repositories.BieuMau;
@@ -90,7 +91,9 @@ namespace API.Dependency
             services.AddScoped<IJobsServices, JobsServices>();
             //jobApply
             services.AddScoped<IJobApplysRepository, JobApplysRepository>();
-            //Project
+
+            //JobsCategory
+            services.AddScoped<IJobsCategoryRepository, JobsCategoryRepository>();
             services.AddScoped<IJobsCategoryServices, JobsCategoryServices>();
         }
     }
