@@ -49,7 +49,7 @@ namespace API.INFRASTRUCTURE.Repositories.User
 		{
 			
 			
-			var user= await _userRepository.Get(x => x.UserName == users.UserName && x.PassWord == users.Password).FirstOrDefaultAsync(cancellationToken);
+			var user= await _userRepository.Get(x => x.UserName == users.UserName).FirstOrDefaultAsync(cancellationToken);
 			var groupId = new PermissionParam();
 			groupId.IdGroup = user.UserGroup  ;
 
